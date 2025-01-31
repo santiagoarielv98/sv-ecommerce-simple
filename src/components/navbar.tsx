@@ -19,6 +19,7 @@ import { useCart } from "@/contexts/cart-context";
 
 export default function Navbar() {
   const { data: session } = useSession();
+
   const { items } = useCart();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const itemCount = items.reduce((sum, item) => sum + item.quantity, 0);
@@ -53,6 +54,16 @@ export default function Navbar() {
             >
               My Orders
             </Button>
+            {session.user?.role === "ADMIN" && (
+              <Button
+                color="inherit"
+                component={Link}
+                href="/admin"
+                sx={{ mr: 2 }}
+              >
+                Admin Dashboard
+              </Button>
+            )}
             <IconButton onClick={handleMenuOpen}>
               <Avatar src={session.user?.image || undefined} />
             </IconButton>
@@ -61,6 +72,15 @@ export default function Navbar() {
               open={Boolean(anchorEl)}
               onClose={handleMenuClose}
             >
+              {session.user.role === "ADMIN" && (
+                <MenuItem
+                  component={Link}
+                  href="/admin"
+                  onClick={handleMenuClose}
+                >
+                  Admin Dashboard
+                </MenuItem>
+              )}
               <MenuItem onClick={() => signOut()}>Sign Out</MenuItem>
             </Menu>
           </>

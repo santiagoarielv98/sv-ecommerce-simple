@@ -50,8 +50,6 @@ export default async function OrdersPage() {
                     cursor: "pointer",
                   },
                 }}
-                //   component={Link}
-                //   href={`/orders/${order.id}`}
               >
                 <Box
                   sx={{

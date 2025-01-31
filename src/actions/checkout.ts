@@ -11,7 +11,6 @@ export async function createOrder(
   cartItems: CartItem[],
   formData: CheckoutFormData,
 ) {
-  console.log(formData);
   try {
     const session = await auth();
     if (!session?.user?.id) {

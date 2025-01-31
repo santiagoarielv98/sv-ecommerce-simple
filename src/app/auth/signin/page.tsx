@@ -15,7 +15,6 @@ import { signIn } from "next-auth/react";
 export default function SignInPage() {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // Implement sign in logic here
   };
 
   const handleGithubSignIn = () => {

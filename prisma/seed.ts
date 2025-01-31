@@ -37,6 +37,9 @@ async function main() {
           categoryId:
             categories[Math.floor(Math.random() * categories.length)].id,
           stock: fakerES.helpers.rangeToNumber({ min: 1, max: 100 }),
+          images: Array.from({ length: 3 }).map(() =>
+            fakerES.image.urlLoremFlickr({ width: 320, height: 240 }),
+          ),
         },
       }),
     ),

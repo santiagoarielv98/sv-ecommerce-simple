@@ -13,14 +13,14 @@ const columns: GridColDef[] = [
     field: "price",
     headerName: "Price",
     width: 130,
-    valueFormatter: (params) => `$${params.value}`,
+    valueFormatter: (params) => `$${params}`,
   },
   { field: "stock", headerName: "Stock", width: 130 },
   {
     field: "category",
     headerName: "Category",
     width: 130,
-    valueGetter: (params) => params.row.category.name,
+    valueGetter: (params) => params.name,
   },
 ];
 

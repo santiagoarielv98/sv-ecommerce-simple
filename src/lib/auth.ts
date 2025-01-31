@@ -21,4 +21,7 @@ export const { handlers, auth } = NextAuth({
       return session;
     },
   },
+  session: {
+    strategy: "database",
+  },
 });

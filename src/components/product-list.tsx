@@ -27,6 +27,9 @@ const ProductList = ({ products }: ProductListProps) => {
                 component="img"
                 height="200"
                 image={product.images[0]}
+                sx={{
+                  aspectRatio: "auto",
+                }}
               />
             )}
             <CardContent>

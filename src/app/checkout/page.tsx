@@ -1,18 +1,16 @@
 "use client";
 
 import { useCart } from "@/contexts/cart-context";
-import {
-  Container,
-  Paper,
-  Typography,
-  Grid,
-  TextField,
-  Button,
-  Box,
-  Alert,
-} from "@mui/material";
+import Container from "@mui/material/Container";
+import Paper from "@mui/material/Paper";
+import Typography from "@mui/material/Typography";
+import Grid from "@mui/material/Grid2";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
+import Box from "@mui/material/Box";
+import Alert from "@mui/material/Alert";
 import { useEffect, useState } from "react";
-import { createOrder } from "../actions/checkout";
+import { createOrder } from "@/actions/checkout";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { useForm } from "react-hook-form";
@@ -76,14 +74,14 @@ export default function CheckoutPage() {
         </Alert>
       )}
       <Grid container spacing={3}>
-        <Grid xs={12} md={8}>
+        <Grid size={{ xs: 12, md: 8 }}>
           <Paper sx={{ p: 3 }}>
             <Box component="form" onSubmit={handleSubmit(onSubmit)}>
               <Typography variant="h6" gutterBottom>
                 Shipping Address
               </Typography>
               <Grid container spacing={2}>
-                <Grid xs={12}>
+                <Grid size={{ xs: 12 }}>
                   <TextField
                     {...register("address")}
                     fullWidth
@@ -92,7 +90,7 @@ export default function CheckoutPage() {
                     helperText={errors.address?.message}
                   />
                 </Grid>
-                <Grid xs={12} sm={6}>
+                <Grid size={{ xs: 12, sm: 6 }}>
                   <TextField
                     {...register("city")}
                     fullWidth
@@ -101,7 +99,7 @@ export default function CheckoutPage() {
                     helperText={errors.city?.message}
                   />
                 </Grid>
-                <Grid xs={12} sm={6}>
+                <Grid size={{ xs: 12, sm: 6 }}>
                   <TextField
                     {...register("postalCode")}
                     fullWidth
@@ -110,7 +108,7 @@ export default function CheckoutPage() {
                     helperText={errors.postalCode?.message}
                   />
                 </Grid>
-                <Grid xs={12}>
+                <Grid size={{ xs: 12 }}>
                   <TextField
                     {...register("country")}
                     fullWidth
@@ -133,7 +131,7 @@ export default function CheckoutPage() {
             </Box>
           </Paper>
         </Grid>
-        <Grid xs={12} md={4}>
+        <Grid size={{ xs: 12, md: 4 }}>
           <Paper sx={{ p: 3 }}>
             <Typography variant="h6" gutterBottom>
               Order Summary

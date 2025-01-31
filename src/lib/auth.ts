@@ -1,10 +1,10 @@
-import { PrismaAdapter } from "@auth/prisma-adapter";
+import { MongoDBAdapter } from "@auth/mongodb-adapter";
 import NextAuth from "next-auth";
 import GitHub from "next-auth/providers/github";
-import { prisma } from "@/lib/prisma";
+import client from "@/lib/client";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
-  adapter: PrismaAdapter(prisma),
+  adapter: MongoDBAdapter(client),
   providers: [GitHub],
   pages: {
     signIn: "/auth/signin",
@@ -12,8 +12,9 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   callbacks: {
     async session({ session }) {
       if (session.user?.email) {
-        const user = await prisma.user.findUnique({
-          where: { email: session.user.email },
+        const db = client.db();
+        const user = await db.collection("users").findOne({
+          email: session.user.email,
         });
 
         if (user) {

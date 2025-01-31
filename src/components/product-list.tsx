@@ -1,9 +1,13 @@
+"use client";
+
 import React from "react";
 import Grid from "@mui/material/Grid2";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
+import { Button } from "@mui/material";
+import { useCart } from "@/contexts/cart-context";
 import type { Product } from "@prisma/client";
 
 interface ProductListProps {
@@ -11,17 +15,12 @@ interface ProductListProps {
 }
 
 const ProductList = ({ products }: ProductListProps) => {
+  const { addItem } = useCart();
+
   return (
     <Grid container spacing={3}>
       {products.map((product) => (
-        <Grid
-          size={{
-            xs: 12,
-            sm: 6,
-            md: 4,
-          }}
-          key={product.id}
-        >
+        <Grid key={product.id} size={{ xs: 12, sm: 6, md: 4 }}>
           <Card>
             {product.images.length > 0 && (
               <CardMedia
@@ -33,6 +32,14 @@ const ProductList = ({ products }: ProductListProps) => {
             <CardContent>
               <Typography variant="h6">{product.name}</Typography>
               <Typography>${product.price.toFixed(2)}</Typography>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => addItem(product)}
+                sx={{ mt: 2 }}
+              >
+                Add to Cart
+              </Button>
             </CardContent>
           </Card>
         </Grid>

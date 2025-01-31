@@ -3,17 +3,7 @@
 import { useEffect, useState } from "react";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { Box, Typography, Container } from "@mui/material";
-import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
-
-interface Product {
-  id: string;
-  name: string;
-  description: string;
-  price: number;
-  stock: number;
-  categoryId: string;
-}
+import { getProducts } from "../actions/products";
 
 const columns: GridColDef[] = [
   { field: "id", headerName: "ID", width: 130 },
@@ -23,39 +13,27 @@ const columns: GridColDef[] = [
     field: "price",
     headerName: "Price",
     width: 130,
-    valueFormatter: (params) => `$${params}`,
+    valueFormatter: (params) => `$${params.value}`,
   },
   { field: "stock", headerName: "Stock", width: 130 },
-  { field: "categoryId", headerName: "Category ID", width: 130 },
+  {
+    field: "category",
+    headerName: "Category",
+    width: 130,
+    valueGetter: (params) => params.row.category.name,
+  },
 ];
 
 export default function AdminDashboard() {
-  const { data: session, status } = useSession();
-  const router = useRouter();
-  const [products, setProducts] = useState<Product[]>([]);
+  const [products, setProducts] = useState([]);
 
   useEffect(() => {
-    if (status === "authenticated" && session?.user?.role !== "ADMIN") {
-      router.push("/");
-    }
-
-    // Cargar productos
-    const fetchProducts = async () => {
-      const response = await fetch("/api/products");
-      const data = await response.json();
+    const loadProducts = async () => {
+      const data = await getProducts();
       setProducts(data);
     };
-
-    fetchProducts();
-  }, [session, status, router]);
-
-  if (status === "loading") {
-    return <div>Loading...</div>;
-  }
-
-  if (!session || session.user.role !== "ADMIN") {
-    return null;
-  }
+    loadProducts();
+  }, []);
 
   return (
     <Container maxWidth="xl">

@@ -1,14 +1,15 @@
 import { auth } from "@/lib/auth";
-
-const authRoute = ["/admin"];
+// import { NextResponse } from "next/server";
 
 export default auth((req) => {
-  const isAdmin = req.auth?.user?.role === "ADMIN";
-  const isAuthRoute = authRoute.some((route) =>
-    req.nextUrl.pathname.startsWith(route),
-  );
-  if (!isAdmin && isAuthRoute) {
-    const newUrl = new URL("/auth/signin", req.nextUrl.origin);
-    return Response.redirect(newUrl, 302);
-  }
+  // console.log(req.auth?.user);
+  // if (
+  //   req.nextUrl.pathname.startsWith("/admin") &&
+  //   req.auth?.user.role !== "ADMIN"
+  // ) {
+  //   return NextResponse.redirect(new URL("/auth/signin", req.url));
+  // }
+  // if (req.nextUrl.pathname.startsWith("/auth") && req.auth?.user) {
+  //   return NextResponse.redirect(new URL("/", req.url));
+  // }
 });

@@ -45,6 +45,14 @@ export default function Navbar() {
 
         {session ? (
           <>
+            <Button
+              color="inherit"
+              component={Link}
+              href="/orders"
+              sx={{ mr: 2 }}
+            >
+              My Orders
+            </Button>
             <IconButton onClick={handleMenuOpen}>
               <Avatar src={session.user?.image || undefined} />
             </IconButton>
@@ -62,7 +70,7 @@ export default function Navbar() {
           </Button>
         )}
 
-        <IconButton component={Link} href="/cart">
+        <IconButton component={Link} href="/cart" sx={{ ml: 2 }}>
           <Badge badgeContent={itemCount} color="primary">
             <ShoppingCartIcon />
           </Badge>

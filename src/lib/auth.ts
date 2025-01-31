@@ -3,25 +3,28 @@ import NextAuth from "next-auth";
 import GitHub from "next-auth/providers/github";
 import { prisma } from "@/lib/prisma";
 
-export const { handlers, auth } = NextAuth({
+export const { handlers, auth, signIn, signOut } = NextAuth({
   adapter: PrismaAdapter(prisma),
   providers: [GitHub],
-  callbacks: {
-    async session({ session }) {
-      if (session.user?.email) {
-        const user = await prisma.user.findUnique({
-          where: { email: session.user.email },
-        });
+  // pages: {
+  //   signIn: "/auth/signin",
+  // },
+  // callbacks: {
+  //   async session({ session }) {
+  //     if (session.user?.email) {
+  //       const user = await prisma.user.findUnique({
+  //         where: { email: session.user.email },
+  //       });
 
-        if (user) {
-          session.user.role = user.role;
-        }
-      }
+  //       if (user) {
+  //         session.user.role = user.role;
+  //       }
+  //     }
 
-      return session;
-    },
-  },
-  session: {
-    strategy: "database",
-  },
+  //     return session;
+  //   },
+  // },
+  // session: {
+  //   strategy: "database",
+  // },
 });

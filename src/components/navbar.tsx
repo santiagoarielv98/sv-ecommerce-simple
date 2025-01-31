@@ -19,7 +19,7 @@ import { useCart } from "@/contexts/cart-context";
 
 export default function Navbar() {
   const { data: session } = useSession();
-
+  console.log(session);
   const { items } = useCart();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const itemCount = items.reduce((sum, item) => sum + item.quantity, 0);

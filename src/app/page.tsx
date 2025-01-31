@@ -1,9 +1,10 @@
 import ProductList from "@/components/product-list";
-import { prisma } from "@/lib/prisma";
+import client from "@/lib/client";
 import { Container, Grid2 as Grid, Toolbar } from "@mui/material";
 
 export default async function Home() {
-  const products = await prisma.product.findMany();
+  const db = (await client).db();
+  const products = await db.collection("products").find({}).toArray();
 
   return (
     <Container>

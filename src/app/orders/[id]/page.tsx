@@ -1,4 +1,3 @@
-import { prisma } from "@/lib/prisma";
 import Box from "@mui/material/Box";
 import Chip from "@mui/material/Chip";
 import Container from "@mui/material/Container";
@@ -6,6 +5,15 @@ import Grid from "@mui/material/Grid2";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 import { notFound } from "next/navigation";
+import client from "@/lib/client";
+import { ObjectId } from "mongodb";
+
+interface Item {
+  id: string;
+  productId: ObjectId;
+  quantity: number;
+  price: number;
+}
 
 export default async function OrderPage({
   params,
@@ -13,21 +21,44 @@ export default async function OrderPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const order = await prisma.order.findUnique({
-    where: { id },
-    include: {
-      items: {
-        include: {
-          product: true,
+  const db = (await client).db();
+
+  const order = await db
+    .collection("orders")
+    .aggregate([
+      { $match: { _id: new ObjectId(id) } },
+      {
+        $lookup: {
+          from: "products",
+          localField: "items.productId",
+          foreignField: "_id",
+          as: "products",
         },
       },
-      shippingAddress: true,
-    },
-  });
+      {
+        $lookup: {
+          from: "shippingAddresses",
+          localField: "_id",
+          foreignField: "orderId",
+          as: "shippingAddress",
+        },
+      },
+    ])
+    .next();
 
   if (!order) {
     notFound();
   }
+
+  // Transform the data to match the expected format
+  const transformedOrder = {
+    ...order,
+    shippingAddress: order.shippingAddress[0],
+    items: order.items.map((item: any) => ({
+      ...item,
+      product: order.products.find((p: any) => p._id.equals(item.productId)),
+    })),
+  };
 
   return (
     <Container sx={{ py: 4 }}>
@@ -41,11 +72,13 @@ export default async function OrderPage({
               Order Details
             </Typography>
             <Chip
-              label={order.status}
-              color={order.status === "PENDING" ? "warning" : "success"}
+              label={transformedOrder.status}
+              color={
+                transformedOrder.status === "PENDING" ? "warning" : "success"
+              }
               sx={{ mb: 2 }}
             />
-            {order.items.map((item) => (
+            {transformedOrder.items.map((item) => (
               <Box key={item.id} sx={{ mb: 2 }}>
                 <Typography>
                   {item.product.name} x {item.quantity}
@@ -60,11 +93,12 @@ export default async function OrderPage({
             <Typography variant="h6" gutterBottom>
               Shipping Address
             </Typography>
-            <Typography>{order.shippingAddress?.address}</Typography>
+            <Typography>{transformedOrder.shippingAddress?.address}</Typography>
             <Typography>
-              {order.shippingAddress?.city}, {order.shippingAddress?.postalCode}
+              {transformedOrder.shippingAddress?.city},{" "}
+              {transformedOrder.shippingAddress?.postalCode}
             </Typography>
-            <Typography>{order.shippingAddress?.country}</Typography>
+            <Typography>{transformedOrder.shippingAddress?.country}</Typography>
           </Paper>
         </Grid>
         <Grid size={{ xs: 12, md: 4 }}>
@@ -74,7 +108,7 @@ export default async function OrderPage({
             </Typography>
             <Box sx={{ mt: 2, pt: 2, borderTop: 1, borderColor: "divider" }}>
               <Typography variant="h6">
-                Total: ${order.total.toFixed(2)}
+                Total: ${transformedOrder.total.toFixed(2)}
               </Typography>
             </Box>
           </Paper>

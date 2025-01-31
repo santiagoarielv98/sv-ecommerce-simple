@@ -23,6 +23,8 @@ model User {
   sessions      Session[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  role      Role     @default(USER)
+  orders    Order[]
 }
 
 model Account {
@@ -66,3 +68,60 @@ model VerificationToken {
 
   @@unique([identifier, token])
 }
+
+model Product {
+  id          String      @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  description String
+  price       Float
+  stock       Int
+  images      String[]
+  category    Category    @relation(fields: [categoryId], references: [id])
+  categoryId  String      @db.ObjectId
+  orderItems  OrderItem[]
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+}
+
+model Category {
+  id       String    @id @default(auto()) @map("_id") @db.ObjectId
+  name     String    @unique
+  products Product[]
+}
+
+model Order {
+  id         String      @id @default(auto()) @map("_id") @db.ObjectId
+  user       User        @relation(fields: [userId], references: [id])
+  userId     String      @db.ObjectId
+  items      OrderItem[]
+  status     OrderStatus @default(PENDING)
+  total      Float
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+}
+
+model OrderItem {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  order     Order    @relation(fields: [orderId], references: [id])
+  orderId   String   @db.ObjectId
+  product   Product  @relation(fields: [productId], references: [id])
+  productId String   @db.ObjectId
+  quantity  Int
+  price     Float
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum OrderStatus {
+  PENDING
+  PROCESSING
+  SHIPPED
+  DELIVERED
+  CANCELLED
+}
+

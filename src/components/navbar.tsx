@@ -53,6 +53,11 @@ export default function Navbar() {
             >
               My Orders
             </Button>
+            {session.user?.role === "ADMIN" && (
+              <Button color="inherit" component={Link} href="/admin">
+                Admin
+              </Button>
+            )}
             <IconButton onClick={handleMenuOpen}>
               <Avatar src={session.user?.image || undefined} />
             </IconButton>

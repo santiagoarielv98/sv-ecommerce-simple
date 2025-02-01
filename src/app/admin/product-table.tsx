@@ -26,6 +26,7 @@ export default function ProductTable({ products }: AdminDashboardProps) {
     <DataGrid
       rows={products}
       columns={columns}
+      autoPageSize
       pageSizeOptions={[5, 10, 25]}
       checkboxSelection
       disableRowSelectionOnClick

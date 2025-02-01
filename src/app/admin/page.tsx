@@ -15,11 +15,12 @@ export default async function AdminDashboard() {
   return (
     <Container maxWidth="xl">
       <Box sx={{ my: 4 }}>
-        <ProductTable products={products} />;
         <Typography variant="h4" component="h1" gutterBottom>
           Products Dashboard
         </Typography>
-        <Box sx={{ height: 400, width: "100%" }}></Box>
+      </Box>
+      <Box sx={{ height: 400, width: "100%" }}>
+        <ProductTable products={products} />;
       </Box>
     </Container>
   );

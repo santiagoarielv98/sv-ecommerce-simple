@@ -1,7 +1,10 @@
-import { prisma } from "@/lib/prisma";
-import ProductTable from "./product-table";
 import { auth } from "@/lib/auth";
+import { prisma } from "@/lib/prisma";
+import Box from "@mui/material/Box";
+import Container from "@mui/material/Container";
+import Typography from "@mui/material/Typography";
 import { redirect } from "next/navigation";
+import ProductTable from "./product-table";
 
 export default async function AdminDashboard() {
   const session = await auth();
@@ -9,5 +12,15 @@ export default async function AdminDashboard() {
     return redirect("/");
   }
   const products = await prisma.product.findMany();
-  return <ProductTable products={products} />;
+  return (
+    <Container maxWidth="xl">
+      <Box sx={{ my: 4 }}>
+        <ProductTable products={products} />;
+        <Typography variant="h4" component="h1" gutterBottom>
+          Products Dashboard
+        </Typography>
+        <Box sx={{ height: 400, width: "100%" }}></Box>
+      </Box>
+    </Container>
+  );
 }

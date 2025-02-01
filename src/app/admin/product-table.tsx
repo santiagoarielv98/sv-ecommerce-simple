@@ -1,6 +1,5 @@
 "use client";
 
-import { Box, Container, Typography } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { Product } from "@prisma/client";
 
@@ -24,21 +23,12 @@ export interface AdminDashboardProps {
 
 export default function ProductTable({ products }: AdminDashboardProps) {
   return (
-    <Container maxWidth="xl">
-      <Box sx={{ my: 4 }}>
-        <Typography variant="h4" component="h1" gutterBottom>
-          Products Dashboard
-        </Typography>
-        <Box sx={{ height: 400, width: "100%" }}>
-          <DataGrid
-            rows={products}
-            columns={columns}
-            pageSizeOptions={[5, 10, 25]}
-            checkboxSelection
-            disableRowSelectionOnClick
-          />
-        </Box>
-      </Box>
-    </Container>
+    <DataGrid
+      rows={products}
+      columns={columns}
+      pageSizeOptions={[5, 10, 25]}
+      checkboxSelection
+      disableRowSelectionOnClick
+    />
   );
 }

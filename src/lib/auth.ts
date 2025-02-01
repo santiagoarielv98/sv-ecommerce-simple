@@ -1,9 +1,9 @@
-import { MongoDBAdapter } from "@auth/mongodb-adapter";
+import { PrismaAdapter } from "@auth/prisma-adapter";
 import NextAuth from "next-auth";
 import GitHub from "next-auth/providers/github";
-import client from "@/lib/client";
+import { prisma } from "@/lib/prisma";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
-  adapter: MongoDBAdapter(client),
+  adapter: PrismaAdapter(prisma),
   providers: [GitHub],
 });

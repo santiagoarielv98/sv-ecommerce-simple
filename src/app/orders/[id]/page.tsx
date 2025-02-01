@@ -5,15 +5,7 @@ import Grid from "@mui/material/Grid2";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 import { notFound } from "next/navigation";
-import client from "@/lib/client";
-import { ObjectId } from "mongodb";
-
-interface Item {
-  id: string;
-  productId: ObjectId;
-  quantity: number;
-  price: number;
-}
+import { prisma } from "@/lib/prisma";
 
 export default async function OrderPage({
   params,
@@ -21,30 +13,11 @@ export default async function OrderPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const db = (await client).db();
 
-  const order = await db
-    .collection("orders")
-    .aggregate([
-      { $match: { _id: new ObjectId(id) } },
-      {
-        $lookup: {
-          from: "products",
-          localField: "items.productId",
-          foreignField: "_id",
-          as: "products",
-        },
-      },
-      {
-        $lookup: {
-          from: "shippingAddresses",
-          localField: "_id",
-          foreignField: "orderId",
-          as: "shippingAddress",
-        },
-      },
-    ])
-    .next();
+  const order = await prisma.order.findUnique({
+    where: { id },
+    include: { items: { include: { product: true } }, shippingAddress: true },
+  });
 
   if (!order) {
     notFound();
@@ -53,10 +26,15 @@ export default async function OrderPage({
   // Transform the data to match the expected format
   const transformedOrder = {
     ...order,
-    shippingAddress: order.shippingAddress[0],
-    items: order.items.map((item: any) => ({
-      ...item,
-      product: order.products.find((p: any) => p._id.equals(item.productId)),
+    shippingAddress: order.shippingAddress,
+    items: order.items.map((item) => ({
+      id: item.id,
+      price: item.price,
+      quantity: item.quantity,
+      product: {
+        id: item.product.id,
+        name: item.product.name,
+      },
     })),
   };
 

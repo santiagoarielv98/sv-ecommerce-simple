@@ -33,9 +33,11 @@ export default function QuantityControl({
             onQuantityChange(value);
           }
         }}
-        inputProps={{
-          min: 1,
-          style: { textAlign: "center" },
+        slotProps={{
+          htmlInput: {
+            min: 1,
+            style: { textAlign: "center" },
+          },
         }}
         sx={{ width: 60 }}
       />

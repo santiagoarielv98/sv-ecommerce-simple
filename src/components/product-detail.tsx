@@ -24,10 +24,10 @@ interface ProductDetailProps {
 
 export default function ProductDetail({ product }: ProductDetailProps) {
   const [quantity, setQuantity] = useState(1);
-  const { addItem } = useCart();
+  const { addItemWithQuantity } = useCart();
 
   const handleAddToCart = () => {
-    addItem(product);
+    addItemWithQuantity(product, quantity);
     setQuantity(1);
   };
 

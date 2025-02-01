@@ -15,9 +15,17 @@ import {
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useCart } from "@/contexts/cart-context";
+import QuantityControl from "@/components/quantity-control";
 
 export default function CartPage() {
-  const { items, removeItem, total } = useCart();
+  const {
+    items,
+    removeItem,
+    total,
+    incrementItem,
+    decrementItem,
+    updateQuantity,
+  } = useCart();
 
   if (items.length === 0) {
     return (
@@ -52,7 +60,15 @@ export default function CartPage() {
                 <TableCell align="right">
                   ${item.product.price.toFixed(2)}
                 </TableCell>
-                <TableCell align="right">{item.quantity}</TableCell>
+                <TableCell align="right">
+                  <QuantityControl
+                    quantity={item.quantity}
+                    onIncrease={() => incrementItem(item.product.id)}
+                    onDecrease={() => decrementItem(item.product.id)}
+                    onQuantityChange={(q) => updateQuantity(item.product.id, q)}
+                    size="small"
+                  />
+                </TableCell>
                 <TableCell align="right">
                   ${(item.product.price * item.quantity).toFixed(2)}
                 </TableCell>

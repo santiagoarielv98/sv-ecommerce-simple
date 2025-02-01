@@ -1,5 +1,5 @@
 import { auth } from "@/lib/auth";
-import client from "@/lib/client";
+import { prisma } from "@/lib/prisma";
 import Box from "@mui/material/Box";
 import Chip from "@mui/material/Chip";
 import Container from "@mui/material/Container";
@@ -15,30 +15,22 @@ export default async function OrdersPage() {
     redirect("/auth/signin?callbackUrl=/orders");
   }
 
-  const db = (await client).db();
-  const orders = await db
-    .collection("orders")
-    .aggregate([
-      { $match: { userId: session.user.id } },
-      {
-        $lookup: {
-          from: "products",
-          localField: "items.productId",
-          foreignField: "_id",
-          as: "products",
+  const orders = await prisma.order.findMany({
+    where: {
+      userId: session.user.id,
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+    include: {
+      items: {
+        include: {
+          product: true,
         },
       },
-      {
-        $lookup: {
-          from: "shippingAddresses",
-          localField: "_id",
-          foreignField: "orderId",
-          as: "shippingAddress",
-        },
-      },
-      { $sort: { createdAt: -1 } },
-    ])
-    .toArray();
+      shippingAddress: true,
+    },
+  });
 
   return (
     <Container sx={{ py: 4 }}>

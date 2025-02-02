@@ -7,9 +7,11 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { Button } from "@mui/material";
+import Box from "@mui/material/Box";
 import { useCart } from "@/contexts/cart-context";
 import type { Product } from "@prisma/client";
 import Link from "next/link";
+import StockBadge from "./stock-badge";
 
 interface ProductListProps {
   products: Product[];
@@ -50,13 +52,17 @@ const ProductList = ({ products }: ProductListProps) => {
               <CardContent>
                 <Typography variant="h6">{product.name}</Typography>
                 <Typography>${product.price.toFixed(2)}</Typography>
+                <Box sx={{ mt: 1, mb: 1 }}>
+                  <StockBadge stock={product.stock} />
+                </Box>
                 <Button
                   variant="contained"
                   color="primary"
                   onClick={(e) => handleAddToCart(e, product)}
+                  disabled={product.stock === 0}
                   sx={{ mt: 2 }}
                 >
-                  Add to Cart
+                  {product.stock === 0 ? "Out of Stock" : "Add to Cart"}
                 </Button>
               </CardContent>
             </Card>

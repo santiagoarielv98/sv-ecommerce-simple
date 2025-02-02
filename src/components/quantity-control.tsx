@@ -10,6 +10,7 @@ interface QuantityControlProps {
   onDecrease: () => void;
   onQuantityChange: (quantity: number) => void;
   size?: "small" | "medium";
+  disabled?: boolean;
 }
 
 export default function QuantityControl({
@@ -18,10 +19,16 @@ export default function QuantityControl({
   onDecrease,
   onQuantityChange,
   size = "medium",
+  disabled = false,
 }: QuantityControlProps) {
   return (
     <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-      <IconButton onClick={onDecrease} size={size} color="primary">
+      <IconButton
+        onClick={onDecrease}
+        size={size}
+        color="primary"
+        disabled={disabled}
+      >
         <RemoveIcon />
       </IconButton>
       <TextField
@@ -33,6 +40,7 @@ export default function QuantityControl({
             onQuantityChange(value);
           }
         }}
+        disabled={disabled}
         slotProps={{
           htmlInput: {
             min: 1,
@@ -41,7 +49,12 @@ export default function QuantityControl({
         }}
         sx={{ width: 60 }}
       />
-      <IconButton onClick={onIncrease} size={size} color="primary">
+      <IconButton
+        onClick={onIncrease}
+        size={size}
+        color="primary"
+        disabled={disabled}
+      >
         <AddIcon />
       </IconButton>
     </Box>

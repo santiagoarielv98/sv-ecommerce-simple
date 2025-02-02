@@ -27,6 +27,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
   const { addItemWithQuantity } = useCart();
 
   const handleAddToCart = () => {
+    if (product.stock === 0) return;
     addItemWithQuantity(product, quantity);
     setQuantity(1);
   };
@@ -70,8 +71,14 @@ export default function ProductDetail({ product }: ProductDetailProps) {
           </Typography>
 
           <Box>
-            <Typography variant="subtitle2" gutterBottom>
-              Stock disponible: {product.stock}
+            <Typography
+              variant="subtitle2"
+              gutterBottom
+              color={product.stock === 0 ? "error" : "text.secondary"}
+            >
+              {product.stock === 0
+                ? "Sin stock disponible"
+                : `Stock disponible: ${product.stock}`}
             </Typography>
             <Stack spacing={2}>
               <QuantityControl
@@ -81,16 +88,18 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                 }
                 onDecrease={() => setQuantity((q) => Math.max(q - 1, 1))}
                 onQuantityChange={(q) =>
-                  setQuantity(Math.min(q, product.stock))
+                  setQuantity(Math.min(Math.max(1, q), product.stock))
                 }
+                disabled={product.stock === 0}
               />
               <Button
                 variant="contained"
                 startIcon={<ShoppingCartIcon />}
                 onClick={handleAddToCart}
                 fullWidth
+                disabled={product.stock === 0}
               >
-                Agregar al carrito
+                {product.stock === 0 ? "Sin stock" : "Agregar al carrito"}
               </Button>
             </Stack>
           </Box>

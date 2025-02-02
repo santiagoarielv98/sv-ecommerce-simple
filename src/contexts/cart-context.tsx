@@ -2,6 +2,7 @@
 
 import { createContext, useContext, useState, useEffect } from "react";
 import type { Product } from "@prisma/client";
+import { MAX_QUANTITY_PER_ITEM } from "@/lib/constants";
 
 export interface CartItem {
   product: Product;
@@ -41,27 +42,58 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   }, [items]);
 
   const addItem = (product: Product) => {
-    setItems((prev) => {
-      const existingItem = prev.find((item) => item.product.id === product.id);
+    if (product.stock === 0) {
+      return;
+    }
+
+    setItems((currentItems) => {
+      const existingItem = currentItems.find(
+        (item) => item.product.id === product.id,
+      );
+
       if (existingItem) {
-        return prev.map((item) =>
+        const newQuantity = existingItem.quantity + 1;
+        if (newQuantity > product.stock) {
+          alert(`Only ${product.stock} items available`);
+          return currentItems;
+        }
+        if (newQuantity > MAX_QUANTITY_PER_ITEM) {
+          alert(`Maximum ${MAX_QUANTITY_PER_ITEM} items per product allowed`);
+          return currentItems;
+        }
+
+        return currentItems.map((item) =>
           item.product.id === product.id
-            ? { ...item, quantity: item.quantity + 1 }
+            ? { ...item, quantity: newQuantity }
             : item,
         );
       }
-      return [...prev, { product, quantity: 1 }];
+
+      return [...currentItems, { product, quantity: 1 }];
     });
   };
 
   const addItemWithQuantity = (product: Product, quantity: number) => {
-    if (quantity < 1) return;
+    if (quantity < 1 || product.stock === 0) return;
+
     setItems((prev) => {
       const existingItem = prev.find((item) => item.product.id === product.id);
+      const newQuantity = (existingItem?.quantity || 0) + quantity;
+
+      if (newQuantity > product.stock) {
+        alert(`Solo hay ${product.stock} unidades disponibles`);
+        return prev;
+      }
+
+      if (newQuantity > MAX_QUANTITY_PER_ITEM) {
+        alert(`Máximo ${MAX_QUANTITY_PER_ITEM} unidades por producto`);
+        return prev;
+      }
+
       if (existingItem) {
         return prev.map((item) =>
           item.product.id === product.id
-            ? { ...item, quantity: item.quantity + quantity }
+            ? { ...item, quantity: newQuantity }
             : item,
         );
       }

@@ -1,21 +1,21 @@
 "use client";
 
-import { useCart } from "@/contexts/cart-context";
-import Container from "@mui/material/Container";
-import Paper from "@mui/material/Paper";
-import Typography from "@mui/material/Typography";
-import Grid from "@mui/material/Grid2";
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
-import Box from "@mui/material/Box";
-import Alert from "@mui/material/Alert";
-import { useEffect, useState } from "react";
 import { createOrder } from "@/actions/checkout";
-import { useRouter } from "next/navigation";
-import { useSession } from "next-auth/react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { useCart } from "@/contexts/cart-context";
 import { checkoutSchema, type CheckoutFormData } from "@/lib/schemas/checkout";
+import { zodResolver } from "@hookform/resolvers/zod";
+import Alert from "@mui/material/Alert";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Container from "@mui/material/Container";
+import Grid from "@mui/material/Grid2";
+import Paper from "@mui/material/Paper";
+import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 
 export default function CheckoutPage() {
   const { data: session } = useSession();
@@ -46,7 +46,7 @@ export default function CheckoutPage() {
       const result = await createOrder(items, data);
       if (result.success) {
         clearCart();
-        router.push(`/orders/${result.orderId}`);
+        router.push(result.initPoint);
       }
     } catch (error) {
       setError(error instanceof Error ? error.message : "An error occurred");

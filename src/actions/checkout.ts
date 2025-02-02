@@ -1,11 +1,12 @@
 "use server";
 
-import { auth } from "@/lib/auth";
-import { revalidatePath } from "next/cache";
-import { checkoutSchema, type CheckoutFormData } from "@/lib/schemas/checkout";
 import { CartItem } from "@/contexts/cart-context";
-import { z } from "zod";
+import { auth } from "@/lib/auth";
+import mercadopago from "@/lib/mercado-pago";
 import { prisma } from "@/lib/prisma";
+import { checkoutSchema, type CheckoutFormData } from "@/lib/schemas/checkout";
+import { Preference } from "mercadopago";
+import { z } from "zod";
 
 export async function createOrder(
   cartItems: CartItem[],
@@ -42,8 +43,22 @@ export async function createOrder(
       },
     });
 
-    revalidatePath("/orders");
-    return { success: true, orderId: order.id };
+    const preference = await new Preference(mercadopago).create({
+      body: {
+        items: cartItems.map((item) => ({
+          id: item.product.id,
+          title: item.product.name,
+          quantity: item.quantity,
+          unit_price: item.product.price,
+          picture_url: item.product.images[0],
+        })),
+        metadata: {
+          order_id: order.id,
+        },
+      },
+    });
+
+    return { success: true, initPoint: preference.init_point! };
   } catch (error) {
     console.error("Checkout error:", error);
     if (error instanceof z.ZodError) {

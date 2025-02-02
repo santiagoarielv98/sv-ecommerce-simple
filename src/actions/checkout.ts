@@ -61,7 +61,7 @@ export async function createOrder(
     await prisma.order.update({
       where: { id: order.id },
       data: {
-        paymentUrl: preference.init_point,
+        paymentUrl: preference.init_point!,
       },
     });
 

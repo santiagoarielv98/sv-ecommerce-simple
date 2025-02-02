@@ -7,6 +7,7 @@ import { prisma } from "@/lib/prisma";
 import { checkoutSchema, type CheckoutFormData } from "@/lib/schemas/checkout";
 import { Preference } from "mercadopago";
 import { z } from "zod";
+import { MAX_QUANTITY_PER_ITEM } from "@/lib/constants";
 
 export async function createOrder(
   cartItems: CartItem[],
@@ -19,6 +20,33 @@ export async function createOrder(
     }
 
     const validatedData = checkoutSchema.parse(formData);
+
+    // Verificar stock y cantidad máxima
+    const productsToCheck = await prisma.product.findMany({
+      where: {
+        id: {
+          in: cartItems.map((item) => item.product.id),
+        },
+      },
+    });
+
+    for (const item of cartItems) {
+      const product = productsToCheck.find((p) => p.id === item.product.id);
+
+      if (!product) {
+        throw new Error(`Product ${item.product.name} is no longer available`);
+      }
+
+      if (item.quantity > MAX_QUANTITY_PER_ITEM) {
+        throw new Error(
+          `Maximum ${MAX_QUANTITY_PER_ITEM} items allowed per product`,
+        );
+      }
+
+      if (item.quantity > product.stock) {
+        throw new Error(`Insufficient stock for ${product.name}`);
+      }
+    }
 
     const order = await prisma.order.create({
       data: {

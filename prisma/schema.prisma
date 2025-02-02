@@ -97,6 +97,8 @@ model Order {
   status          OrderStatus      @default(PENDING)
   total           Float
   shippingAddress ShippingAddress?
+  paymentUrl      String?
+  paymentId       String?
   createdAt       DateTime         @default(now())
   updatedAt       DateTime         @updatedAt
 }

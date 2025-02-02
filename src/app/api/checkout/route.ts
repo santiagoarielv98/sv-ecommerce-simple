@@ -23,7 +23,10 @@ export async function POST(request: Request) {
     await prisma.$transaction(async (tx) => {
       await tx.order.update({
         where: { id: orderId },
-        data: { status: "PROCESSING" },
+        data: {
+          status: "PROCESSING",
+          paymentId: payment.id!.toString(),
+        },
       });
 
       for (const item of order.items) {

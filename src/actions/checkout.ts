@@ -58,6 +58,13 @@ export async function createOrder(
       },
     });
 
+    await prisma.order.update({
+      where: { id: order.id },
+      data: {
+        paymentUrl: preference.init_point,
+      },
+    });
+
     return { success: true, initPoint: preference.init_point! };
   } catch (error) {
     console.error("Checkout error:", error);

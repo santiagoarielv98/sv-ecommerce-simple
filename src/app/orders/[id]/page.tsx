@@ -6,6 +6,8 @@ import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
+import Button from "@mui/material/Button";
+import Link from "next/link";
 
 export default async function OrderPage({
   params,
@@ -88,6 +90,26 @@ export default async function OrderPage({
               <Typography variant="h6">
                 Total: ${transformedOrder.total.toFixed(2)}
               </Typography>
+
+              {transformedOrder.status === "PENDING" &&
+              transformedOrder.paymentUrl ? (
+                <Button
+                  component={Link}
+                  href={transformedOrder.paymentUrl}
+                  variant="contained"
+                  color="primary"
+                  fullWidth
+                  sx={{ mt: 2 }}
+                >
+                  Pay Now
+                </Button>
+              ) : transformedOrder.paymentId ? (
+                <Box sx={{ mt: 2 }}>
+                  <Typography variant="body2" color="text.secondary">
+                    Payment ID: {transformedOrder.paymentId}
+                  </Typography>
+                </Box>
+              ) : null}
             </Box>
           </Paper>
         </Grid>

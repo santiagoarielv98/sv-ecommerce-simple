@@ -18,6 +18,12 @@ interface ProductListProps {
 const ProductList = ({ products }: ProductListProps) => {
   const { addItem } = useCart();
 
+  const handleAddToCart = (e: React.MouseEvent, product: Product) => {
+    e.preventDefault();
+    e.stopPropagation();
+    addItem(product);
+  };
+
   return (
     <Grid container spacing={3}>
       {products.map((product) => (
@@ -47,7 +53,7 @@ const ProductList = ({ products }: ProductListProps) => {
                 <Button
                   variant="contained"
                   color="primary"
-                  onClick={() => addItem(product)}
+                  onClick={(e) => handleAddToCart(e, product)}
                   sx={{ mt: 2 }}
                 >
                   Add to Cart

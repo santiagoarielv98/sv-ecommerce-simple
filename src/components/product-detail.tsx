@@ -1,17 +1,16 @@
 "use client";
 
-import { useState } from "react";
 import { useCart } from "@/hooks/use-cart";
-import type { Product } from "@prisma/client";
-import Box from "@mui/material/Box";
-import Grid from "@mui/material/Grid2";
-import Paper from "@mui/material/Paper";
-import Typography from "@mui/material/Typography";
-import Chip from "@mui/material/Chip";
-import Stack from "@mui/material/Stack";
-import Button from "@mui/material/Button";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import Image from "next/image";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Chip from "@mui/material/Chip";
+import Grid from "@mui/material/Grid2";
+import Stack from "@mui/material/Stack";
+import Typography from "@mui/material/Typography";
+import type { Product } from "@prisma/client";
+import { useState } from "react";
+import ImagePreviewDialog from "./image-preview-dialog";
 import QuantityControl from "./quantity-control";
 
 interface ProductDetailProps {
@@ -45,24 +44,9 @@ export default function ProductDetail({ product }: ProductDetailProps) {
   return (
     <Grid container spacing={4}>
       <Grid size={{ xs: 12, md: 6 }}>
-        <Paper
-          sx={{
-            p: 2,
-            height: "400px",
-            position: "relative",
-            overflow: "hidden",
-          }}
-        >
-          {product.images?.[0] && (
-            <Image
-              src={product.images[0]}
-              alt={product.name}
-              fill
-              style={{ objectFit: "cover" }}
-            />
-          )}
-        </Paper>
+        <ImagePreviewDialog images={product.images} />
       </Grid>
+
       <Grid size={{ xs: 12, md: 6 }}>
         <Stack spacing={3}>
           <Box>

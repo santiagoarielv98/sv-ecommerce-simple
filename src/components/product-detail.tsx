@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useCart } from "@/contexts/cart-context";
+import { useCart } from "@/hooks/use-cart";
 import type { Product } from "@prisma/client";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid2";

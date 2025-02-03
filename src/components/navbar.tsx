@@ -15,7 +15,7 @@ import { useState } from "react";
 import { useSession, signOut } from "next-auth/react";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import Link from "next/link";
-import { useCart } from "@/contexts/cart-context";
+import { useCart } from "@/hooks/use-cart";
 
 export default function Navbar() {
   const { data: session } = useSession();

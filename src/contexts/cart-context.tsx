@@ -1,9 +1,9 @@
 "use client";
 
-import { createContext, useContext, useState, useEffect } from "react";
+import { CART_STORAGE_KEY } from "@/config/cart.config";
+import { validateQuantity } from "@/lib/cart";
 import type { Product } from "@prisma/client";
-import { MAX_QUANTITY_PER_ITEM } from "@/lib/constants";
-
+import React from "react";
 export interface CartItem {
   product: Product;
   quantity: number;
@@ -21,14 +21,14 @@ interface CartContextType {
   updateQuantity: (productId: string, quantity: number) => void;
 }
 
-const CartContext = createContext<CartContextType | undefined>(undefined);
-
-const CART_STORAGE_KEY = "shopping-cart";
+export const CartContext = React.createContext<CartContextType | undefined>(
+  undefined,
+);
 
 export function CartProvider({ children }: { children: React.ReactNode }) {
-  const [items, setItems] = useState<CartItem[]>([]);
+  const [items, setItems] = React.useState<CartItem[]>([]);
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (typeof window !== "undefined") {
       const saved = localStorage.getItem(CART_STORAGE_KEY);
       if (saved) {
@@ -37,7 +37,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     }
   }, []);
 
-  useEffect(() => {
+  React.useEffect(() => {
     localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(items));
   }, [items]);
 
@@ -46,47 +46,35 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       return;
     }
 
-    setItems((currentItems) => {
-      const existingItem = currentItems.find(
-        (item) => item.product.id === product.id,
-      );
+    setItems((prev) => {
+      const existingItem = prev.find((item) => item.product.id === product.id);
 
       if (existingItem) {
         const newQuantity = existingItem.quantity + 1;
-        if (newQuantity > product.stock) {
-          // alert(`Only ${product.stock} items available`);
-          return currentItems;
-        }
-        if (newQuantity > MAX_QUANTITY_PER_ITEM) {
-          // alert(`Maximum ${MAX_QUANTITY_PER_ITEM} items per product allowed`);
-          return currentItems;
+        if (!validateQuantity(newQuantity, product.stock)) {
+          return prev;
         }
 
-        return currentItems.map((item) =>
+        return prev.map((item) =>
           item.product.id === product.id
             ? { ...item, quantity: newQuantity }
             : item,
         );
       }
 
-      return [...currentItems, { product, quantity: 1 }];
+      return [...prev, { product, quantity: 1 }];
     });
   };
 
   const addItemWithQuantity = (product: Product, quantity: number) => {
+    console.log("addItemWithQuantity");
     if (quantity < 1 || product.stock === 0) return;
 
     setItems((prev) => {
       const existingItem = prev.find((item) => item.product.id === product.id);
       const newQuantity = (existingItem?.quantity || 0) + quantity;
 
-      if (newQuantity > product.stock) {
-        // alert(`Solo hay ${product.stock} unidades disponibles`);
-        return prev;
-      }
-
-      if (newQuantity > MAX_QUANTITY_PER_ITEM) {
-        // alert(`Máximo ${MAX_QUANTITY_PER_ITEM} unidades por producto`);
+      if (!validateQuantity(newQuantity, product.stock)) {
         return prev;
       }
 
@@ -102,27 +90,24 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   };
 
   const removeItem = (productId: string) => {
+    console.log("removeItem");
     setItems((prev) => prev.filter((item) => item.product.id !== productId));
   };
 
   const clearCart = () => {
+    console.log("clearCart");
     setItems([]);
   };
 
   const incrementItem = (productId: string) => {
+    console.log("incrementItem");
     setItems((prev) => {
       const item = prev.find((i) => i.product.id === productId);
       if (!item) return prev;
 
       const newQuantity = item.quantity + 1;
 
-      if (newQuantity > item.product.stock) {
-        // alert(`Solo hay ${item.product.stock} unidades disponibles`);
-        return prev;
-      }
-
-      if (newQuantity > MAX_QUANTITY_PER_ITEM) {
-        // alert(`Máximo ${MAX_QUANTITY_PER_ITEM} unidades por producto`);
+      if (!validateQuantity(newQuantity, item.product.stock)) {
         return prev;
       }
 
@@ -133,6 +118,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   };
 
   const decrementItem = (productId: string) => {
+    console.log("decrementItem");
     setItems((prev) =>
       prev.map((item) =>
         item.product.id === productId && item.quantity > 1
@@ -143,19 +129,14 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   };
 
   const updateQuantity = (productId: string, quantity: number) => {
+    console.log("updateQuantity");
     if (quantity < 1) return;
 
     setItems((prev) => {
       const item = prev.find((i) => i.product.id === productId);
       if (!item) return prev;
 
-      if (quantity > item.product.stock) {
-        // alert(`Solo hay ${item.product.stock} unidades disponibles`);
-        return prev;
-      }
-
-      if (quantity > MAX_QUANTITY_PER_ITEM) {
-        // alert(`Máximo ${MAX_QUANTITY_PER_ITEM} unidades por producto`);
+      if (!validateQuantity(quantity, item.product.stock)) {
         return prev;
       }
 
@@ -188,11 +169,3 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     </CartContext.Provider>
   );
 }
-
-export const useCart = () => {
-  const context = useContext(CartContext);
-  if (context === undefined) {
-    throw new Error("useCart must be used within a CartProvider");
-  }
-  return context;
-};

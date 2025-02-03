@@ -1,7 +1,7 @@
 "use client";
 
 import { createOrder } from "@/actions/checkout";
-import { useCart } from "@/contexts/cart-context";
+import { useCart } from "@/hooks/use-cart";
 import { checkoutSchema, type CheckoutFormData } from "@/lib/schemas/checkout";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Alert from "@mui/material/Alert";

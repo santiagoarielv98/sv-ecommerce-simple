@@ -14,7 +14,7 @@ import {
   Button,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { useCart } from "@/contexts/cart-context";
+import { useCart } from "@/hooks/use-cart";
 import QuantityControl from "@/components/quantity-control";
 
 export default function CartPage() {

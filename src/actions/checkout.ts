@@ -7,7 +7,7 @@ import { prisma } from "@/lib/prisma";
 import { checkoutSchema, type CheckoutFormData } from "@/lib/schemas/checkout";
 import { Preference } from "mercadopago";
 import { z } from "zod";
-import { MAX_QUANTITY_PER_ITEM } from "@/lib/constants";
+import { MAX_QUANTITY_PER_ITEM } from "@/config/cart.config";
 
 export async function createOrder(
   cartItems: CartItem[],

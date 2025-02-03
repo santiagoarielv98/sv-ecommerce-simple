@@ -1,19 +1,22 @@
+import { getFirstPageOfProducts } from "@/actions/products";
 import ProductList from "@/components/product-list";
-import { prisma } from "@/lib/prisma";
+import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
-import Grid from "@mui/material/Grid2";
 import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
 
 export default async function Home() {
-  const products = await prisma.product.findMany();
+  const { products, nextCursor } = await getFirstPageOfProducts();
 
   return (
     <Container>
       <Toolbar />
-
-      <Grid container spacing={3}>
-        <ProductList products={products} />
-      </Grid>
+      <Box sx={{ mb: 2 }}>
+        <Typography variant="h4">Products</Typography>
+      </Box>
+      <Box sx={{ mb: 2 }}>
+        <ProductList products={products} nextCursor={nextCursor} />
+      </Box>
     </Container>
   );
 }

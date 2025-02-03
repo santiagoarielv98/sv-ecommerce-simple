@@ -1,5 +1,5 @@
+import { getProductsPage } from "@/actions/products";
 import { auth } from "@/lib/auth";
-import { prisma } from "@/lib/prisma";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
@@ -11,7 +11,8 @@ export default async function AdminDashboard() {
   if (session?.user?.role !== "ADMIN") {
     return redirect("/");
   }
-  const products = await prisma.product.findMany();
+  const pagination = await getProductsPage();
+
   return (
     <Container maxWidth="xl">
       <Box sx={{ my: 4 }}>
@@ -19,8 +20,8 @@ export default async function AdminDashboard() {
           Products Dashboard
         </Typography>
       </Box>
-      <Box sx={{ height: 400, width: "100%" }}>
-        <ProductTable products={products} />;
+      <Box sx={{ height: "70vh", width: "100%" }}>
+        <ProductTable initialValue={pagination} />;
       </Box>
     </Container>
   );

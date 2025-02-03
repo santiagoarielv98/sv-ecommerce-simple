@@ -13,6 +13,11 @@ const compat = new FlatCompat({
 const eslintConfig = [
   ...compat.extends("next/core-web-vitals", "next/typescript"),
   eslintPluginPrettier,
+  {
+    rules: {
+      "@typescript-eslint/consistent-type-imports": "error",
+    },
+  },
 ];
 
 export default eslintConfig;

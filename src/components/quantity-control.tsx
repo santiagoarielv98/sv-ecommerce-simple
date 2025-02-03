@@ -1,6 +1,8 @@
 "use client";
 
-import { IconButton, TextField, Box } from "@mui/material";
+import IconButton from "@mui/material/IconButton";
+import TextField from "@mui/material/TextField";
+import Box from "@mui/material/Box";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 

@@ -1,16 +1,14 @@
 "use client";
 
-import {
-  AppBar,
-  Toolbar,
-  Typography,
-  Button,
-  Badge,
-  IconButton,
-  Avatar,
-  Menu,
-  MenuItem,
-} from "@mui/material";
+import AppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
+import Badge from "@mui/material/Badge";
+import IconButton from "@mui/material/IconButton";
+import Avatar from "@mui/material/Avatar";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
 import { useState } from "react";
 import { useSession, signOut } from "next-auth/react";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";

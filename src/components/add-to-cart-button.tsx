@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@mui/material";
+import Button from "@mui/material/Button";
 import { useCart } from "@/hooks/use-cart";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { Product } from "@prisma/client";

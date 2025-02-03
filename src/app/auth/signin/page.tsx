@@ -1,14 +1,13 @@
 "use client";
 
-import {
-  Container,
-  Paper,
-  Typography,
-  TextField,
-  Button,
-  Box,
-  Divider,
-} from "@mui/material";
+import Container from "@mui/material/Container";
+import Paper from "@mui/material/Paper";
+import Typography from "@mui/material/Typography";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
+import Box from "@mui/material/Box";
+import Divider from "@mui/material/Divider";
+
 import GithubIcon from "@mui/icons-material/GitHub";
 import { signIn } from "next-auth/react";
 

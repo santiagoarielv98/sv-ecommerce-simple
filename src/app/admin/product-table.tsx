@@ -5,14 +5,14 @@ import SearchIcon from "@mui/icons-material/Search";
 import Box from "@mui/material/Box";
 import InputAdornment from "@mui/material/InputAdornment";
 import TextField from "@mui/material/TextField";
-import {
-  DataGrid,
+import type {
   GridColDef,
   GridPaginationModel,
   GridSortDirection,
   GridSortModel,
 } from "@mui/x-data-grid";
-import { Category, Product } from "@prisma/client";
+import { DataGrid } from "@mui/x-data-grid";
+import type { Category, Product } from "@prisma/client";
 import React from "react";
 import debounce from "lodash/debounce";
 

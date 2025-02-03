@@ -1,6 +1,6 @@
 "use server";
 
-import { CartItem } from "@/contexts/cart-context";
+import type { CartItem } from "@/contexts/cart-context";
 import { auth } from "@/lib/auth";
 import mercadopago from "@/lib/mercado-pago";
 import { prisma } from "@/lib/prisma";

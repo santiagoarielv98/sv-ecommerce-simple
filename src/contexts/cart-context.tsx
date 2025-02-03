@@ -54,11 +54,11 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       if (existingItem) {
         const newQuantity = existingItem.quantity + 1;
         if (newQuantity > product.stock) {
-          alert(`Only ${product.stock} items available`);
+          // alert(`Only ${product.stock} items available`);
           return currentItems;
         }
         if (newQuantity > MAX_QUANTITY_PER_ITEM) {
-          alert(`Maximum ${MAX_QUANTITY_PER_ITEM} items per product allowed`);
+          // alert(`Maximum ${MAX_QUANTITY_PER_ITEM} items per product allowed`);
           return currentItems;
         }
 
@@ -81,12 +81,12 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       const newQuantity = (existingItem?.quantity || 0) + quantity;
 
       if (newQuantity > product.stock) {
-        alert(`Solo hay ${product.stock} unidades disponibles`);
+        // alert(`Solo hay ${product.stock} unidades disponibles`);
         return prev;
       }
 
       if (newQuantity > MAX_QUANTITY_PER_ITEM) {
-        alert(`Máximo ${MAX_QUANTITY_PER_ITEM} unidades por producto`);
+        // alert(`Máximo ${MAX_QUANTITY_PER_ITEM} unidades por producto`);
         return prev;
       }
 
@@ -110,13 +110,26 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   };
 
   const incrementItem = (productId: string) => {
-    setItems((prev) =>
-      prev.map((item) =>
-        item.product.id === productId
-          ? { ...item, quantity: item.quantity + 1 }
-          : item,
-      ),
-    );
+    setItems((prev) => {
+      const item = prev.find((i) => i.product.id === productId);
+      if (!item) return prev;
+
+      const newQuantity = item.quantity + 1;
+
+      if (newQuantity > item.product.stock) {
+        // alert(`Solo hay ${item.product.stock} unidades disponibles`);
+        return prev;
+      }
+
+      if (newQuantity > MAX_QUANTITY_PER_ITEM) {
+        // alert(`Máximo ${MAX_QUANTITY_PER_ITEM} unidades por producto`);
+        return prev;
+      }
+
+      return prev.map((i) =>
+        i.product.id === productId ? { ...i, quantity: newQuantity } : i,
+      );
+    });
   };
 
   const decrementItem = (productId: string) => {
@@ -131,11 +144,25 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
   const updateQuantity = (productId: string, quantity: number) => {
     if (quantity < 1) return;
-    setItems((prev) =>
-      prev.map((item) =>
-        item.product.id === productId ? { ...item, quantity } : item,
-      ),
-    );
+
+    setItems((prev) => {
+      const item = prev.find((i) => i.product.id === productId);
+      if (!item) return prev;
+
+      if (quantity > item.product.stock) {
+        // alert(`Solo hay ${item.product.stock} unidades disponibles`);
+        return prev;
+      }
+
+      if (quantity > MAX_QUANTITY_PER_ITEM) {
+        // alert(`Máximo ${MAX_QUANTITY_PER_ITEM} unidades por producto`);
+        return prev;
+      }
+
+      return prev.map((i) =>
+        i.product.id === productId ? { ...i, quantity } : i,
+      );
+    });
   };
 
   const total = items.reduce(

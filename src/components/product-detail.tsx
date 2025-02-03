@@ -22,12 +22,22 @@ interface ProductDetailProps {
   };
 }
 
+const MAX_QUANTITY_PER_ITEM = 10;
+
 export default function ProductDetail({ product }: ProductDetailProps) {
   const [quantity, setQuantity] = useState(1);
   const { addItemWithQuantity } = useCart();
 
   const handleAddToCart = () => {
     if (product.stock === 0) return;
+    if (quantity > MAX_QUANTITY_PER_ITEM) {
+      alert(`Máximo ${MAX_QUANTITY_PER_ITEM} unidades por producto`);
+      return;
+    }
+    if (quantity > product.stock) {
+      alert(`Solo hay ${product.stock} unidades disponibles`);
+      return;
+    }
     addItemWithQuantity(product, quantity);
     setQuantity(1);
   };

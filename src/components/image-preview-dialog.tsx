@@ -1,19 +1,16 @@
-import {
-  HideImage,
-  KeyboardArrowLeft,
-  KeyboardArrowRight,
-} from "@mui/icons-material";
-import {
-  Avatar,
-  Box,
-  Button,
-  Dialog,
-  DialogContent,
-  MobileStepper,
-  Paper,
-  useMediaQuery,
-  useTheme,
-} from "@mui/material";
+import HideImageIcon from "@mui/icons-material/HideImage";
+import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
+import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
+import Avatar from "@mui/material/Avatar";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
+import DialogContent from "@mui/material/DialogContent";
+import MobileStepper from "@mui/material/MobileStepper";
+import Paper from "@mui/material/Paper";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import { useTheme } from "@mui/material/styles";
+
 import Image from "next/image";
 import { useState } from "react";
 
@@ -103,7 +100,7 @@ export default function ImagePreviewDialog({
                 overflow: "hidden",
               }}
             >
-              <HideImage />
+              <HideImageIcon fontSize="large" />
             </Avatar>
           </Box>
           <MobileStepper
@@ -120,9 +117,9 @@ export default function ImagePreviewDialog({
               >
                 Next
                 {theme.direction === "rtl" ? (
-                  <KeyboardArrowLeft />
+                  <KeyboardArrowLeftIcon />
                 ) : (
-                  <KeyboardArrowRight />
+                  <KeyboardArrowRightIcon />
                 )}
               </Button>
             }
@@ -133,9 +130,9 @@ export default function ImagePreviewDialog({
                 disabled={currentImageIndex === 0}
               >
                 {theme.direction === "rtl" ? (
-                  <KeyboardArrowRight />
+                  <KeyboardArrowRightIcon />
                 ) : (
-                  <KeyboardArrowLeft />
+                  <KeyboardArrowLeftIcon />
                 )}
                 Back
               </Button>

@@ -1,8 +1,8 @@
 import Container from "@mui/material/Container";
 
+import ProductDetail from "@/components/product-detail";
 import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
-import ProductDetail from "@/components/product-detail";
 
 export default async function ProductPage({
   params,
@@ -20,7 +20,7 @@ export default async function ProductPage({
   }
 
   return (
-    <Container sx={{ py: 8 }}>
+    <Container sx={{ my: 2 }}>
       <ProductDetail product={product} />
     </Container>
   );

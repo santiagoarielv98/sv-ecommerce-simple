@@ -27,7 +27,7 @@ export default function CartPage() {
 
   if (items.length === 0) {
     return (
-      <Container sx={{ py: 4 }}>
+      <Container sx={{ my: 2 }}>
         <Typography variant="h4" gutterBottom>
           Your cart is empty
         </Typography>
@@ -36,7 +36,7 @@ export default function CartPage() {
   }
 
   return (
-    <Container sx={{ py: 4 }}>
+    <Container sx={{ my: 2 }}>
       <Typography variant="h4" gutterBottom>
         Shopping Cart
       </Typography>

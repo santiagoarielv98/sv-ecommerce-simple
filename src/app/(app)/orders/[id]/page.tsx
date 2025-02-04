@@ -41,7 +41,7 @@ export default async function OrderPage({
   };
 
   return (
-    <Container sx={{ py: 4 }}>
+    <Container sx={{ my: 2 }}>
       <Typography variant="h4" gutterBottom>
         Order Confirmation
       </Typography>

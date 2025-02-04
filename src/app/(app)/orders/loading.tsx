@@ -5,7 +5,7 @@ import Skeleton from "@mui/material/Skeleton";
 
 export default function LoadingOrders() {
   return (
-    <Container sx={{ py: 4 }}>
+    <Container sx={{ my: 2 }}>
       <Skeleton variant="text" width={200} height={40} sx={{ mb: 3 }} />
       <Grid container spacing={3}>
         {[1, 2, 3].map((i) => (

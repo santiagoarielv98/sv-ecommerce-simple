@@ -8,7 +8,7 @@ const raleway = Raleway({
   display: "swap",
 });
 
-import "@/app/globals.css";
+import "./globals.css";
 import { auth } from "@/lib/auth";
 import theme from "@/lib/theme";
 import CssBaseline from "@mui/material/CssBaseline";

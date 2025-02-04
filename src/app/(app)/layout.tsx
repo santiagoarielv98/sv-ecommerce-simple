@@ -1,5 +1,6 @@
 import Navbar from "@/components/navbar";
 import { CartProvider } from "@/contexts/cart-context";
+import Toolbar from "@mui/material/Toolbar";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -15,6 +16,8 @@ export default async function AppLayout({
   return (
     <CartProvider>
       <Navbar />
+      <Toolbar />
+
       {children}
     </CartProvider>
   );

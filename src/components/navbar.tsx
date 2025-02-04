@@ -30,7 +30,7 @@ export default function Navbar() {
   };
 
   return (
-    <AppBar position="sticky" color="default">
+    <AppBar position="fixed" color="default">
       <Toolbar>
         <Typography
           variant="h6"

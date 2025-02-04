@@ -57,14 +57,14 @@ export default function CheckoutPage() {
 
   if (items.length === 0) {
     return (
-      <Container sx={{ py: 4 }}>
+      <Container sx={{ my: 2 }}>
         <Typography variant="h4">Your cart is empty</Typography>
       </Container>
     );
   }
 
   return (
-    <Container sx={{ py: 4 }}>
+    <Container sx={{ my: 2 }}>
       <Typography variant="h4" gutterBottom>
         Checkout
       </Typography>

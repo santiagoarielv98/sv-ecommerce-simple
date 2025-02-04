@@ -1,23 +1,17 @@
 "use client";
 
-import { getNextPageOfProducts } from "@/actions/products";
+import { useApp } from "@/app/(app)/provider";
 import { useCart } from "@/hooks/use-cart";
 import Button from "@mui/material/Button";
 import Grid2 from "@mui/material/Grid2";
+import MuiLink from "@mui/material/Link";
 import type { Product } from "@prisma/client";
+import Link from "next/link";
 import React from "react";
 import ProductCard from "./product-card";
-import Link from "next/link";
-import MuiLink from "@mui/material/Link";
-interface ProductListProps {
-  products: Product[];
-  nextCursor: string | null;
-}
 
-const ProductList = ({ products, nextCursor: cursor }: ProductListProps) => {
-  const [items, setItems] = React.useState<Product[]>(products);
-  const [nextCursor, setNextCursor] = React.useState<string | null>(cursor);
-
+const ProductList = () => {
+  const { pagination, loadMore } = useApp();
   const { addItem } = useCart();
 
   const handleAddToCart = (e: React.MouseEvent, product: Product) => {
@@ -26,16 +20,9 @@ const ProductList = ({ products, nextCursor: cursor }: ProductListProps) => {
     addItem(product);
   };
 
-  const handleLoadMore = async () => {
-    if (!nextCursor) return;
-    const data = await getNextPageOfProducts(nextCursor);
-    setItems((prev) => [...prev, ...data.products]);
-    setNextCursor(data.nextCursor);
-  };
-
   return (
     <Grid2 container spacing={3} padding={2}>
-      {items.map((product) => (
+      {pagination.products.map((product) => (
         <Grid2
           key={product.id}
           size={{
@@ -55,7 +42,7 @@ const ProductList = ({ products, nextCursor: cursor }: ProductListProps) => {
         </Grid2>
       ))}
       <Grid2 size={{ xs: 12 }} justifyContent="center" display="flex">
-        <Button variant="contained" onClick={handleLoadMore}>
+        <Button variant="contained" onClick={loadMore}>
           Load More
         </Button>
       </Grid2>

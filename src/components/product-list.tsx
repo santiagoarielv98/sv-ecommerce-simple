@@ -3,12 +3,10 @@
 import { getNextPageOfProducts } from "@/actions/products";
 import { useCart } from "@/hooks/use-cart";
 import Button from "@mui/material/Button";
-import Grid from "@mui/material/Grid2";
+import Grid2 from "@mui/material/Grid2";
 import type { Product } from "@prisma/client";
-import Link from "next/link";
 import React from "react";
 import ProductCard from "./product-card";
-
 interface ProductListProps {
   products: Product[];
   nextCursor: string | null;
@@ -34,30 +32,26 @@ const ProductList = ({ products, nextCursor: cursor }: ProductListProps) => {
   };
 
   return (
-    <Grid container spacing={3}>
+    <Grid2 container spacing={3} padding={2}>
       {items.map((product) => (
-        <Grid key={product.id} size={{ xs: 12, sm: 6, md: 4 }}>
-          <Link href={`/products/${product.id}`} passHref key={product.id}>
-            <ProductCard
-              product={product}
-              onAddToCart={(e) => handleAddToCart(e, product)}
-            />
-          </Link>
-        </Grid>
-      ))}
-      {nextCursor && (
-        <Grid
-          size={{ xs: 12 }}
-          container
-          justifyContent="center"
-          alignItems="center"
+        <Grid2
+          key={product.id}
+          size={{
+            xs: 12,
+            sm: 6,
+            md: 4,
+            lg: 3,
+          }}
         >
-          <Button variant="contained" color="primary" onClick={handleLoadMore}>
-            Load More
-          </Button>
-        </Grid>
-      )}
-    </Grid>
+          {<ProductCard product={product} onAddToCart={handleAddToCart} />}
+        </Grid2>
+      ))}
+      <Grid2 size={{ xs: 12 }} justifyContent="center" display="flex">
+        <Button variant="contained" onClick={handleLoadMore}>
+          Load More
+        </Button>
+      </Grid2>
+    </Grid2>
   );
 };
 

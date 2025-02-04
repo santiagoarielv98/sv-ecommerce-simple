@@ -1,16 +1,15 @@
+import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import HideImageIcon from "@mui/icons-material/HideImage";
 import Avatar from "@mui/material/Avatar";
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
+import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
+import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import type { Product } from "@prisma/client";
-import StockBadge from "./stock-badge";
-
 interface ProductCardProps {
   product: Product;
-  onAddToCart?: (e: React.MouseEvent) => void;
+  onAddToCart?: (e: React.MouseEvent, product: Product) => void;
 }
 
 const ProductCard = ({ product, onAddToCart }: ProductCardProps) => {
@@ -38,22 +37,30 @@ const ProductCard = ({ product, onAddToCart }: ProductCardProps) => {
           <HideImageIcon />
         </Avatar>
       )}
-      <CardContent>
-        <Typography variant="h6">{product.name}</Typography>
-        <Typography>${product.price.toFixed(2)}</Typography>
-        <Box sx={{ mt: 1, mb: 1 }}>
-          <StockBadge stock={product.stock} />
-        </Box>
-        <Button
-          variant="contained"
-          color="primary"
-          disabled={product.stock === 0}
-          sx={{ mt: 2 }}
-          onClick={onAddToCart}
-        >
-          {product.stock === 0 ? "Out of Stock" : "Add to Cart"}
-        </Button>
+      <CardContent sx={{ flexGrow: 1 }}>
+        <Typography gutterBottom variant="h6" component="div">
+          {product.name}
+        </Typography>
+        <Typography variant="body2" color="text.secondary">
+          {product.description}
+        </Typography>
+        <Typography variant="h6" color="primary" sx={{ mt: 2 }}>
+          ${product.price.toFixed(2)}
+        </Typography>
+        {/* <Rating value={product.rating} precision={0.5} readOnly /> */}
       </CardContent>
+      <CardActions>
+        <IconButton
+          color={product.stock === 0 ? "default" : "primary"}
+          onClick={(e) => onAddToCart?.(e, product)}
+          disabled={product.stock === 0}
+        >
+          <AddShoppingCartIcon />
+        </IconButton>
+        {/* <IconButton color="primary">
+          <FavoriteBorderIcon />
+        </IconButton> */}
+      </CardActions>
     </Card>
   );
 };

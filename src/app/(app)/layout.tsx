@@ -17,7 +17,6 @@ export default async function AppLayout({
     <CartProvider>
       <Navbar />
       <Toolbar />
-
       {children}
     </CartProvider>
   );

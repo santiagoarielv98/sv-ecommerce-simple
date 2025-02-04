@@ -10,21 +10,23 @@ import MenuItem from "@mui/material/MenuItem";
 import TextField from "@mui/material/TextField";
 import type { Category } from "@prisma/client";
 import { Controller, useForm } from "react-hook-form";
+import { ImageUpload } from "./image-upload";
+import { useState } from "react";
 
 interface ProductFormProps {
   categories: Category[];
   product?: ProductWithCategory;
-  onSubmit: (data: ProductFormData) => Promise<void>;
-  files?: File[];
-  setFiles?: (files: File[]) => void;
+  onSubmit: (data: ProductFormData, files: File[]) => Promise<void>;
+  onExistingImageDelete?: (index: number) => void;
 }
 
 export function ProductForm({
   categories,
   product,
   onSubmit,
-  setFiles,
+  onExistingImageDelete,
 }: ProductFormProps) {
+  const [newFiles, setNewFiles] = useState<File[]>([]);
   const {
     control,
     handleSubmit,
@@ -47,10 +49,28 @@ export function ProductForm({
         },
   });
 
+  const handleImageUpload = (fileList: FileList) => {
+    setNewFiles((prev) => [...prev, ...Array.from(fileList)]);
+  };
+
+  const handleImageDelete = (index: number) => {
+    if (product?.images && index < product.images.length) {
+      onExistingImageDelete?.(index);
+    } else {
+      const newFileIndex = index - (product?.images?.length || 0);
+      setNewFiles((prev) => prev.filter((_, i) => i !== newFileIndex));
+    }
+  };
+
+  const allImages = [
+    ...(product?.images || []),
+    ...newFiles.map((file) => URL.createObjectURL(file)),
+  ];
+
   return (
     <Box
       component="form"
-      onSubmit={handleSubmit(onSubmit)}
+      onSubmit={handleSubmit((data) => onSubmit(data, newFiles))}
       noValidate
       sx={{ mt: 1 }}
     >
@@ -152,20 +172,13 @@ export function ProductForm({
           />
         </Grid>
 
-        {setFiles && (
-          <Grid size={{ xs: 12 }}>
-            <input
-              type="file"
-              accept="image/*"
-              multiple
-              onChange={(e) => {
-                if (e.target.files) {
-                  setFiles(Array.from(e.target.files));
-                }
-              }}
-            />
-          </Grid>
-        )}
+        <Grid size={{ xs: 12 }}>
+          <ImageUpload
+            images={allImages}
+            onImageUpload={handleImageUpload}
+            onImageDelete={handleImageDelete}
+          />
+        </Grid>
 
         <Grid size={{ xs: 12 }}>
           <Button

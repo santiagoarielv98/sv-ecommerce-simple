@@ -1,10 +1,9 @@
 "use server";
 import { prisma } from "@/lib/prisma";
 import { newProductSchema } from "@/lib/schemas/product";
-import { uploadImageToLocal } from "@/lib/upload";
+import { deleteImage, uploadImages } from "@/lib/upload";
 import type { PaginationOptions } from "@/types/pagination";
 import type { ProductWhereInput } from "@/types/prisma";
-import type { ProductFormData } from "@/types/product";
 
 const PRODUCT_PAGE_SIZE = 25 as const;
 
@@ -88,55 +87,67 @@ export async function getProduct(id: string) {
 
 export async function createProduct(formData: FormData) {
   const images = formData.getAll("images") as File[];
+  const uploadedImages = await uploadImages(images);
+
   const productData = {
     name: formData.get("name") as string,
     description: formData.get("description") as string,
     price: Number(formData.get("price")),
     categoryId: formData.get("categoryId") as string,
     stock: Number(formData.get("stock")),
+    images: uploadedImages,
   };
 
-  const validatedData = await newProductSchema.parse(productData);
-
-  const uploadImage = await Promise.all(
-    images.map(async (image) => {
-      const buffer = await image.arrayBuffer();
-      const imageUrl = await uploadImageToLocal(buffer);
-      return imageUrl;
-    }),
-  );
+  const validatedData = newProductSchema.parse(productData);
 
   const product = await prisma.product.create({
-    data: {
-      ...validatedData,
-      images: uploadImage,
-    },
+    data: validatedData,
     include: { category: true },
   });
 
   return product;
 }
 
-export async function updateProduct(
-  id: string,
-  data: ProductFormData,
-  files: File[],
-) {
-  if (files.length) {
-    const uploadImage = await Promise.all(
-      files.map(async (file) => {
-        const buffer = await file.arrayBuffer();
-        const imageUrl = await uploadImageToLocal(buffer);
-        return imageUrl;
-      }),
-    );
+export async function updateProduct(id: string, formData: FormData) {
+  const product = await prisma.product.findUnique({ where: { id } });
 
-    data.images = uploadImage;
+  if (!product) {
+    throw new Error("Product not found");
   }
+
+  // Get existing and new images from formData
+  const existingImages = formData.getAll("existingImages") as string[];
+  const newImageFiles = formData.getAll("newImages") as File[];
+
+  // Delete removed images
+  const imagesToDelete = (product.images || []).filter(
+    (img) => !existingImages.includes(img),
+  );
+
+  for (const image of imagesToDelete) {
+    await deleteImage(image);
+  }
+
+  // Upload new images
+  const newUploadedImages = await uploadImages(newImageFiles);
+
+  // Combine existing and new images
+  const finalImages = [...existingImages, ...newUploadedImages];
+
+  const productData = {
+    name: formData.get("name") as string,
+    description: formData.get("description") as string,
+    price: Number(formData.get("price")),
+    categoryId: formData.get("categoryId") as string,
+    stock: Number(formData.get("stock")),
+    images: finalImages,
+  };
+
+  const validatedData = newProductSchema.parse(productData);
 
   return prisma.product.update({
     where: { id },
-    data,
+    data: validatedData,
     include: { category: true },
   });
 }

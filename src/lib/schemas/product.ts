@@ -6,6 +6,7 @@ export const newProductSchema = z.object({
   stock: z.coerce.number().min(0).step(1),
   description: z.string(),
   categoryId: z.string().nonempty(),
+  images: z.array(z.string()),
 });
 
 export type NewProductSchema = z.infer<typeof newProductSchema>;

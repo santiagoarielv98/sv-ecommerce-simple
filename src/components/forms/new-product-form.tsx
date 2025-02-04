@@ -12,9 +12,7 @@ export interface NewProductFormProps {
 }
 
 export default function NewProductForm({ categories }: NewProductFormProps) {
-  const [files, setFiles] = React.useState<File[]>([]);
-
-  async function onSubmit(data: ProductFormData) {
+  async function onSubmit(data: ProductFormData, files: File[]) {
     const formData = new FormData();
 
     formData.append("name", data.name);
@@ -22,19 +20,14 @@ export default function NewProductForm({ categories }: NewProductFormProps) {
     formData.append("price", data.price.toString());
     formData.append("categoryId", data.categoryId);
     formData.append("stock", data.stock.toString());
-    files.forEach((file) => formData.append("images", file));
+
+    files.forEach((file) => {
+      formData.append("images", file);
+    });
 
     await createProduct(formData);
-    // await createProduct(data);
     redirect("/admin");
   }
 
-  return (
-    <ProductForm
-      categories={categories}
-      onSubmit={onSubmit}
-      files={files}
-      setFiles={setFiles}
-    />
-  );
+  return <ProductForm categories={categories} onSubmit={onSubmit} />;
 }

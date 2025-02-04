@@ -1,4 +1,4 @@
-import { getProductsPage } from "@/actions/products";
+import { getProductsPage } from "@/actions/products-admin";
 import { auth } from "@/lib/auth";
 import { Box, Button, Container, Typography } from "@mui/material";
 import { redirect } from "next/navigation";

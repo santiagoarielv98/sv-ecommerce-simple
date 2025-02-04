@@ -1,4 +1,4 @@
-import { getCategories, getProduct } from "@/actions/products";
+import { getCategories, getProduct } from "@/actions/products-admin";
 import EditProductForm from "@/components/forms/edit-product-form";
 import { Box, Container, Typography } from "@mui/material";
 import { notFound } from "next/navigation";

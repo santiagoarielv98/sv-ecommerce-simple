@@ -1,4 +1,4 @@
-import { getCategories } from "@/actions/products";
+import { getCategories } from "@/actions/products-admin";
 import NewProductForm from "@/components/forms/new-product-form";
 import { Box, Container, Typography } from "@mui/material";
 

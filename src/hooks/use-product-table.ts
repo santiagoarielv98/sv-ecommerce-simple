@@ -1,4 +1,4 @@
-import { getProductsPage } from "@/actions/products";
+import { getProductsPage } from "@/actions/products-admin";
 import type { ProductPaginatedResult } from "@/types/product";
 import type {
   GridPaginationModel,

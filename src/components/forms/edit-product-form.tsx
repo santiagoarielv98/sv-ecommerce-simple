@@ -1,5 +1,5 @@
 "use client";
-import { updateProduct } from "@/actions/products";
+import { updateProduct } from "@/actions/products-admin";
 import { ProductForm } from "@/components/product-form";
 import type { ProductFormData, ProductWithCategory } from "@/types/product";
 import type { Category } from "@prisma/client";

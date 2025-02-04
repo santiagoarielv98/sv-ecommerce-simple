@@ -1,4 +1,4 @@
-import { getProductsPage } from "@/actions/products";
+import { getProductsPage } from "@/actions/products-admin";
 import ProductList from "@/components/product-list";
 import Sidebar from "@/components/sidebar-filters";
 import { prisma } from "@/lib/prisma";

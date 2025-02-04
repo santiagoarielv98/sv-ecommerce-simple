@@ -1,5 +1,3 @@
-import { AppRouterCacheProvider } from "@mui/material-nextjs/v15-appRouter";
-
 import { Raleway } from "next/font/google";
 
 const raleway = Raleway({
@@ -7,14 +5,9 @@ const raleway = Raleway({
   subsets: ["latin"],
   display: "swap",
 });
-
-import "./globals.css";
-import { auth } from "@/lib/auth";
-import theme from "@/lib/theme";
-import CssBaseline from "@mui/material/CssBaseline";
-import { ThemeProvider } from "@mui/material/styles";
 import type { Metadata } from "next";
-import { SessionProvider } from "next-auth/react";
+import RootProvider from "./provider";
+import "./globals.css";
 
 export const metadata: Metadata = {
   title: "SV - Ecommerce",
@@ -26,16 +19,10 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const session = await auth();
   return (
     <html lang="en">
       <body className={`${raleway.variable} antialiased`}>
-        <SessionProvider session={session}>
-          <AppRouterCacheProvider options={{ key: "css" }}>
-            <CssBaseline />
-            <ThemeProvider theme={theme}>{children}</ThemeProvider>
-          </AppRouterCacheProvider>
-        </SessionProvider>
+        <RootProvider>{children}</RootProvider>
       </body>
     </html>
   );

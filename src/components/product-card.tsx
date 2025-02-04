@@ -20,6 +20,7 @@ const ProductCard = ({ product, onAddToCart }: ProductCardProps) => {
         display: "flex",
         flexDirection: "column",
         cursor: "pointer",
+        textDecoration: "none",
       }}
     >
       {product.images.length > 0 && (

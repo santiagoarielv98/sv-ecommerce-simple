@@ -7,6 +7,8 @@ import Grid2 from "@mui/material/Grid2";
 import type { Product } from "@prisma/client";
 import React from "react";
 import ProductCard from "./product-card";
+import Link from "next/link";
+import MuiLink from "@mui/material/Link";
 interface ProductListProps {
   products: Product[];
   nextCursor: string | null;
@@ -43,7 +45,13 @@ const ProductList = ({ products, nextCursor: cursor }: ProductListProps) => {
             lg: 3,
           }}
         >
-          {<ProductCard product={product} onAddToCart={handleAddToCart} />}
+          <MuiLink
+            underline="none"
+            component={Link}
+            href={`/products/${product.id}`}
+          >
+            <ProductCard product={product} onAddToCart={handleAddToCart} />
+          </MuiLink>
         </Grid2>
       ))}
       <Grid2 size={{ xs: 12 }} justifyContent="center" display="flex">

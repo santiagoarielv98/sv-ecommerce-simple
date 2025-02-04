@@ -1,4 +1,5 @@
 "use server";
+import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { newProductSchema } from "@/lib/schemas/product";
 import { deleteImage, uploadImages } from "@/lib/upload";
@@ -86,6 +87,12 @@ export async function getProduct(id: string) {
 }
 
 export async function createProduct(formData: FormData) {
+  const session = await auth();
+
+  if (session?.user?.role !== "ADMIN") {
+    throw new Error("Unauthorized");
+  }
+
   const images = formData.getAll("images") as File[];
   const uploadedImages = await uploadImages(images);
 
@@ -109,17 +116,21 @@ export async function createProduct(formData: FormData) {
 }
 
 export async function updateProduct(id: string, formData: FormData) {
+  const session = await auth();
+
+  if (session?.user?.role !== "ADMIN") {
+    throw new Error("Unauthorized");
+  }
+
   const product = await prisma.product.findUnique({ where: { id } });
 
   if (!product) {
     throw new Error("Product not found");
   }
 
-  // Get existing and new images from formData
   const existingImages = formData.getAll("existingImages") as string[];
   const newImageFiles = formData.getAll("newImages") as File[];
 
-  // Delete removed images
   const imagesToDelete = (product.images || []).filter(
     (img) => !existingImages.includes(img),
   );
@@ -128,10 +139,8 @@ export async function updateProduct(id: string, formData: FormData) {
     await deleteImage(image);
   }
 
-  // Upload new images
   const newUploadedImages = await uploadImages(newImageFiles);
 
-  // Combine existing and new images
   const finalImages = [...existingImages, ...newUploadedImages];
 
   const productData = {

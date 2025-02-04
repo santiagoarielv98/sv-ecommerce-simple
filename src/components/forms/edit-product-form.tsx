@@ -28,12 +28,10 @@ export default function EditProductForm({
     formData.append("categoryId", data.categoryId);
     formData.append("stock", data.stock.toString());
 
-    // Append existing images that weren't deleted
     existingImages.forEach((image) => {
       formData.append("existingImages", image);
     });
 
-    // Append new images
     newFiles.forEach((file) => {
       formData.append("newImages", file);
     });

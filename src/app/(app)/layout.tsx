@@ -9,7 +9,7 @@ const raleway = Raleway({
 });
 
 import type { Metadata } from "next";
-import "./globals.css";
+import "@/app/globals.css";
 import { ThemeProvider } from "@mui/material/styles";
 import theme from "@/lib/theme";
 import { CartProvider } from "@/contexts/cart-context";

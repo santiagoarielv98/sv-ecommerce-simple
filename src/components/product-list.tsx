@@ -1,8 +1,7 @@
 "use client";
 
-import { useApp } from "@/app/(app)/provider";
 import { useCart } from "@/hooks/use-cart";
-import Button from "@mui/material/Button";
+import type { ProductWithCategory } from "@/types/product";
 import Grid2 from "@mui/material/Grid2";
 import MuiLink from "@mui/material/Link";
 import type { Product } from "@prisma/client";
@@ -11,7 +10,6 @@ import React from "react";
 import ProductCard from "./product-card";
 
 const ProductList = () => {
-  const { pagination, loadMore } = useApp();
   const { addItem } = useCart();
 
   const handleAddToCart = (e: React.MouseEvent, product: Product) => {
@@ -22,7 +20,7 @@ const ProductList = () => {
 
   return (
     <Grid2 container spacing={3} padding={2}>
-      {pagination.products.map((product) => (
+      {([] as ProductWithCategory[]).map((product) => (
         <Grid2
           key={product.id}
           size={{
@@ -41,11 +39,6 @@ const ProductList = () => {
           </MuiLink>
         </Grid2>
       ))}
-      <Grid2 size={{ xs: 12 }} justifyContent="center" display="flex">
-        <Button variant="contained" onClick={loadMore}>
-          Load More
-        </Button>
-      </Grid2>
     </Grid2>
   );
 };

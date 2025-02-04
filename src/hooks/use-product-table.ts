@@ -1,5 +1,5 @@
 import { getProductsPage } from "@/actions/products";
-import type { PaginatedResult } from "@/types/product";
+import type { ProductPaginatedResult } from "@/types/product";
 import type {
   GridPaginationModel,
   GridSortDirection,
@@ -8,7 +8,7 @@ import type {
 import { useCallback, useState } from "react";
 import debounce from "lodash/debounce";
 
-export function useProductTable(initialValue: PaginatedResult) {
+export function useProductTable(initialValue: ProductPaginatedResult) {
   const [items, setItems] = useState(initialValue.products);
   const [isLoading, setIsLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");

@@ -14,8 +14,8 @@ export interface PaginationOptions {
 }
 
 export interface PaginatedResult {
-  products: ProductWithCategory[];
-  totalProducts: number;
+  items: ProductWithCategory[];
+  total: number;
   pageSize: number;
   page: number;
 }

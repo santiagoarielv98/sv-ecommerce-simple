@@ -4,13 +4,13 @@ import { useProductTable } from "@/hooks/use-product-table";
 import SearchIcon from "@mui/icons-material/Search";
 import { Box, InputAdornment, TextField } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
-import type { PaginatedResult } from "@/types/product";
+import type { ProductPaginatedResult } from "@/types/product";
 import { productColumns } from "./product-columns";
 
 export default function ProductTable({
   initialValue,
 }: {
-  initialValue: PaginatedResult;
+  initialValue: ProductPaginatedResult;
 }) {
   const {
     items,

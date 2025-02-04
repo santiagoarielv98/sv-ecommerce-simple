@@ -1,6 +1,7 @@
 "use server";
 import { prisma } from "@/lib/prisma";
 import { newProductSchema } from "@/lib/schemas/product";
+import { uploadImageToLocal } from "@/lib/upload";
 import type { PaginationOptions } from "@/types/pagination";
 import type { ProductWhereInput } from "@/types/prisma";
 import type { ProductFormData } from "@/types/product";
@@ -85,16 +86,54 @@ export async function getProduct(id: string) {
   });
 }
 
-export async function createProduct(data: ProductFormData) {
-  const validatedData = newProductSchema.parse(data);
+export async function createProduct(formData: FormData) {
+  const images = formData.getAll("images") as File[];
+  const productData = {
+    name: formData.get("name") as string,
+    description: formData.get("description") as string,
+    price: Number(formData.get("price")),
+    categoryId: formData.get("categoryId") as string,
+    stock: Number(formData.get("stock")),
+  };
 
-  return prisma.product.create({
-    data: validatedData,
+  const validatedData = await newProductSchema.parse(productData);
+
+  const uploadImage = await Promise.all(
+    images.map(async (image) => {
+      const buffer = await image.arrayBuffer();
+      const imageUrl = await uploadImageToLocal(buffer);
+      return imageUrl;
+    }),
+  );
+
+  const product = await prisma.product.create({
+    data: {
+      ...validatedData,
+      images: uploadImage,
+    },
     include: { category: true },
   });
+
+  return product;
 }
 
-export async function updateProduct(id: string, data: ProductFormData) {
+export async function updateProduct(
+  id: string,
+  data: ProductFormData,
+  files: File[],
+) {
+  if (files.length) {
+    const uploadImage = await Promise.all(
+      files.map(async (file) => {
+        const buffer = await file.arrayBuffer();
+        const imageUrl = await uploadImageToLocal(buffer);
+        return imageUrl;
+      }),
+    );
+
+    data.images = uploadImage;
+  }
+
   return prisma.product.update({
     where: { id },
     data,

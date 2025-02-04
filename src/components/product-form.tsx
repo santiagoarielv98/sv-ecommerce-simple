@@ -15,12 +15,15 @@ interface ProductFormProps {
   categories: Category[];
   product?: ProductWithCategory;
   onSubmit: (data: ProductFormData) => Promise<void>;
+  files?: File[];
+  setFiles?: (files: File[]) => void;
 }
 
 export function ProductForm({
   categories,
   product,
   onSubmit,
+  setFiles,
 }: ProductFormProps) {
   const {
     control,
@@ -148,6 +151,22 @@ export function ProductForm({
             )}
           />
         </Grid>
+
+        {setFiles && (
+          <Grid size={{ xs: 12 }}>
+            <input
+              type="file"
+              accept="image/*"
+              multiple
+              onChange={(e) => {
+                if (e.target.files) {
+                  setFiles(Array.from(e.target.files));
+                }
+              }}
+            />
+          </Grid>
+        )}
+
         <Grid size={{ xs: 12 }}>
           <Button
             type="submit"

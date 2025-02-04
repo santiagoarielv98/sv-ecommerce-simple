@@ -1,5 +1,6 @@
 "use server";
 import { prisma } from "@/lib/prisma";
+import { newProductSchema } from "@/lib/schemas/product";
 import type { PaginationOptions } from "@/types/pagination";
 import type { ProductWhereInput } from "@/types/prisma";
 import type { ProductFormData } from "@/types/product";
@@ -85,8 +86,10 @@ export async function getProduct(id: string) {
 }
 
 export async function createProduct(data: ProductFormData) {
+  const validatedData = newProductSchema.parse(data);
+
   return prisma.product.create({
-    data,
+    data: validatedData,
     include: { category: true },
   });
 }

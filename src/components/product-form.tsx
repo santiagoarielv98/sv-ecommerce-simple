@@ -1,6 +1,6 @@
 "use client";
 
-import { newProductSchema } from "@/lib/schemas/new-product";
+import { newProductSchema } from "@/lib/schemas/product";
 import type { ProductFormData, ProductWithCategory } from "@/types/product";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Box from "@mui/material/Box";
@@ -97,6 +97,11 @@ export function ProductForm({
                 fullWidth
                 type="number"
                 label="Price"
+                slotProps={{
+                  htmlInput: {
+                    step: "0.01",
+                  },
+                }}
                 error={!!errors.price}
                 helperText={errors.price?.message}
               />

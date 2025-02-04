@@ -1,8 +1,7 @@
-import { getCategories, getProduct, updateProduct } from "@/actions/products";
-import { ProductForm } from "@/components/product-form";
-import type { ProductFormData } from "@/types/product";
+import { getCategories, getProduct } from "@/actions/products";
+import EditProductForm from "@/components/forms/edit-product-form";
 import { Box, Container, Typography } from "@mui/material";
-import { notFound, redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 
 interface Props {
   params: {
@@ -21,23 +20,13 @@ export default async function EditProductPage({ params }: Props) {
     notFound();
   }
 
-  async function onSubmit(data: ProductFormData) {
-    "use server";
-    await updateProduct(params.id, data);
-    redirect("/admin");
-  }
-
   return (
     <Container maxWidth="md">
       <Box sx={{ my: 4 }}>
         <Typography variant="h4" component="h1" gutterBottom>
           Edit Product
         </Typography>
-        <ProductForm
-          product={product}
-          categories={categories}
-          onSubmit={onSubmit}
-        />
+        <EditProductForm product={product} categories={categories} />
       </Box>
     </Container>
   );

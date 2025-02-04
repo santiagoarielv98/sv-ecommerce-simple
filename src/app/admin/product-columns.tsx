@@ -44,7 +44,7 @@ export const productColumns: GridColDef[] = [
       <>
         <IconButton
           component={Link}
-          href={`/admin/products/${params.row.id}`}
+          href={`/admin/products/${params.row.id}/edit`}
           size="small"
         >
           <EditIcon />

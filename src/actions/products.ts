@@ -2,6 +2,7 @@
 import { prisma } from "@/lib/prisma";
 import type { PaginationOptions } from "@/types/pagination";
 import type { ProductWhereInput } from "@/types/prisma";
+import type { ProductFormData } from "@/types/product";
 
 const PRODUCT_PAGE_SIZE = 25 as const;
 
@@ -74,4 +75,36 @@ export async function getProductsPage(
   const totalProducts = await prisma.product.count({ where });
 
   return { products, totalProducts, pageSize, page };
+}
+
+export async function getProduct(id: string) {
+  return prisma.product.findUnique({
+    where: { id },
+    include: { category: true },
+  });
+}
+
+export async function createProduct(data: ProductFormData) {
+  return prisma.product.create({
+    data,
+    include: { category: true },
+  });
+}
+
+export async function updateProduct(id: string, data: ProductFormData) {
+  return prisma.product.update({
+    where: { id },
+    data,
+    include: { category: true },
+  });
+}
+
+export async function deleteProduct(id: string) {
+  return prisma.product.delete({
+    where: { id },
+  });
+}
+
+export async function getCategories() {
+  return prisma.category.findMany();
 }

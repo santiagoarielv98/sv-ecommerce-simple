@@ -1,6 +1,7 @@
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import React from "react";
+import AuthNavbar from "./components/auth-navbar";
 
 const AuthLayout = ({ children }: React.PropsWithChildren) => {
   return (
@@ -11,6 +12,7 @@ const AuthLayout = ({ children }: React.PropsWithChildren) => {
         flexDirection: "column",
       }}
     >
+      <AuthNavbar />
       <Box component="main" sx={{ flexGrow: 1, overflow: "auto" }}>
         <Container
           sx={{

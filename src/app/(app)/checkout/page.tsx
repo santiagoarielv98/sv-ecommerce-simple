@@ -1,126 +1,117 @@
 "use client";
 
+import Alert from "@mui/material/Alert";
 import Box from "@mui/material/Box";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import Grid from "@mui/material/Grid2";
-import Typography from "@mui/material/Typography";
-import * as React from "react";
-import AddressForm from "./_components/address-form";
-import Info from "./_components/info";
-import InfoMobile from "./_components/info-mobile";
 import Button from "@mui/material/Button";
-import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
+import Checkbox from "@mui/material/Checkbox";
 import Container from "@mui/material/Container";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Grid from "@mui/material/Grid2";
+import Paper from "@mui/material/Paper";
+import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
+import type { OrderItem, Product } from "@prisma/client";
 
-export default function Checkout() {
+const items = [
+  {
+    id: "1",
+    product: { id: "1", name: "Product 1", price: 10 },
+    quantity: 1,
+  } as OrderItem & { product: Product },
+  {
+    id: "2",
+    product: { id: "2", name: "Product 2", price: 20 },
+    quantity: 2,
+  } as OrderItem & { product: Product },
+];
+
+export default function CheckoutPage() {
+  const total = items.reduce(
+    (acc, item) => acc + item.product.price * item.quantity,
+    0,
+  );
+
   return (
-    <Container sx={{ flexGrow: 1, display: "flex" }}>
-      <Grid
-        container
-        sx={{
-          mt: {
-            xs: 4,
-            sm: 0,
-          },
-        }}
-      >
-        <Grid
-          size={{ xs: 12, sm: 5, lg: 4 }}
-          sx={{
-            display: { xs: "none", md: "flex" },
-            flexDirection: "column",
-            backgroundColor: "background.paper",
-            borderRight: { sm: "none", md: "1px solid" },
-            borderColor: { sm: "none", md: "divider" },
-            alignItems: "start",
-            pt: 16,
-            px: 10,
-            gap: 4,
-          }}
-        >
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              flexGrow: 1,
-              width: "100%",
-              maxWidth: 500,
-            }}
-          >
-            <Info totalPrice={"$134.98"} />
-          </Box>
-        </Grid>
-        <Grid
-          size={{ sm: 12, md: 7, lg: 8 }}
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            maxWidth: "100%",
-            width: "100%",
-            backgroundColor: { xs: "transparent", sm: "background.default" },
-            alignItems: "start",
-            pt: { xs: 0, sm: 16 },
-            px: { xs: 2, sm: 10 },
-            gap: { xs: 4, md: 8 },
-          }}
-        >
-          <Card sx={{ display: { xs: "flex", md: "none" }, width: "100%" }}>
-            <CardContent
-              sx={{
-                display: "flex",
-                width: "100%",
-                alignItems: "center",
-                justifyContent: "space-between",
-              }}
-            >
-              <div>
-                <Typography variant="subtitle2" gutterBottom>
-                  Selected products
-                </Typography>
-                <Typography variant="body1">{"$134.98"}</Typography>
-              </div>
-              <InfoMobile totalPrice={"$134.98"} />
-            </CardContent>
-          </Card>
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              flexGrow: 1,
-              width: "100%",
-              maxWidth: { sm: "100%", md: 600 },
-              maxHeight: "720px",
-              gap: { xs: 5, md: "none" },
-            }}
-          >
-            <AddressForm />
-            <Box
-              sx={[
-                {
-                  display: "flex",
-                  flexDirection: { xs: "column-reverse", sm: "row" },
-                  alignItems: "end",
-                  flexGrow: 1,
-                  gap: 1,
-                  pb: { xs: 12, sm: 0 },
-                  mt: { xs: 2, sm: 0 },
-                  mb: "60px",
-                },
-                {
-                  justifyContent: "flex-end",
-                },
-              ]}
-            >
+    <Container sx={{ my: 2 }}>
+      <Typography variant="h4" gutterBottom>
+        Checkout
+      </Typography>
+
+      <Alert severity="error" sx={{ mb: 2 }}>
+        This is a demo store — no orders shall be fulfilled.
+      </Alert>
+
+      <Grid container spacing={3}>
+        <Grid size={{ xs: 12, md: 8 }}>
+          <Paper sx={{ p: 3 }}>
+            <Box component="form">
+              <Typography variant="h6" gutterBottom>
+                Shipping Address
+              </Typography>
+              <Grid container spacing={2}>
+                <Grid size={{ xs: 12, sm: 6 }}>
+                  <TextField fullWidth label="First Name" />
+                </Grid>
+                <Grid size={{ xs: 12, sm: 6 }}>
+                  <TextField fullWidth label="Last Name" />
+                </Grid>
+                <Grid size={{ xs: 12 }}>
+                  <TextField fullWidth label="Address Line 1" />
+                </Grid>
+                <Grid size={{ xs: 12 }}>
+                  <TextField fullWidth label="Address Line 2" />
+                </Grid>
+                <Grid size={{ xs: 12, sm: 6 }}>
+                  <TextField fullWidth label="City" />
+                </Grid>
+                <Grid size={{ xs: 12, sm: 6 }}>
+                  <TextField fullWidth label="State" />
+                </Grid>
+                <Grid size={{ xs: 12, sm: 6 }}>
+                  <TextField fullWidth label="Zip / Postal Code" />
+                </Grid>
+                <Grid size={{ xs: 12, sm: 6 }}>
+                  <TextField fullWidth label="Country" />
+                </Grid>
+                <Grid size={{ xs: 12 }}>
+                  <FormControlLabel
+                    control={<Checkbox />}
+                    label="Use this address for payment details"
+                  />
+                </Grid>
+              </Grid>
+
               <Button
+                type="submit"
                 variant="contained"
-                endIcon={<ChevronRightRoundedIcon />}
-                sx={{ width: { xs: "100%", sm: "fit-content" } }}
+                fullWidth
+                size="large"
+                sx={{ mt: 3 }}
               >
-                Place order
+                Place Order
               </Button>
             </Box>
-          </Box>
+          </Paper>
+        </Grid>
+        <Grid size={{ xs: 12, md: 4 }}>
+          <Paper sx={{ p: 3 }}>
+            <Typography variant="h6" gutterBottom>
+              Order Summary
+            </Typography>
+            {items.map((item) => (
+              <Box key={item.product.id} sx={{ mb: 2 }}>
+                <Typography>
+                  {item.product.name} x {item.quantity}
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  ${(item.product.price * item.quantity).toFixed(2)}
+                </Typography>
+              </Box>
+            ))}
+            <Box sx={{ mt: 2, pt: 2, borderTop: 1, borderColor: "divider" }}>
+              <Typography variant="h6">Total: ${total.toFixed(2)}</Typography>
+            </Box>
+          </Paper>
         </Grid>
       </Grid>
     </Container>

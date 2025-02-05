@@ -1,4 +1,4 @@
-import ProductList from "@/components/product-list";
+import ProductList from "@/components/products/product-list";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import Pagination from "@mui/material/Pagination";
@@ -13,7 +13,10 @@ const products = Array.from({ length: 25 }, (_, index) => ({
   price: 100,
   categoryId: "1",
   createdAt: new Date(),
-  images: [],
+  images: [
+    "https://picsum.photos/id/1/300/200",
+    "https://picsum.photos/id/2/300/200",
+  ],
   stock: 10,
   updatedAt: new Date(),
 }));

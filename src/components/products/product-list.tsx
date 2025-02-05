@@ -3,7 +3,7 @@
 import Grid2 from "@mui/material/Grid2";
 import Link from "next/link";
 import MuiLink from "@mui/material/Link";
-import ProductCard from "./product-card";
+import ProductCard from "@/components/products/product-card";
 import React from "react";
 import type { Product } from "@prisma/client";
 

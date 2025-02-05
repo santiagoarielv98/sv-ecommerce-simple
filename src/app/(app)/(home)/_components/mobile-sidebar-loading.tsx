@@ -1,4 +1,4 @@
-"use client";
+// "use client";
 
 import Divider from "@mui/material/Divider";
 import Paper from "@mui/material/Paper";

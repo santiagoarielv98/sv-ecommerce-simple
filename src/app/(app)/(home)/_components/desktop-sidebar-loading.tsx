@@ -1,4 +1,4 @@
-"use client";
+// "use client";
 
 import { drawerWidth } from "@/config/drawer";
 import Box from "@mui/material/Box";

@@ -2,7 +2,7 @@ import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import CartTable from "./components/cart-table";
-import { EmptyCart } from "./components/empty-cart";
+import { EmptyCart } from "@/components/cart/empty-cart";
 import type { OrderItem, Product } from "@prisma/client";
 
 const items = [

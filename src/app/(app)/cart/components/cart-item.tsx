@@ -1,3 +1,5 @@
+"use client";
+
 import QuantitySelector from "@/components/products/quantity-selector";
 import DeleteIcon from "@mui/icons-material/Delete";
 import IconButton from "@mui/material/IconButton";

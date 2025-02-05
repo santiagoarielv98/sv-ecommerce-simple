@@ -6,9 +6,11 @@ import Sidebar from "./_components/sidebar";
 const HomeLayout = ({ children }: React.PropsWithChildren) => {
   return (
     <>
-      <Sidebar />
-      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-        {children}
+      <Box sx={{ display: "flex", flexGrow: 1 }}>
+        <Sidebar />
+        <Box component="main" sx={{ flexGrow: 1 }}>
+          {children}
+        </Box>
       </Box>
     </>
   );

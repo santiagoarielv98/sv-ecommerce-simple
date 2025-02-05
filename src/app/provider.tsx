@@ -6,6 +6,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import { ThemeProvider } from "@mui/material/styles";
 import { SessionProvider } from "next-auth/react";
 import React from "react";
+import GlobalStyles from "@mui/material/GlobalStyles";
 
 const RootProvider = async ({
   children,
@@ -15,6 +16,14 @@ const RootProvider = async ({
   return (
     <SessionProvider session={session}>
       <AppRouterCacheProvider options={{ key: "css" }}>
+        <GlobalStyles
+          styles={{
+            "html, body": {
+              height: "100%",
+              width: "100%",
+            },
+          }}
+        />
         <CssBaseline />
         <ThemeProvider theme={theme}>{children}</ThemeProvider>
       </AppRouterCacheProvider>

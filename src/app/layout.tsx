@@ -7,7 +7,6 @@ const raleway = Raleway({
 });
 import type { Metadata } from "next";
 import RootProvider from "./provider";
-import "./globals.css";
 
 export const metadata: Metadata = {
   title: "SV - Ecommerce",

@@ -12,7 +12,7 @@ import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import Link from "next/link";
 import * as React from "react";
-import Card from "../components/card";
+import Card from "../_components/card";
 
 export default function SignUp() {
   const [emailError, setEmailError] = React.useState(false);

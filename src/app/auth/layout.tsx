@@ -1,7 +1,7 @@
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import React from "react";
-import AuthNavbar from "./components/auth-navbar";
+import AuthNavbar from "./_components/auth-navbar";
 
 const AuthLayout = ({ children }: React.PropsWithChildren) => {
   return (
@@ -22,6 +22,7 @@ const AuthLayout = ({ children }: React.PropsWithChildren) => {
             justifyContent: "center",
             minHeight: "100%",
           }}
+          maxWidth="lg"
         >
           {children}
         </Container>

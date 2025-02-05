@@ -15,7 +15,7 @@ import MuiLink from "@mui/material/Link";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import Link from "next/link";
-import Card from "../components/card";
+import Card from "../_components/card";
 
 const LoginPage = () => {
   const [emailError, setEmailError] = React.useState(false);

@@ -16,7 +16,7 @@ function AuthNavbar() {
         zIndex: (theme) => theme.zIndex.drawer + 1,
       }}
     >
-      <Container maxWidth="xl">
+      <Container maxWidth="lg">
         <Toolbar disableGutters>
           <AdbIcon sx={{ mr: 1 }} />
           <Typography

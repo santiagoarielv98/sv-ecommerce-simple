@@ -1,5 +1,3 @@
-"use client";
-
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
@@ -20,7 +18,8 @@ const items = [
   } as OrderItem & { product: Product },
 ];
 
-export default function CartPage() {
+export default async function CartPage() {
+  await new Promise((resolve) => setTimeout(resolve, 250));
   if (items.length === 0) {
     return <EmptyCart />;
   }

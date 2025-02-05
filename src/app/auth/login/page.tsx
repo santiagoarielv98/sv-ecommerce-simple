@@ -6,29 +6,16 @@ import FacebookIcon from "@mui/icons-material/Facebook";
 import GoogleIcon from "@mui/icons-material/Google";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import MuiCard from "@mui/material/Card";
 import Checkbox from "@mui/material/Checkbox";
 import Divider from "@mui/material/Divider";
 import FormControl from "@mui/material/FormControl";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormLabel from "@mui/material/FormLabel";
-import Link from "@mui/material/Link";
+import MuiLink from "@mui/material/Link";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
-import { styled } from "@mui/material/styles";
-
-const Card = styled(MuiCard)(({ theme }) => ({
-  display: "flex",
-  flexDirection: "column",
-  alignSelf: "center",
-  width: "100%",
-  padding: theme.spacing(4),
-  gap: theme.spacing(2),
-  margin: "auto",
-  [theme.breakpoints.up("sm")]: {
-    maxWidth: "450px",
-  },
-}));
+import Link from "next/link";
+import Card from "../components/card";
 
 const LoginPage = () => {
   const [emailError, setEmailError] = React.useState(false);
@@ -164,13 +151,14 @@ const LoginPage = () => {
         </Button>
         <Typography sx={{ textAlign: "center" }}>
           Don&apos;t have an account?{" "}
-          <Link
-            href="/material-ui/getting-started/templates/sign-in/"
+          <MuiLink
+            component={Link}
+            href="/auth/register"
             variant="body2"
             sx={{ alignSelf: "center" }}
           >
             Sign up
-          </Link>
+          </MuiLink>
         </Typography>
       </Box>
     </Card>

@@ -15,14 +15,10 @@ import Container from "@mui/material/Container";
 
 export default function Checkout() {
   return (
-    <Container>
+    <Container sx={{ flexGrow: 1, display: "flex" }}>
       <Grid
         container
         sx={{
-          height: {
-            xs: "100%",
-            sm: "calc(100dvh - var(--template-frame-height, 0px))",
-          },
           mt: {
             xs: 4,
             sm: 0,

@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 
 import CategoryIcon from "@mui/icons-material/Category";
@@ -17,24 +19,34 @@ const categories = ["Category 1", "Category 2", "Category 3"];
 
 const MobileSidebar = () => {
   const isMobile = useMediaQuery((theme) => theme.breakpoints.down("md"));
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
+  const [categoryAnchor, setCategoryAnchor] =
+    React.useState<null | HTMLElement>(null);
+  const [priceAnchor, setPriceAnchor] = React.useState<null | HTMLElement>(
+    null,
+  );
   const [value, setValue] = React.useState<number[]>([20, 37]);
 
   const handleChange = (event: Event, newValue: number | number[]) => {
     setValue(newValue as number[]);
   };
 
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
+  const handleCategoryClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setCategoryAnchor(event.currentTarget);
   };
 
-  if (!isMobile) {
-    return null;
-  }
+  const handlePriceClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setPriceAnchor(event.currentTarget);
+  };
+
+  const handleCategoryClose = () => {
+    setCategoryAnchor(null);
+  };
+
+  const handlePriceClose = () => {
+    setPriceAnchor(null);
+  };
+
+  if (!isMobile) return null;
 
   return (
     <Paper
@@ -49,21 +61,64 @@ const MobileSidebar = () => {
         gap: 1,
       }}
     >
-      <Button fullWidth startIcon={<CategoryIcon />} onClick={handleClick}>
+      <Button
+        fullWidth
+        startIcon={<CategoryIcon />}
+        onClick={handleCategoryClick}
+      >
         Categories
       </Button>
       <Divider orientation="vertical" flexItem />
-      <Button fullWidth startIcon={<FilterListIcon />} onClick={handleClick}>
+      <Button
+        fullWidth
+        startIcon={<FilterListIcon />}
+        onClick={handlePriceClick}
+      >
         Price
       </Button>
-      <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
+
+      {/* Categories Menu */}
+      <Menu
+        anchorEl={categoryAnchor}
+        open={Boolean(categoryAnchor)}
+        onClose={handleCategoryClose}
+        slotProps={{
+          paper: {
+            sx: { maxWidth: "300px", width: "100%" },
+          },
+        }}
+      >
         {categories.map((subcategory) => (
-          <ListItem key={subcategory}>
+          <ListItem key={subcategory} dense>
             <FormControlLabel control={<Checkbox />} label={subcategory} />
           </ListItem>
         ))}
+      </Menu>
+
+      {/* Price Menu */}
+      <Menu
+        anchorEl={priceAnchor}
+        open={Boolean(priceAnchor)}
+        onClose={handlePriceClose}
+        slotProps={{
+          paper: {
+            sx: { maxWidth: "300px", width: "100%", p: 2 },
+          },
+        }}
+      >
         <ListItem>
-          <Slider value={value} onChange={handleChange} min={0} max={1000} />
+          <Typography gutterBottom>Price Range</Typography>
+        </ListItem>
+        <ListItem>
+          <Slider
+            value={value}
+            onChange={handleChange}
+            min={0}
+            max={1000}
+            valueLabelDisplay="auto"
+          />
+        </ListItem>
+        <ListItem>
           <Typography>
             ${value[0]} - ${value[1]}
           </Typography>

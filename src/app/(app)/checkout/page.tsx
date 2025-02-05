@@ -1,12 +1,12 @@
+import { EmptyCart } from "@/components/cart/empty-cart";
 import Alert from "@mui/material/Alert";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid2";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
-import type { OrderItem, Product } from "@prisma/client";
+import type { Order, OrderItem, Product } from "@prisma/client";
 import AddressForm from "./_components/address-form";
-import OrderSummary from "./_components/order-summary";
-import { EmptyCart } from "@/components/cart/empty-cart";
+import OrderSummary from "@/components/order/order-summary";
 
 const items = [
   {
@@ -46,7 +46,13 @@ export default async function CheckoutPage() {
             <AddressForm />
           </Grid>
           <Grid size={{ xs: 12, md: 4 }}>
-            <OrderSummary items={items} />
+            <OrderSummary
+              order={
+                { items } as Order & {
+                  items: Array<OrderItem & { product: Product }>;
+                }
+              }
+            />
           </Grid>
         </Grid>
       </Stack>

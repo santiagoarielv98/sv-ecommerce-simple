@@ -9,7 +9,7 @@ const HomeLayout = ({ children }: React.PropsWithChildren) => {
       <Box sx={{ display: "flex", flexGrow: 1 }}>
         <Sidebar />
         <Box component="main" sx={{ flexGrow: 1 }}>
-          {children}
+          <React.Suspense>{children}</React.Suspense>
         </Box>
       </Box>
     </>

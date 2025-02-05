@@ -23,7 +23,9 @@ const product = {
   },
 };
 
-const ProductPage = () => {
+const ProductPage = async () => {
+  await new Promise((resolve) => setTimeout(resolve, 250));
+
   return (
     <Container maxWidth="xl" sx={{ my: 2 }}>
       <Stack spacing={2}>

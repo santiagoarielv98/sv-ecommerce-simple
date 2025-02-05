@@ -21,7 +21,8 @@ const products = Array.from({ length: 25 }, (_, index) => ({
   updatedAt: new Date(),
 }));
 
-const HomePage = () => {
+const HomePage = async () => {
+  await new Promise((resolve) => setTimeout(resolve, 250));
   return (
     <Container maxWidth="xl" sx={{ my: 2 }}>
       <Toolbar

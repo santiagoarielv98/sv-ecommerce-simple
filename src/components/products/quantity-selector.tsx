@@ -18,7 +18,7 @@ function QuantitySelector({
   maxStock,
 }: QuantitySelectorProps) {
   return (
-    <Stack direction="row" alignItems="center" spacing={1}>
+    <Stack direction="row" alignItems="center" spacing={1} width="fit-content">
       <IconButton
         size="small"
         onClick={() => quantity > 1 && onQuantityChange(quantity - 1)}

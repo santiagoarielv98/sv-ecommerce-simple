@@ -5,7 +5,15 @@ import Toolbar from "@mui/material/Toolbar";
 
 const AppLayout = ({ children }: React.PropsWithChildren) => {
   return (
-    <Box sx={{ display: "flex", flexDirection: "column", minHeight: "100%" }}>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        minHeight: "100%",
+        bgcolor: "background.default",
+        color: "text.primary",
+      }}
+    >
       <AppNavbar />
       <Toolbar />
       {children}

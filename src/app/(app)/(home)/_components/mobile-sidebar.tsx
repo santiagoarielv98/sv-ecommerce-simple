@@ -52,7 +52,7 @@ const MobileSidebar = () => {
     <Paper
       sx={{
         position: "fixed",
-        top: (theme) => theme.mixins.toolbar.minHeight,
+        top: (theme) => (theme.mixins.toolbar.minHeight as number) - 1,
         left: 0,
         right: 0,
         display: { xs: "flex", md: "none" },

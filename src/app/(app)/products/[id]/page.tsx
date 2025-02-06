@@ -1,6 +1,7 @@
 import ProductDetail from "@/components/products/product-detail";
 import Container from "@mui/material/Container";
 import Stack from "@mui/material/Stack";
+import { notFound } from "next/navigation";
 
 const product = {
   id: "1",
@@ -25,6 +26,10 @@ const product = {
 
 const ProductPage = async () => {
   await new Promise((resolve) => setTimeout(resolve, 250));
+
+  if (!product) {
+    notFound();
+  }
 
   return (
     <Container maxWidth="xl" sx={{ my: 2 }}>

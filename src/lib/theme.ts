@@ -191,24 +191,15 @@ const ecommerceTheme = createTheme({
     //     }),
     //   },
     // },
-    MuiTextField: {
+
+    MuiInputBase: {
       styleOverrides: {
         root: ({ theme }) => ({
-          "& .MuiOutlinedInput-root": {
-            borderRadius: 8,
-            "&.Mui-focused fieldset": {
-              borderColor: theme.palette.primary.light,
-              borderWidth: "2px",
-            },
+          "& .MuiOutlinedInput-notchedOutline": {
+            borderColor: theme.palette.divider,
+            borderRadius: 12,
           },
         }),
-      },
-    },
-    MuiOutlinedInput: {
-      styleOverrides: {
-        root: {
-          borderRadius: 8,
-        },
       },
     },
     MuiPagination: {

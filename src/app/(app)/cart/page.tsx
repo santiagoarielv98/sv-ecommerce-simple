@@ -4,6 +4,7 @@ import Typography from "@mui/material/Typography";
 import CartTable from "./components/cart-table";
 import { EmptyCart } from "@/components/cart/empty-cart";
 import type { OrderItem, Product } from "@prisma/client";
+import Link from "next/link";
 
 const items = [
   {
@@ -31,7 +32,13 @@ export default async function CartPage() {
         Shopping Cart
       </Typography>
       <CartTable items={items} />
-      <Button variant="contained" size="large" sx={{ mt: 4 }} href="/checkout">
+      <Button
+        LinkComponent={Link}
+        variant="contained"
+        size="large"
+        sx={{ mt: 4 }}
+        href="/checkout"
+      >
         Proceed to Checkout
       </Button>
     </Container>

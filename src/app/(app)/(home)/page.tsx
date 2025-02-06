@@ -6,7 +6,7 @@ import Stack from "@mui/material/Stack";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 
-const products = Array.from({ length: 25 }, (_, index) => ({
+const products = Array.from({ length: 24 }, (_, index) => ({
   id: index.toString(),
   name: `Product ${index + 1}`,
   description: `Description ${index + 1}`,

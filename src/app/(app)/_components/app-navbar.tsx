@@ -15,6 +15,7 @@ import Stack from "@mui/material/Stack";
 import Toolbar from "@mui/material/Toolbar";
 import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
+import Link from "next/link";
 import * as React from "react";
 
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
@@ -47,8 +48,8 @@ function ResponsiveAppBar() {
           <Typography
             variant="h6"
             noWrap
-            component="a"
-            href="#app-bar-with-responsive-menu"
+            component={Link}
+            href="/"
             sx={{
               mr: 2,
               display: { xs: "none", md: "flex" },
@@ -92,7 +93,7 @@ function ResponsiveAppBar() {
               </Tooltip>
 
               <Tooltip title="Cart">
-                <IconButton>
+                <IconButton LinkComponent={Link} href="/cart">
                   <CartIcon />
                 </IconButton>
               </Tooltip>

@@ -9,9 +9,11 @@ import MobileSidebarLoading from "./mobile-sidebar-loading";
 
 const DesktopSidebar = dynamic(() => import("./desktop-sidebar"), {
   loading: () => <DesktopSidebarLoading />,
+  ssr: false,
 });
 const MobileSidebar = dynamic(() => import("./mobile-sidebar"), {
   loading: () => <MobileSidebarLoading />,
+  ssr: false,
 });
 
 const Sidebar = () => {

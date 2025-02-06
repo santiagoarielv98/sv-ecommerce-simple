@@ -3,30 +3,71 @@
 import { createTheme } from "@mui/material/styles";
 
 const ecommerceTheme = createTheme({
-  palette: {
-    primary: {
-      main: "#2A5C8D", // Azul profesional
-      light: "#5D8AB4",
-      dark: "#1A3A5C",
+  defaultColorScheme: "dark",
+  colorSchemes: {
+    light: {
+      palette: {
+        primary: {
+          main: "#2A5C8D", // Azul profesional
+          light: "#5D8AB4",
+          dark: "#1A3A5C",
+        },
+        secondary: {
+          main: "#FF7F50", // Coral vibrante
+          light: "#FFA07A",
+          dark: "#CC6540",
+        },
+        error: {
+          main: "#E74C3C",
+        },
+        success: {
+          main: "#2ECC71", // Verde para indicar acciones positivas
+        },
+        background: {
+          default: "#F8F9FA", // Fondo gris claro
+          paper: "#FFFFFF", // Fondo para tarjetas y componentes
+        },
+        text: {
+          primary: "#2C3E50", // Texto oscuro principal
+          secondary: "#7F8C8D", // Texto secundario
+        },
+      },
     },
-    secondary: {
-      main: "#FF7F50", // Coral vibrante
-      light: "#FFA07A",
-      dark: "#CC6540",
-    },
-    error: {
-      main: "#E74C3C",
-    },
-    success: {
-      main: "#2ECC71", // Verde para indicar acciones positivas
-    },
-    background: {
-      default: "#F8F9FA", // Fondo gris claro
-      paper: "#FFFFFF", // Fondo para tarjetas y componentes
-    },
-    text: {
-      primary: "#2C3E50", // Texto oscuro principal
-      secondary: "#7F8C8D", // Texto secundario
+    dark: {
+      palette: {
+        primary: {
+          main: "#90CAF9", // Azul más claro para modo oscuro
+          light: "#B3E5FC",
+          dark: "#42A5F5",
+        },
+        secondary: {
+          main: "#FF9E80", // Coral más suave para modo oscuro
+          light: "#FFAB91",
+          dark: "#FF7043",
+        },
+        error: {
+          main: "#EF5350",
+        },
+        success: {
+          main: "#66BB6A",
+        },
+        background: {
+          default: "#121212", // Fondo oscuro estándar de Material Design
+          paper: "#1E1E1E", // Un poco más claro que el fondo para contraste
+        },
+        text: {
+          primary: "#FFFFFF",
+          secondary: "#B0BEC5",
+        },
+        action: {
+          active: "#FFFFFF",
+          hover: "rgba(255, 255, 255, 0.08)",
+          selected: "rgba(255, 255, 255, 0.16)",
+          disabled: "rgba(255, 255, 255, 0.3)",
+          disabledBackground: "rgba(255, 255, 255, 0.12)",
+        },
+        divider: "rgba(255, 255, 255, 0.12)",
+      },
     },
   },
   typography: (palette) => ({

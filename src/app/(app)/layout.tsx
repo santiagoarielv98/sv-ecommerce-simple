@@ -10,6 +10,8 @@ const AppLayout = ({ children }: React.PropsWithChildren) => {
         display: "flex",
         flexDirection: "column",
         minHeight: "100%",
+        bgcolor: "background.default",
+        color: "text.primary",
       }}
     >
       <AppNavbar />

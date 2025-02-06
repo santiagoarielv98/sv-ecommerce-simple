@@ -25,7 +25,9 @@ const RootProvider = async ({
           }}
         />
         <CssBaseline />
-        <ThemeProvider theme={theme}>{children}</ThemeProvider>
+        <ThemeProvider theme={theme} defaultMode="system">
+          {children}
+        </ThemeProvider>
       </AppRouterCacheProvider>
     </SessionProvider>
   );

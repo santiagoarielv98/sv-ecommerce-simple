@@ -10,6 +10,8 @@ const AuthLayout = ({ children }: React.PropsWithChildren) => {
         display: "flex",
         height: "100vh",
         flexDirection: "column",
+        bgcolor: "background.default",
+        color: "text.primary",
       }}
     >
       <AuthNavbar />

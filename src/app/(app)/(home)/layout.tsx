@@ -9,6 +9,8 @@ const HomeLayout = ({ children }: React.PropsWithChildren) => {
       sx={{
         display: "flex",
         flexGrow: 1,
+        bgcolor: "background.default",
+        color: "text.primary",
       }}
     >
       <Sidebar />

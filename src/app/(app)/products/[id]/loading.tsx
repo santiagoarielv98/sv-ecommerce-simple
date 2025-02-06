@@ -25,20 +25,20 @@ export default function ProductDetailLoading() {
         <Grid size={{ xs: 12, md: 6 }}>
           <Stack spacing={3}>
             <Box>
-              <Skeleton variant="text" width="80%" height={40} />
+              <Skeleton width="80%" height={40} />
               <Skeleton variant="rounded" width={100} height={24} />
             </Box>
 
-            <Skeleton variant="text" width={120} height={32} />
+            <Skeleton width={120} height={32} />
 
             <Stack spacing={1}>
-              <Skeleton variant="text" width="100%" />
-              <Skeleton variant="text" width="100%" />
-              <Skeleton variant="text" width="80%" />
+              <Skeleton width="100%" />
+              <Skeleton width="100%" />
+              <Skeleton width="80%" />
             </Stack>
 
             <Box>
-              <Skeleton variant="text" width={140} height={24} sx={{ mb: 2 }} />
+              <Skeleton width={140} height={24} sx={{ mb: 2 }} />
               <Skeleton
                 variant="rounded"
                 width={120}

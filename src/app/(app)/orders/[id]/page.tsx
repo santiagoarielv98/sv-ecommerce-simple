@@ -53,6 +53,8 @@ const order = {
 };
 
 export default async function OrderPage() {
+  await new Promise((resolve) => setTimeout(resolve, 1000));
+
   if (!order) {
     notFound();
   }

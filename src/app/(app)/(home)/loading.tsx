@@ -14,7 +14,7 @@ const Loading = () => {
         }}
       />
       <Stack spacing={2}>
-        <Skeleton variant="text" width={200} height={40} />
+        <Skeleton width={200} height={40} />
         <Grid2 container spacing={3}>
           {Array.from({ length: 12 }).map((_, index) => (
             <Grid2
@@ -28,9 +28,9 @@ const Loading = () => {
             >
               <Box sx={{ p: 2 }}>
                 <Skeleton variant="rectangular" height={200} />
-                <Skeleton variant="text" sx={{ mt: 1 }} />
-                <Skeleton variant="text" width="60%" />
-                <Skeleton variant="text" width="40%" />
+                <Skeleton sx={{ mt: 1 }} />
+                <Skeleton width="60%" />
+                <Skeleton width="40%" />
               </Box>
             </Grid2>
           ))}

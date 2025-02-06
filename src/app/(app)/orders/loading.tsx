@@ -18,7 +18,7 @@ export default function OrdersLoading() {
               <Paper sx={{ p: 3 }}>
                 <Stack direction="row" justifyContent="space-between" mb={1}>
                   <Skeleton width={100} height={32} />
-                  <Skeleton width={80} height={32} />
+                  <Skeleton width={80} height={32} variant="rounded" />
                 </Stack>
                 <Stack direction="row" justifyContent="space-between" mb={2}>
                   <Skeleton width={120} height={24} />

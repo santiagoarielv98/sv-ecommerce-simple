@@ -29,7 +29,7 @@ const ecommerceTheme = createTheme({
       secondary: "#7F8C8D", // Texto secundario
     },
   },
-  typography: {
+  typography: (palette) => ({
     fontFamily: [
       "Inter",
       "-apple-system",
@@ -46,12 +46,12 @@ const ecommerceTheme = createTheme({
     h1: {
       fontSize: "2.5rem",
       fontWeight: 700,
-      color: "#2C3E50",
+      color: palette.primary.main,
     },
     h2: {
       fontSize: "2rem",
       fontWeight: 600,
-      color: "#2A5C8D",
+      color: palette.primary.main,
     },
     h3: {
       fontSize: "1.75rem",
@@ -69,7 +69,7 @@ const ecommerceTheme = createTheme({
       textTransform: "none", // Elimina mayúsculas automáticas en botones
       fontWeight: 600,
     },
-  },
+  }),
   components: {
     MuiButton: {
       styleOverrides: {
@@ -77,12 +77,12 @@ const ecommerceTheme = createTheme({
           borderRadius: 8,
           padding: "12px 24px",
         },
-        containedPrimary: {
-          boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
+        containedPrimary: ({ theme }) => ({
+          boxShadow: theme.shadows[1],
           "&:hover": {
-            boxShadow: "0 4px 8px rgba(0,0,0,0.2)",
+            boxShadow: theme.shadows[2],
           },
-        },
+        }),
         outlinedSecondary: {
           borderWidth: 2,
           "&:hover": {
@@ -93,46 +93,39 @@ const ecommerceTheme = createTheme({
     },
     MuiAppBar: {
       styleOverrides: {
-        root: {
-          backgroundColor: "#FFFFFF",
-          color: "#2C3E50",
+        root: ({ theme }) => ({
+          backgroundColor: theme.palette.background.paper,
+          color: theme.palette.text.primary,
           boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
-        },
+        }),
       },
     },
     MuiCard: {
       styleOverrides: {
-        root: {
+        root: ({ theme }) => ({
           borderRadius: 12,
-          boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+          boxShadow: theme.shadows[1],
           transition: "transform 0.3s, box-shadow 0.3s",
           "&:hover": {
             transform: "translateY(-4px)",
-            boxShadow: "0 8px 16px rgba(0,0,0,0.2)",
+            boxShadow: theme.shadows[3],
           },
-        },
+        }),
       },
     },
     MuiLink: {
       styleOverrides: {
         root: {
-          color: "#2A5C8D",
           fontWeight: 500,
-          textDecoration: "none",
-          "&:hover": {
-            textDecoration: "underline",
-          },
         },
       },
     },
-
-    // 3. Loading Skeletons
     MuiSkeleton: {
       styleOverrides: {
-        root: {
-          backgroundColor: "rgba(0, 0, 0, 0.05)",
+        root: ({ theme }) => ({
+          backgroundColor: theme.palette.action.hover,
           borderRadius: "8px",
-        },
+        }),
         rectangular: {
           borderRadius: "12px",
         },
@@ -141,26 +134,22 @@ const ecommerceTheme = createTheme({
         animation: "wave",
       },
     },
-
-    // 4. Notificaciones/Snackbars
-    MuiSnackbar: {
-      styleOverrides: {
-        root: ({ theme }) => ({
-          "& .MuiAlert-root": {
-            borderRadius: "12px",
-            alignItems: "center",
-          },
-          "& .MuiAlert-filledSuccess": {
-            backgroundColor: theme.palette.success.main,
-          },
-          "& .MuiAlert-filledError": {
-            backgroundColor: theme.palette.error.main,
-          },
-        }),
-      },
-    },
-
-    // 5. Formularios y Inputs
+    // MuiSnackbar: {
+    //   styleOverrides: {
+    //     root: ({ theme }) => ({
+    //       "& .MuiAlert-root": {
+    //         borderRadius: "12px",
+    //         alignItems: "center",
+    //       },
+    //       "& .MuiAlert-filledSuccess": {
+    //         backgroundColor: theme.palette.success.main,
+    //       },
+    //       "& .MuiAlert-filledError": {
+    //         backgroundColor: theme.palette.error.main,
+    //       },
+    //     }),
+    //   },
+    // },
     MuiTextField: {
       styleOverrides: {
         root: ({ theme }) => ({
@@ -174,10 +163,6 @@ const ecommerceTheme = createTheme({
         }),
       },
     },
-
-    // 6. Botones Específicos
-
-    // 7. Paginación
     MuiPagination: {
       styleOverrides: {
         root: ({ theme }) => ({
@@ -190,29 +175,18 @@ const ecommerceTheme = createTheme({
         }),
       },
     },
-
-    // 8. Tablas de Pedidos
     MuiTable: {
       styleOverrides: {
         root: ({ theme }) => ({
           "& .MuiTableCell-root": {
-            boderBottom: `1px solid ${theme.palette.background.default}`,
+            borderBottom: `1px solid ${theme.palette.divider}`,
           },
           "& .MuiTableRow-root:hover": {
-            backgroundColor: theme.palette.background.default,
+            backgroundColor: theme.palette.action.hover,
           },
         }),
       },
     },
-  },
-  custom: {
-    spacing: {
-      sectionPadding: "80px 0",
-    },
-    shadows: {
-      productCard: "0 4px 12px rgba(0,0,0,0.1)",
-    },
-    maxContainerWidth: 1440,
   },
 });
 

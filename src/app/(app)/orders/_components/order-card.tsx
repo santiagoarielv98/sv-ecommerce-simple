@@ -1,3 +1,5 @@
+"use client";
+
 import Chip from "@mui/material/Chip";
 import Paper from "@mui/material/Paper";
 import Stack from "@mui/material/Stack";

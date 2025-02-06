@@ -20,6 +20,7 @@ const items = [
 
 export default async function CartPage() {
   await new Promise((resolve) => setTimeout(resolve, 250));
+
   if (items.length === 0) {
     return <EmptyCart />;
   }
@@ -30,13 +31,7 @@ export default async function CartPage() {
         Shopping Cart
       </Typography>
       <CartTable items={items} />
-      <Button
-        variant="contained"
-        color="primary"
-        size="large"
-        sx={{ mt: 4 }}
-        href="/checkout"
-      >
+      <Button variant="contained" size="large" sx={{ mt: 4 }} href="/checkout">
         Proceed to Checkout
       </Button>
     </Container>

@@ -18,7 +18,7 @@ import Typography from "@mui/material/Typography";
 import Link from "next/link";
 import * as React from "react";
 
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
+const settings = ["Dashboard", "Logout"];
 
 function ResponsiveAppBar() {
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(

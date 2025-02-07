@@ -5,6 +5,7 @@ import CartTable from "./components/cart-table";
 import { EmptyCart } from "@/components/cart/empty-cart";
 import type { OrderItem, Product } from "@prisma/client";
 import Link from "next/link";
+import { route } from "@/config/route";
 
 const items = [
   {
@@ -37,7 +38,7 @@ export default async function CartPage() {
         variant="contained"
         size="large"
         sx={{ mt: 4 }}
-        href="/checkout"
+        href={route.store.checkout}
       >
         Proceed to Checkout
       </Button>

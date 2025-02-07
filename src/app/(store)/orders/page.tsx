@@ -6,6 +6,7 @@ import Typography from "@mui/material/Typography";
 import type { OrderItem, ShippingAddress } from "@prisma/client";
 import Link from "next/link";
 import OrderCard from "./_components/order-card";
+import { route } from "@/config/route";
 
 const orders = [
   {
@@ -70,7 +71,7 @@ export default async function OrdersPage() {
           {orders.map((order) => (
             <Grid key={order.id} size={{ xs: 12 }}>
               <MuiLink
-                href={`/orders/${order.id}`}
+                href={`${route.store.orders}/${order.id}`}
                 component={Link}
                 underline="none"
               >

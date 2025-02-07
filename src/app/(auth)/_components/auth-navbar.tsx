@@ -1,5 +1,6 @@
 "use client";
 
+import { route } from "@/config/route";
 import AdbIcon from "@mui/icons-material/Adb";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -21,7 +22,7 @@ function AuthNavbar() {
           <AdbIcon sx={{ mr: 1 }} />
           <Typography
             component={Link}
-            href="/"
+            href={route.home}
             variant="h6"
             noWrap
             sx={{

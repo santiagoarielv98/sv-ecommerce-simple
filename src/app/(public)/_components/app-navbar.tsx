@@ -2,6 +2,7 @@
 
 import Search from "@/components/forms/search";
 import { navItems } from "@/config/nav";
+import { route } from "@/config/route";
 import AdbIcon from "@mui/icons-material/Adb";
 import MenuIcon from "@mui/icons-material/Menu";
 import CartIcon from "@mui/icons-material/ShoppingCart";
@@ -48,7 +49,7 @@ function ResponsiveAppBar() {
             variant="h6"
             noWrap
             component={Link}
-            href="/"
+            href={route.home}
             sx={{
               mr: 2,
               display: { xs: "none", md: "flex" },

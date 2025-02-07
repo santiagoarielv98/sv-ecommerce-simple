@@ -18,7 +18,16 @@ function ImagePreview({ images }: ImagePreviewProps) {
         sx={{
           position: "relative",
           width: "100%",
-          height: "400px",
+          // height: {
+          //   md: 400,
+          //   xs: "auto",
+          // },
+          aspectRatio: "16/9",
+          maxHeight: {
+            md: 400,
+            xs: 350,
+          },
+          height: "auto",
         }}
       >
         <Image

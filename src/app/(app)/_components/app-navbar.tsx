@@ -1,6 +1,7 @@
 "use client";
 
 import Search from "@/components/forms/search";
+import { navItems } from "@/config/nav";
 import AdbIcon from "@mui/icons-material/Adb";
 import MenuIcon from "@mui/icons-material/Menu";
 import CartIcon from "@mui/icons-material/ShoppingCart";
@@ -17,8 +18,6 @@ import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
 import Link from "next/link";
 import * as React from "react";
-
-const settings = ["Dashboard", "Logout"];
 
 function ResponsiveAppBar() {
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
@@ -114,10 +113,15 @@ function ResponsiveAppBar() {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
+              {navItems.map((nav, index) => (
+                <MenuItem
+                  key={index}
+                  onClick={handleCloseUserMenu}
+                  component={Link}
+                  href={nav.href}
+                >
                   <Typography sx={{ textAlign: "center" }}>
-                    {setting}
+                    {nav.title}
                   </Typography>
                 </MenuItem>
               ))}

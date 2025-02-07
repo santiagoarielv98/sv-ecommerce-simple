@@ -22,7 +22,7 @@ const products = Array.from({ length: 24 }, (_, index) => ({
 }));
 
 const HomePage = async () => {
-  await new Promise((resolve) => setTimeout(resolve, 250));
+  await new Promise((resolve) => setTimeout(resolve, 500));
   return (
     <Container maxWidth="xl" sx={{ my: 2 }}>
       <Toolbar

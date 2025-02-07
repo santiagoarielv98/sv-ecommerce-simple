@@ -26,11 +26,20 @@ const Loading = () => {
                 lg: 3,
               }}
             >
-              <Box sx={{ p: 2 }}>
-                <Skeleton variant="rectangular" height={200} />
-                <Skeleton sx={{ mt: 1 }} />
-                <Skeleton width="60%" />
-                <Skeleton width="40%" />
+              <Box>
+                <Skeleton
+                  variant="rectangular"
+                  height="auto"
+                  sx={{ aspectRatio: "16/9" }}
+                />
+                <Box sx={{ px: 1, py: 2 }}>
+                  <Skeleton sx={{ mb: 1 }} variant="rectangular" />
+                  <Skeleton width="60%" sx={{ mb: 2 }} />
+                  <Skeleton width="40%" variant="rectangular" sx={{ mb: 4 }} />
+                  <Box sx={{ display: "flex", mt: 1 }}>
+                    <Skeleton variant="circular" width={40} height={40} />
+                  </Box>
+                </Box>
               </Box>
             </Grid2>
           ))}

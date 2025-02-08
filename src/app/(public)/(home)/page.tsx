@@ -1,28 +1,31 @@
+import MuiPagination from "@/components/pagination/mui-pagination";
 import ProductList from "@/components/products/product-list";
+import { getProducts } from "@/lib/db/product";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
-import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 
-const products = Array.from({ length: 24 }, (_, index) => ({
-  id: index.toString(),
-  name: `Product ${index + 1}`,
-  description: `Description ${index + 1}`,
-  price: 100,
-  categoryId: "1",
-  createdAt: new Date(),
-  images: [
-    "https://picsum.photos/id/1/300/200",
-    "https://picsum.photos/id/2/300/200",
-  ],
-  stock: 10,
-  updatedAt: new Date(),
-}));
+const HomePage = async ({
+  searchParams,
+}: {
+  searchParams: Promise<{
+    page: string;
+    categories: string[];
+    minPrice: string;
+    maxPrice: string;
+  }>;
+}) => {
+  const { page, categories, maxPrice, minPrice } = await searchParams;
 
-const HomePage = async () => {
-  await new Promise((resolve) => setTimeout(resolve, 500));
+  const data = await getProducts({
+    page: parseInt(page),
+    categories,
+    minPrice: minPrice ? parseInt(minPrice) : undefined,
+    maxPrice: maxPrice ? parseInt(maxPrice) : undefined,
+  });
+
   return (
     <Container maxWidth="xl" sx={{ my: 2 }}>
       <Toolbar
@@ -34,14 +37,14 @@ const HomePage = async () => {
         <Typography variant="h4" gutterBottom>
           Products
         </Typography>
-        <ProductList products={products} />
+        <ProductList products={data.products} />
         <Box
           sx={{
             display: "flex",
             justifyContent: "center",
           }}
         >
-          <Pagination count={10} />
+          <MuiPagination count={data.pages} page={data.currentPage} />
         </Box>
       </Stack>
     </Container>

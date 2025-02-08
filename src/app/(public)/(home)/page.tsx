@@ -7,9 +7,7 @@ import Stack from "@mui/material/Stack";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 
-const HomePage = async ({
-  searchParams,
-}: {
+const HomePage = async ({}: {
   searchParams: Promise<{
     page: string;
     categories: string[];
@@ -17,14 +15,7 @@ const HomePage = async ({
     maxPrice: string;
   }>;
 }) => {
-  const { page, categories, maxPrice, minPrice } = await searchParams;
-
-  const data = await getProducts({
-    page: parseInt(page),
-    categories,
-    minPrice: minPrice ? parseInt(minPrice) : undefined,
-    maxPrice: maxPrice ? parseInt(maxPrice) : undefined,
-  });
+  const data = await getProducts({});
 
   return (
     <Container maxWidth="xl" sx={{ my: 2 }}>

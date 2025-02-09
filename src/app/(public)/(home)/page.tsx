@@ -1,6 +1,8 @@
 import MuiPagination from "@/components/pagination/mui-pagination";
 import ProductList from "@/components/products/product-list";
 import { getProducts } from "@/lib/db/product";
+import type { ProductSearchParams } from "@/types/page";
+import { parseQueryParams } from "@/utils/parse-query-params";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import Stack from "@mui/material/Stack";
@@ -10,28 +12,13 @@ import Typography from "@mui/material/Typography";
 const HomePage = async ({
   searchParams,
 }: {
-  searchParams: Promise<{
-    page: string;
-    category: string | string[];
-    minPrice: string;
-    maxPrice: string;
-  }>;
+  searchParams: Promise<ProductSearchParams>;
 }) => {
   const params = await searchParams;
 
-  const page = parseInt(params.page) || 1;
-  const category = Array.isArray(params.category)
-    ? params.category
-    : [params.category];
-  const minPrice = parseInt(params.minPrice) || 0;
-  const maxPrice = parseInt(params.maxPrice) || 0;
+  const parsedParams = parseQueryParams(params);
 
-  const data = await getProducts({
-    page,
-    category,
-    minPrice,
-    maxPrice,
-  });
+  const data = await getProducts(parsedParams);
 
   return (
     <Container maxWidth="xl" sx={{ my: 2 }}>

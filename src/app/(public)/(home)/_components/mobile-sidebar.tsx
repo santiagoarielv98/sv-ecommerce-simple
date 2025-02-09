@@ -5,17 +5,16 @@ import React from "react";
 import CategoryIcon from "@mui/icons-material/Category";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import Button from "@mui/material/Button";
-import Checkbox from "@mui/material/Checkbox";
 import Divider from "@mui/material/Divider";
-import FormControlLabel from "@mui/material/FormControlLabel";
 import ListItem from "@mui/material/ListItem";
 import Menu from "@mui/material/Menu";
 import Paper from "@mui/material/Paper";
-import useMediaQuery from "@mui/material/useMediaQuery";
-import Slider from "@mui/material/Slider";
 import Typography from "@mui/material/Typography";
+import useMediaQuery from "@mui/material/useMediaQuery";
 import type { Category } from "@prisma/client";
 import debounce from "lodash/debounce";
+import CategoryFilter from "./category-filter";
+import PriceFilter from "./price-filter";
 
 export interface MobileSidebarProps {
   categories: Category[];
@@ -34,17 +33,6 @@ const MobileSidebar = ({
   const [priceAnchor, setPriceAnchor] = React.useState<null | HTMLElement>(
     null,
   );
-  const [value, setValue] = React.useState<number[]>([20, 37]);
-
-  const handleChange = (event: Event, newValue: number | number[]) => {
-    setValue(newValue as number[]);
-
-    const [min, max] = newValue as number[];
-    debouncedFilterChange({
-      minPrice: min.toString(),
-      maxPrice: max.toString(),
-    });
-  };
 
   const debouncedFilterChange = React.useMemo(
     () => debounce(onFilterChange, 300),
@@ -109,32 +97,13 @@ const MobileSidebar = ({
           },
         }}
       >
-        {categories.map((category) => (
-          <ListItem key={category.id} dense>
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={selectedCategory.includes(category.name)}
-                  value={category.name}
-                  onChange={() => {
-                    if (selectedCategory.includes(category.name)) {
-                      onFilterChange({
-                        category: selectedCategory.filter(
-                          (name) => name !== category.name,
-                        ),
-                      });
-                    } else {
-                      onFilterChange({
-                        category: [...selectedCategory, category.name],
-                      });
-                    }
-                  }}
-                />
-              }
-              label={category.name}
-            />
-          </ListItem>
-        ))}
+        <CategoryFilter
+          categories={categories}
+          selectedCategory={selectedCategory}
+          onChange={(selectedCategory) => {
+            onFilterChange({ category: selectedCategory });
+          }}
+        />
       </Menu>
 
       {/* Price Menu */}
@@ -152,18 +121,14 @@ const MobileSidebar = ({
           <Typography gutterBottom>Price Range</Typography>
         </ListItem>
         <ListItem>
-          <Slider
-            value={value}
-            onChange={handleChange}
-            min={0}
-            max={1000}
-            valueLabelDisplay="auto"
+          <PriceFilter
+            onChange={(value) => {
+              debouncedFilterChange({
+                minPrice: value[0].toString(),
+                maxPrice: value[1].toString(),
+              });
+            }}
           />
-        </ListItem>
-        <ListItem>
-          <Typography>
-            ${value[0]} - ${value[1]}
-          </Typography>
         </ListItem>
       </Menu>
     </Paper>

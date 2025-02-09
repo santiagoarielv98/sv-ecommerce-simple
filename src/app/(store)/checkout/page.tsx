@@ -1,3 +1,5 @@
+"use client";
+
 import { EmptyCart } from "@/components/cart/empty-cart";
 import Alert from "@mui/material/Alert";
 import Container from "@mui/material/Container";
@@ -7,23 +9,10 @@ import Typography from "@mui/material/Typography";
 import type { Order, OrderItem, Product } from "@prisma/client";
 import AddressForm from "./_components/address-form";
 import OrderSummary from "@/components/order/order-summary";
+import { useCart } from "@/contexts/cart-context";
 
-const items = [
-  {
-    id: "1",
-    product: { id: "1", name: "Product 1", price: 10 },
-    quantity: 1,
-  } as OrderItem & { product: Product },
-  {
-    id: "2",
-    product: { id: "2", name: "Product 2", price: 20 },
-    quantity: 2,
-  } as OrderItem & { product: Product },
-];
-
-export default async function CheckoutPage() {
-  await new Promise((resolve) => setTimeout(resolve, 250));
-
+export default function CheckoutPage() {
+  const { items } = useCart();
   if (items.length === 0) {
     return <EmptyCart />;
   }

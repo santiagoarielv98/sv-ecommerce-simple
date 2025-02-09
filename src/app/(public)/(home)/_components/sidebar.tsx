@@ -7,6 +7,7 @@ import type { Category } from "@prisma/client";
 import { useRouter, useSearchParams } from "next/navigation";
 import DesktopSidebarLoading from "./desktop-sidebar-loading";
 import MobileSidebarLoading from "./mobile-sidebar-loading";
+import { getPriceRange } from "@/utils/query-params";
 
 const DesktopSidebar = dynamic(() => import("./desktop-sidebar"), {
   loading: () => <DesktopSidebarLoading />,
@@ -26,6 +27,7 @@ const Sidebar = ({ categories }: SidebarProps) => {
   const searchParams = useSearchParams();
   const isMobile = useMediaQuery((theme) => theme.breakpoints.down("md"));
   const selectedCategory = searchParams.getAll("category");
+  const priceRange = getPriceRange(searchParams);
 
   const handleFilterChange = (params: Record<string, string | string[]>) => {
     const urlSearchParams = new URLSearchParams(searchParams);
@@ -45,12 +47,14 @@ const Sidebar = ({ categories }: SidebarProps) => {
 
   return isMobile ? (
     <MobileSidebar
+      price={priceRange}
       categories={categories}
       selectedCategory={selectedCategory}
       onFilterChange={handleFilterChange}
     />
   ) : (
     <DesktopSidebar
+      price={priceRange}
       categories={categories}
       selectedCategory={selectedCategory}
       onFilterChange={handleFilterChange}

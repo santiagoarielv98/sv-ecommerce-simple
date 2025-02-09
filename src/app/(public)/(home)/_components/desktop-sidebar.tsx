@@ -19,12 +19,14 @@ import CategoryFilter from "./category-filter";
 import PriceFilter from "./price-filter";
 
 interface DesktopSidebarProps {
+  price: [number, number];
   categories: Category[];
   selectedCategory: string[];
   onFilterChange: (params: Record<string, string | string[]>) => void;
 }
 
 const DesktopSidebar = ({
+  price,
   categories,
   selectedCategory,
   onFilterChange,
@@ -89,6 +91,7 @@ const DesktopSidebar = ({
             }}
           >
             <PriceFilter
+              defaultValue={price}
               onChange={(value) => {
                 debouncedFilterChange({
                   minPrice: value[0].toString(),

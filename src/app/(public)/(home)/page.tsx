@@ -2,7 +2,7 @@ import MuiPagination from "@/components/pagination/mui-pagination";
 import ProductList from "@/components/products/product-list";
 import { getProducts } from "@/lib/db/product";
 import type { ProductSearchParams } from "@/types/page";
-import { parseQueryParams } from "@/utils/parse-query-params";
+import { parseQueryParams } from "@/utils/query-params";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import Stack from "@mui/material/Stack";

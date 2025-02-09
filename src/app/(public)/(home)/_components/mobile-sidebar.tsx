@@ -17,12 +17,14 @@ import CategoryFilter from "./category-filter";
 import PriceFilter from "./price-filter";
 
 export interface MobileSidebarProps {
+  price: [number, number];
   categories: Category[];
   selectedCategory: string[];
   onFilterChange: (params: Record<string, string | string[]>) => void;
 }
 
 const MobileSidebar = ({
+  price,
   categories,
   selectedCategory,
   onFilterChange,
@@ -122,6 +124,7 @@ const MobileSidebar = ({
         </ListItem>
         <ListItem>
           <PriceFilter
+            defaultValue={price}
             onChange={(value) => {
               debouncedFilterChange({
                 minPrice: value[0].toString(),

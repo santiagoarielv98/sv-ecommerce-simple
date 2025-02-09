@@ -1,4 +1,5 @@
 import type { ProductSearchParams } from "@/types/page";
+import type { ReadonlyURLSearchParams } from "next/navigation";
 
 export interface ParsedQueryParams {
   page: number;
@@ -25,4 +26,10 @@ export const parseQueryParams = (
     minPrice,
     maxPrice,
   };
+};
+export const getPriceRange = (searchParams: ReadonlyURLSearchParams) => {
+  const minPrice = parseInt(searchParams.get("minPrice") || "0");
+  const maxPrice = parseInt(searchParams.get("maxPrice") || "0");
+
+  return [minPrice, maxPrice] as const;
 };

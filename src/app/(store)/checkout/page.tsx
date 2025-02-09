@@ -16,11 +16,13 @@ import type { Order, OrderItem, Product } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import { FormProvider, useForm } from "react-hook-form";
 import AddressForm from "./_components/address-form";
+import { DEMO_SHIPPING_ADDRESS } from "@/config/demo";
 
 export default function CheckoutPage() {
   const router = useRouter();
   const methods = useForm<CheckoutFormData>({
     resolver: zodResolver(checkoutSchema),
+    defaultValues: DEMO_SHIPPING_ADDRESS,
   });
 
   const { items, clearCart } = useCart();

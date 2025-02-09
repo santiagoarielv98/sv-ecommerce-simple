@@ -1,3 +1,4 @@
+import AlertDemoCredentials from "@/components/demo/alert-demo-credentials";
 import OrderSummary from "@/components/order/order-summary";
 import { getOrder } from "@/lib/db/order";
 import Container from "@mui/material/Container";
@@ -36,7 +37,12 @@ export default async function OrderPage({
           </Stack>
         </Grid>
         <Grid size={{ xs: 12, md: 4 }}>
-          <OrderSummary disableProducts order={order} />
+          <Stack spacing={3}>
+            <OrderSummary disableProducts order={order} />
+            {order.status === "PENDING" && order.paymentUrl && (
+              <AlertDemoCredentials />
+            )}
+          </Stack>
         </Grid>
       </Grid>
     </Container>

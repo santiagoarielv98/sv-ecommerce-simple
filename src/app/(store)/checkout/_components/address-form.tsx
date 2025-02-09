@@ -1,5 +1,6 @@
 "use client";
 
+import AlertDemoCredentials from "@/components/demo/alert-demo-credentials";
 import type { CheckoutFormData } from "@/lib/schemas/checkout";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -100,6 +101,7 @@ export default function AddressForm({ onSubmit }: AddressFormProps) {
               />
             </Grid> */}
           </Grid>
+          <AlertDemoCredentials />
 
           <Button type="submit" variant="contained" fullWidth size="large">
             Place Order

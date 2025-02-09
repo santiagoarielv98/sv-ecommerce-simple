@@ -138,7 +138,7 @@ const LoginPage = () => {
         <Button
           fullWidth
           variant="outlined"
-          onClick={() => signIn("github")}
+          onClick={() => signIn("github", { redirectTo: ROUTE.HOME })}
           startIcon={<GithubIcon />}
         >
           Sign in with GitHub

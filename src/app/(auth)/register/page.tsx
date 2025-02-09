@@ -1,7 +1,7 @@
 "use client";
 
 import FacebookIcon from "@mui/icons-material/Facebook";
-import GoogleIcon from "@mui/icons-material/Google";
+import GithubIcon from "@mui/icons-material/GitHub";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Divider from "@mui/material/Divider";
@@ -14,6 +14,7 @@ import Link from "next/link";
 import * as React from "react";
 import Card from "../_components/card";
 import { ROUTE } from "@/config/route";
+import { signIn } from "next-auth/react";
 
 export default function SignUp() {
   const [emailError, setEmailError] = React.useState(false);
@@ -153,10 +154,10 @@ export default function SignUp() {
         <Button
           fullWidth
           variant="outlined"
-          onClick={() => alert("Sign up with Google")}
-          startIcon={<GoogleIcon />}
+          onClick={() => signIn("github", { redirectTo: ROUTE.HOME })}
+          startIcon={<GithubIcon />}
         >
-          Sign up with Google
+          Sign in with GitHub
         </Button>
         <Button
           fullWidth

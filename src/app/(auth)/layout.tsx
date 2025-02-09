@@ -1,9 +1,17 @@
+import { auth } from "@/lib/auth";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import React from "react";
 import AuthNavbar from "./_components/auth-navbar";
+import { redirect } from "next/navigation";
 
-const AuthLayout = ({ children }: React.PropsWithChildren) => {
+const AuthLayout = async ({ children }: React.PropsWithChildren) => {
+  const session = await auth();
+
+  if (session?.user) {
+    return redirect("/");
+  }
+
   return (
     <Box
       sx={{

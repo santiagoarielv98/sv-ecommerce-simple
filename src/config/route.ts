@@ -1,10 +1,10 @@
-export const route = {
-  auth: {
+export const ROUTE = {
+  AUTH: {
     login: "/login",
     register: "/register",
   },
-  home: "/",
-  store: {
+  HOME: "/",
+  STORE: {
     checkout: "/checkout",
     orders: "/orders",
     products: "/products",

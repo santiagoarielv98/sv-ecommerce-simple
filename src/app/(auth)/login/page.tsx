@@ -2,7 +2,7 @@
 
 import React from "react";
 
-import { route } from "@/config/route";
+import { ROUTE } from "@/config/route";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import GithubIcon from "@mui/icons-material/GitHub";
 import Box from "@mui/material/Box";
@@ -155,7 +155,7 @@ const LoginPage = () => {
           Don&apos;t have an account?{" "}
           <MuiLink
             component={Link}
-            href={route.auth.register}
+            href={ROUTE.AUTH.register}
             variant="body2"
             sx={{ alignSelf: "center" }}
           >

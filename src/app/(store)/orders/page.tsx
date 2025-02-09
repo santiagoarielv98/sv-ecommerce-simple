@@ -1,4 +1,4 @@
-import { route } from "@/config/route";
+import { ROUTE } from "@/config/route";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid2";
 import MuiLink from "@mui/material/Link";
@@ -21,7 +21,7 @@ export default async function OrdersPage() {
           {orders.map((order) => (
             <Grid key={order.id} size={{ xs: 12 }}>
               <MuiLink
-                href={`${route.store.orders}/${order.id}`}
+                href={`${ROUTE.STORE.orders}/${order.id}`}
                 component={Link}
                 underline="none"
               >

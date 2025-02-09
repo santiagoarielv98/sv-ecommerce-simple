@@ -1,6 +1,7 @@
 "use client";
 
 import { useAuth } from "@/hooks/use-auth";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import MenuIcon from "@mui/icons-material/Menu";
 import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
@@ -9,6 +10,7 @@ import Menu from "@mui/material/Menu";
 import Tooltip from "@mui/material/Tooltip";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import useUserMenu from "../_hooks/use-user-menu";
+
 import {
   AdminMenuItems,
   AuthenticatedMenuItems,
@@ -16,7 +18,7 @@ import {
 } from "./menu-items";
 
 const UserMenu = () => {
-  const { isAdmin, isAuthenticated } = useAuth();
+  const { isAdmin, isAuthenticated, user } = useAuth();
   const isMobile = useMediaQuery((theme) => theme.breakpoints.down("md"));
   const { anchorElUser, handleOpen, handleClose } = useUserMenu();
 
@@ -30,14 +32,22 @@ const UserMenu = () => {
 
   return (
     <Box>
-      <Tooltip title="Open settings">
+      <Tooltip title="User menu">
         {isMobile ? (
           <IconButton onClick={handleOpen}>
             <MenuIcon />
           </IconButton>
         ) : (
           <IconButton onClick={handleOpen} sx={{ p: 0 }}>
-            <Avatar>U</Avatar>
+            {user ? (
+              <Avatar src={user?.image as string}>
+                {user?.name?.charAt(0) || "U"}
+              </Avatar>
+            ) : (
+              <Avatar>
+                <AccountCircleIcon color="action" />
+              </Avatar>
+            )}
           </IconButton>
         )}
       </Tooltip>

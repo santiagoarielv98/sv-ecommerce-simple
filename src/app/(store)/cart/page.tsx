@@ -1,7 +1,7 @@
 "use client";
 
 import { EmptyCart } from "@/components/cart/empty-cart";
-import { route } from "@/config/route";
+import { ROUTE } from "@/config/route";
 import { useCart } from "@/contexts/cart";
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
@@ -27,7 +27,7 @@ export default function CartPage() {
         variant="contained"
         size="large"
         sx={{ mt: 4 }}
-        href={route.store.checkout}
+        href={ROUTE.STORE.checkout}
       >
         Proceed to Checkout
       </Button>

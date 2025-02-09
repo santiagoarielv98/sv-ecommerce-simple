@@ -6,7 +6,7 @@ import MuiLink from "@mui/material/Link";
 import ProductCard from "@/components/products/product-card";
 import React from "react";
 import type { Product } from "@prisma/client";
-import { route } from "@/config/route";
+import { ROUTE } from "@/config/route";
 import { useCart } from "@/contexts/cart";
 
 export interface ListProductProps {
@@ -36,7 +36,7 @@ const ProductList = ({ products = [] }: ListProductProps) => {
           <MuiLink
             underline="none"
             component={Link}
-            href={`${route.store.products}/${product.id}`}
+            href={`${ROUTE.STORE.products}/${product.id}`}
           >
             <ProductCard product={product} onAddToCart={handleAddToCart} />
           </MuiLink>

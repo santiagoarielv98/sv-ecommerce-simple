@@ -13,7 +13,7 @@ import Typography from "@mui/material/Typography";
 import Link from "next/link";
 import * as React from "react";
 import Card from "../_components/card";
-import { route } from "@/config/route";
+import { ROUTE } from "@/config/route";
 
 export default function SignUp() {
   const [emailError, setEmailError] = React.useState(false);
@@ -170,7 +170,7 @@ export default function SignUp() {
           Already have an account?{" "}
           <MuiLink
             component={Link}
-            href={route.auth.login}
+            href={ROUTE.AUTH.login}
             variant="body2"
             sx={{ alignSelf: "center" }}
           >

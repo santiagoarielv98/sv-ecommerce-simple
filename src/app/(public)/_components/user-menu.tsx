@@ -1,5 +1,6 @@
 "use client";
 
+import { useAuth } from "@/hooks/use-auth";
 import MenuIcon from "@mui/icons-material/Menu";
 import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
@@ -7,8 +8,7 @@ import IconButton from "@mui/material/IconButton";
 import Menu from "@mui/material/Menu";
 import Tooltip from "@mui/material/Tooltip";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import { useSession } from "next-auth/react";
-import React from "react";
+import useUserMenu from "../_hooks/use-user-menu";
 import {
   AdminMenuItems,
   AuthenticatedMenuItems,
@@ -16,41 +16,27 @@ import {
 } from "./menu-items";
 
 const UserMenu = () => {
-  const { data: session } = useSession();
+  const { isAdmin, isAuthenticated } = useAuth();
   const isMobile = useMediaQuery((theme) => theme.breakpoints.down("md"));
+  const { anchorElUser, handleOpen, handleClose } = useUserMenu();
 
-  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
-    null,
-  );
-
-  const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElUser(event.currentTarget);
-  };
-
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
-  };
-
-  const isGuest = !session;
-  const isAdmin = session?.user?.role === "ADMIN";
-
-  const menu = isGuest ? (
-    <GuestMenuItems onClose={handleCloseUserMenu} />
+  const menu = !isAuthenticated ? (
+    <GuestMenuItems onClose={handleClose} />
   ) : isAdmin ? (
-    <AdminMenuItems onClose={handleCloseUserMenu} />
+    <AdminMenuItems onClose={handleClose} />
   ) : (
-    <AuthenticatedMenuItems onClose={handleCloseUserMenu} />
+    <AuthenticatedMenuItems onClose={handleClose} />
   );
 
   return (
     <Box>
       <Tooltip title="Open settings">
         {isMobile ? (
-          <IconButton onClick={handleOpenUserMenu}>
+          <IconButton onClick={handleOpen}>
             <MenuIcon />
           </IconButton>
         ) : (
-          <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+          <IconButton onClick={handleOpen} sx={{ p: 0 }}>
             <Avatar>U</Avatar>
           </IconButton>
         )}
@@ -69,7 +55,7 @@ const UserMenu = () => {
           horizontal: "right",
         }}
         open={Boolean(anchorElUser)}
-        onClose={handleCloseUserMenu}
+        onClose={handleClose}
       >
         {menu}
       </Menu>

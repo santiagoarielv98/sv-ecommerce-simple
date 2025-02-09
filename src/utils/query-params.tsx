@@ -31,5 +31,5 @@ export const getPriceRange = (searchParams: ReadonlyURLSearchParams) => {
   const minPrice = parseInt(searchParams.get("minPrice") || "0");
   const maxPrice = parseInt(searchParams.get("maxPrice") || "0");
 
-  return [minPrice, maxPrice] as const;
+  return [minPrice, maxPrice] as [number, number];
 };

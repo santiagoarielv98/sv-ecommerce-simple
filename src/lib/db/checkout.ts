@@ -1,6 +1,6 @@
 "use server";
 
-import { MAX_QUANTITY_PER_ITEM } from "@/config/cart";
+import { CART_LIMITS } from "@/config/cart";
 import type { CartItem } from "@/contexts/cart-context";
 import { auth } from "@/lib/auth";
 import mercadopago from "@/lib/mercado-pago";
@@ -37,9 +37,9 @@ export async function createOrder(
         throw new Error(`Product ${item.product.name} is no longer available`);
       }
 
-      if (item.quantity > MAX_QUANTITY_PER_ITEM) {
+      if (item.quantity > CART_LIMITS.MAX_QUANTITY_PER_ITEM) {
         throw new Error(
-          `Maximum ${MAX_QUANTITY_PER_ITEM} items allowed per product`,
+          `Maximum ${CART_LIMITS.MAX_QUANTITY_PER_ITEM} items allowed per product`,
         );
       }
 

@@ -12,9 +12,15 @@ const ShippingInfo = ({ shippingAddress }: ShippingInfoProps) => {
       <Typography variant="h6" gutterBottom>
         Shipping Address
       </Typography>
-      <Typography>{shippingAddress?.address}</Typography>
       <Typography>
-        {shippingAddress?.city}, {shippingAddress?.postalCode}
+        {shippingAddress?.firstName} {shippingAddress?.lastName}
+      </Typography>
+      <Typography>{shippingAddress?.address1}</Typography>
+      {shippingAddress?.address2 && (
+        <Typography>{shippingAddress.address2}</Typography>
+      )}
+      <Typography>
+        {shippingAddress?.city}, {shippingAddress?.state} {shippingAddress?.zip}
       </Typography>
       <Typography>{shippingAddress?.country}</Typography>
     </Paper>

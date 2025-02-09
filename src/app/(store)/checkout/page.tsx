@@ -35,7 +35,7 @@ export default function CheckoutPage() {
         router.push(result.initPoint);
         clearCart();
       }
-    } catch (error) {}
+    } catch {}
   };
 
   return (

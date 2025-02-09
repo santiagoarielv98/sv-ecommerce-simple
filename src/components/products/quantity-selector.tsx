@@ -21,7 +21,7 @@ function QuantitySelector({
     <Stack direction="row" alignItems="center" spacing={1} width="fit-content">
       <IconButton
         size="small"
-        onClick={() => quantity > 1 && onQuantityChange(quantity - 1)}
+        onClick={() => onQuantityChange(-1)}
         disabled={quantity <= 1}
       >
         <RemoveIcon />
@@ -29,7 +29,7 @@ function QuantitySelector({
       <Typography>{quantity}</Typography>
       <IconButton
         size="small"
-        onClick={() => quantity < maxStock && onQuantityChange(quantity + 1)}
+        onClick={() => onQuantityChange(+1)}
         disabled={quantity >= maxStock}
       >
         <AddIcon />

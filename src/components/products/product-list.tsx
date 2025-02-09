@@ -7,15 +7,18 @@ import ProductCard from "@/components/products/product-card";
 import React from "react";
 import type { Product } from "@prisma/client";
 import { route } from "@/config/route";
+import { useCart } from "@/contexts/cart-context";
 
 export interface ListProductProps {
   products: Product[];
 }
 
 const ProductList = ({ products = [] }: ListProductProps) => {
+  const { addToCart } = useCart();
+
   const handleAddToCart = (e: React.MouseEvent, product: Product) => {
     e.preventDefault();
-    console.log(product);
+    addToCart(product);
   };
 
   return (

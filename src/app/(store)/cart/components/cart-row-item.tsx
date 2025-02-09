@@ -8,14 +8,14 @@ import TableCell from "@mui/material/TableCell";
 import TableRow from "@mui/material/TableRow";
 import type { Product } from "@prisma/client";
 
-interface CartItemProps {
+export interface CartItemProps {
   product: Product;
   quantity: number;
   onQuantityChange: (quantity: number) => void;
   onDelete: () => void;
 }
 
-export function CartItem({
+export default function CartRowItem({
   product,
   quantity,
   onQuantityChange,

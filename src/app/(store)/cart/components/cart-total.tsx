@@ -2,11 +2,11 @@ import TableCell from "@mui/material/TableCell";
 import TableRow from "@mui/material/TableRow";
 import Typography from "@mui/material/Typography";
 
-interface CartTotalProps {
+export interface CartTotalProps {
   total: number;
 }
 
-export function CartTotal({ total }: CartTotalProps) {
+export default function CartTotal({ total }: CartTotalProps) {
   return (
     <TableRow>
       <TableCell colSpan={3}>

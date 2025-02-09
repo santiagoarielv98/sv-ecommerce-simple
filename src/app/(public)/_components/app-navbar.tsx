@@ -3,11 +3,13 @@
 import Search from "@/components/forms/search";
 import { navItems } from "@/config/nav";
 import { route } from "@/config/route";
+import { useCart } from "@/contexts/cart-context";
 import AdbIcon from "@mui/icons-material/Adb";
 import MenuIcon from "@mui/icons-material/Menu";
 import CartIcon from "@mui/icons-material/ShoppingCart";
 import AppBar from "@mui/material/AppBar";
 import Avatar from "@mui/material/Avatar";
+import Badge from "@mui/material/Badge";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import IconButton from "@mui/material/IconButton";
@@ -21,6 +23,8 @@ import Link from "next/link";
 import * as React from "react";
 
 function ResponsiveAppBar() {
+  const { items } = useCart();
+
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null,
   );
@@ -94,7 +98,9 @@ function ResponsiveAppBar() {
 
               <Tooltip title="Cart">
                 <IconButton LinkComponent={Link} href="/cart">
-                  <CartIcon />
+                  <Badge badgeContent={items.length} color="primary">
+                    <CartIcon />
+                  </Badge>
                 </IconButton>
               </Tooltip>
             </Stack>

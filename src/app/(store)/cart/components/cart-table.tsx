@@ -1,6 +1,6 @@
 "use client";
 
-import { useCart } from "@/contexts/cart-context";
+import { useCart } from "@/contexts/cart";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -12,7 +12,11 @@ import CartRowItem from "./cart-row-item";
 import CartTotal from "./cart-total";
 
 export default function CartTable() {
-  const { total, items, removeItem, addToCart } = useCart();
+  const { getTotalPrice, items, removeFromCart, updateQuantity } = useCart();
+
+  const handleQuantityChange = (productId: string, newQuantity: number) => {
+    updateQuantity(productId, newQuantity);
+  };
 
   return (
     <TableContainer component={Paper}>
@@ -32,11 +36,13 @@ export default function CartTable() {
               key={item.product.id}
               product={item.product}
               quantity={item.quantity}
-              onQuantityChange={(quantity) => addToCart(item.product, quantity)}
-              onDelete={() => removeItem(item.product.id)}
+              onDelete={() => removeFromCart(item.product.id)}
+              onChangeQuantity={(newQuantity) =>
+                handleQuantityChange(item.product.id, newQuantity)
+              }
             />
           ))}
-          <CartTotal total={total} />
+          <CartTotal total={getTotalPrice()} />
         </TableBody>
       </Table>
     </TableContainer>

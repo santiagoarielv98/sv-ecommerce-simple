@@ -1,6 +1,7 @@
 "use client";
 
 import QuantitySelector from "@/components/products/quantity-selector";
+import { CART_LIMITS } from "@/config/cart";
 import DeleteIcon from "@mui/icons-material/Delete";
 import IconButton from "@mui/material/IconButton";
 import Stack from "@mui/material/Stack";
@@ -11,15 +12,15 @@ import type { Product } from "@prisma/client";
 export interface CartItemProps {
   product: Product;
   quantity: number;
-  onQuantityChange: (quantity: number) => void;
   onDelete: () => void;
+  onChangeQuantity: (newQuantity: number) => void;
 }
 
 export default function CartRowItem({
   product,
   quantity,
-  onQuantityChange,
   onDelete,
+  onChangeQuantity,
 }: CartItemProps) {
   return (
     <TableRow>
@@ -29,8 +30,8 @@ export default function CartRowItem({
         <Stack alignItems="end">
           <QuantitySelector
             quantity={quantity}
-            onQuantityChange={onQuantityChange}
-            maxStock={10}
+            onChange={onChangeQuantity}
+            max={Math.min(product.stock, CART_LIMITS.MAX_QUANTITY_PER_ITEM)}
           />
         </Stack>
       </TableCell>

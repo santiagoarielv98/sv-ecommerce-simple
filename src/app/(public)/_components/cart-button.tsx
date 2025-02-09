@@ -6,7 +6,7 @@ import Badge from "@mui/material/Badge";
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 import CartIcon from "@mui/icons-material/ShoppingCart";
-import { useCart } from "@/contexts/cart-context";
+import { useCart } from "@/contexts/cart";
 
 const CartButton = () => {
   const { items } = useCart();

@@ -1,6 +1,9 @@
 "use client";
 
 import ImagePreview from "@/components/images/image-preview";
+import QuantitySelector from "@/components/products/quantity-selector";
+import { CART_LIMITS } from "@/config/cart";
+import { useCart } from "@/contexts/cart";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -9,15 +12,19 @@ import Grid from "@mui/material/Grid2";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import type { Category, Product } from "@prisma/client";
-import { useState } from "react";
-import QuantitySelector from "@/components/products/quantity-selector";
+import React from "react";
 
 interface ProductDetailProps {
   product: Product & { category: Category };
 }
 
 export default function ProductDetail({ product }: ProductDetailProps) {
-  const [quantity, setQuantity] = useState(1);
+  const { addToCart } = useCart();
+  const [quantity, setQuantity] = React.useState(1);
+
+  const handleAddToCart = () => {
+    addToCart(product, quantity);
+  };
 
   return (
     <Grid container spacing={4}>
@@ -56,8 +63,12 @@ export default function ProductDetail({ product }: ProductDetailProps) {
               {product.stock > 0 && (
                 <QuantitySelector
                   quantity={quantity}
-                  onQuantityChange={setQuantity}
-                  maxStock={product.stock}
+                  onChange={setQuantity}
+                  max={Math.min(
+                    product.stock,
+                    CART_LIMITS.MAX_QUANTITY_PER_ITEM,
+                  )}
+                  disabled={product.stock === 0}
                 />
               )}
               <Button
@@ -65,6 +76,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                 startIcon={<ShoppingCartIcon />}
                 fullWidth
                 disabled={product.stock === 0}
+                onClick={handleAddToCart}
               >
                 {product.stock === 0 ? "Sin stock" : "Agregar al carrito"}
               </Button>

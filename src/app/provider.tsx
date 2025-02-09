@@ -6,6 +6,9 @@ import CssBaseline from "@mui/material/CssBaseline";
 import { ThemeProvider } from "@mui/material/styles";
 import { SessionProvider } from "next-auth/react";
 import React from "react";
+import GlobalStyles from "@mui/material/GlobalStyles";
+import { CartProvider } from "@/contexts/cart-context";
+import { CartProvider as CartProvider2 } from "@/contexts/cart";
 
 const RootProvider = async ({
   children,
@@ -14,10 +17,24 @@ const RootProvider = async ({
 
   return (
     <SessionProvider session={session}>
-      <AppRouterCacheProvider options={{ key: "css" }}>
-        <CssBaseline />
-        <ThemeProvider theme={theme}>{children}</ThemeProvider>
-      </AppRouterCacheProvider>
+      <CartProvider>
+        <CartProvider2>
+          <AppRouterCacheProvider options={{ key: "css" }}>
+            <GlobalStyles
+              styles={{
+                "html, body": {
+                  height: "100%",
+                  width: "100%",
+                },
+              }}
+            />
+            <CssBaseline />
+            <ThemeProvider theme={theme} defaultMode="system">
+              {children}
+            </ThemeProvider>
+          </AppRouterCacheProvider>
+        </CartProvider2>
+      </CartProvider>
     </SessionProvider>
   );
 };

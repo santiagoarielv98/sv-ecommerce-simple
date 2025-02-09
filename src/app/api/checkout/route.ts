@@ -1,7 +1,6 @@
 import mercadopago from "@/lib/mercado-pago";
 import { prisma } from "@/lib/prisma";
 import { Payment } from "mercadopago";
-import { revalidatePath } from "next/cache";
 
 export async function POST(request: Request) {
   const body: { data: { id: string } } = await request.json();
@@ -29,19 +28,17 @@ export async function POST(request: Request) {
         },
       });
 
-      for (const item of order.items) {
-        await tx.product.update({
-          where: { id: item.productId },
-          data: {
-            stock: {
-              decrement: item.quantity,
-            },
-          },
-        });
-      }
+      await Promise.all(
+        order.items.map((item) =>
+          tx.product.update({
+            where: { id: item.productId },
+            data: { stock: { decrement: item.quantity } },
+          }),
+        ),
+      );
     });
 
-    revalidatePath("/");
+    console.log("Order processed:", orderId);
   }
 
   return new Response(null, { status: 200 });

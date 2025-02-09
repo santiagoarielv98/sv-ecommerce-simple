@@ -11,7 +11,7 @@ const CATEGORIES: Omit<Category, "id">[] = [
   { name: "Home" },
 ];
 
-const MAX_PRODUCTS = 100;
+const MAX_PRODUCTS = 50;
 
 async function main() {
   const categories = await Promise.all(

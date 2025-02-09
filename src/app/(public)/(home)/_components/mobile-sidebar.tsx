@@ -14,10 +14,20 @@ import Paper from "@mui/material/Paper";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import Slider from "@mui/material/Slider";
 import Typography from "@mui/material/Typography";
+import type { Category } from "@prisma/client";
+import debounce from "lodash/debounce";
 
-const categories = ["Category 1", "Category 2", "Category 3"];
+export interface MobileSidebarProps {
+  categories: Category[];
+  selectedCategory: string[];
+  onFilterChange: (params: Record<string, string | string[]>) => void;
+}
 
-const MobileSidebar = () => {
+const MobileSidebar = ({
+  categories,
+  selectedCategory,
+  onFilterChange,
+}: MobileSidebarProps) => {
   const isMobile = useMediaQuery((theme) => theme.breakpoints.down("md"));
   const [categoryAnchor, setCategoryAnchor] =
     React.useState<null | HTMLElement>(null);
@@ -28,7 +38,18 @@ const MobileSidebar = () => {
 
   const handleChange = (event: Event, newValue: number | number[]) => {
     setValue(newValue as number[]);
+
+    const [min, max] = newValue as number[];
+    debouncedFilterChange({
+      minPrice: min.toString(),
+      maxPrice: max.toString(),
+    });
   };
+
+  const debouncedFilterChange = React.useMemo(
+    () => debounce(onFilterChange, 300),
+    [onFilterChange],
+  );
 
   const handleCategoryClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setCategoryAnchor(event.currentTarget);
@@ -88,9 +109,30 @@ const MobileSidebar = () => {
           },
         }}
       >
-        {categories.map((subcategory) => (
-          <ListItem key={subcategory} dense>
-            <FormControlLabel control={<Checkbox />} label={subcategory} />
+        {categories.map((category) => (
+          <ListItem key={category.id} dense>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={selectedCategory.includes(category.name)}
+                  value={category.name}
+                  onChange={() => {
+                    if (selectedCategory.includes(category.name)) {
+                      onFilterChange({
+                        category: selectedCategory.filter(
+                          (name) => name !== category.name,
+                        ),
+                      });
+                    } else {
+                      onFilterChange({
+                        category: [...selectedCategory, category.name],
+                      });
+                    }
+                  }}
+                />
+              }
+              label={category.name}
+            />
           </ListItem>
         ))}
       </Menu>

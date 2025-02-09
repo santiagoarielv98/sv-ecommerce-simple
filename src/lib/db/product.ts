@@ -5,26 +5,24 @@ import { prisma } from "@/lib/prisma";
 export async function getProducts({
   page = 1,
   limit = 10,
-  categories = [],
+  category = [],
   minPrice,
   maxPrice,
 }: {
   page?: number;
   limit?: number;
-  categories?: string[];
+  category?: string[];
   minPrice?: number;
   maxPrice?: number;
 }) {
-  if (page < 1 || limit < 1) {
-    throw new Error("Invalid page or limit");
-  }
-
   const skip = (page - 1) * limit;
 
   const where = {
-    ...(categories.length && {
-      categoryId: {
-        in: categories,
+    ...(category.length && {
+      category: {
+        name: {
+          in: category,
+        },
       },
     }),
     ...((minPrice || maxPrice) && {

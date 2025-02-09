@@ -2,8 +2,13 @@ import Box from "@mui/material/Box";
 import React from "react";
 
 import Sidebar from "./_components/sidebar";
+import { prisma } from "@/lib/prisma";
 
-const HomeLayout = ({ children }: React.PropsWithChildren) => {
+const HomeLayout = async ({ children }: React.PropsWithChildren) => {
+  const [categories] = await Promise.all([
+    prisma.category.findMany({ take: 5 }),
+  ]);
+
   return (
     <Box
       sx={{
@@ -13,7 +18,7 @@ const HomeLayout = ({ children }: React.PropsWithChildren) => {
         color: "text.primary",
       }}
     >
-      <Sidebar />
+      <Sidebar categories={categories} />
       <Box component="main" sx={{ flexGrow: 1 }}>
         {children}
       </Box>

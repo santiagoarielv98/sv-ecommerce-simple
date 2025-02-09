@@ -2,8 +2,9 @@
 
 import React from "react";
 
+import { route } from "@/config/route";
 import FacebookIcon from "@mui/icons-material/Facebook";
-import GoogleIcon from "@mui/icons-material/Google";
+import GithubIcon from "@mui/icons-material/GitHub";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Checkbox from "@mui/material/Checkbox";
@@ -16,7 +17,7 @@ import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import Link from "next/link";
 import Card from "../_components/card";
-import { route } from "@/config/route";
+import { signIn } from "next-auth/react";
 
 const LoginPage = () => {
   const [emailError, setEmailError] = React.useState(false);
@@ -137,10 +138,10 @@ const LoginPage = () => {
         <Button
           fullWidth
           variant="outlined"
-          onClick={() => alert("Sign in with Google")}
-          startIcon={<GoogleIcon />}
+          onClick={() => signIn("github")}
+          startIcon={<GithubIcon />}
         >
-          Sign in with Google
+          Sign in with GitHub
         </Button>
         <Button
           fullWidth

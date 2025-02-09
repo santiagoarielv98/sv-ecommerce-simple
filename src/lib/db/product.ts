@@ -4,7 +4,7 @@ import { prisma } from "@/lib/prisma";
 // logica para obtener productos paginados, filtro de categorias y rango de precios
 export async function getProducts({
   page = 1,
-  limit = 10,
+  limit = 12,
   category = [],
   minPrice,
   maxPrice,

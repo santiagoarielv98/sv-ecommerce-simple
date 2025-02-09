@@ -8,7 +8,7 @@ export const adminNav = [
 export const authenticatedNav = [
   {
     title: "Orders",
-    href: "/user/orders",
+    href: "/orders",
   },
 ];
 

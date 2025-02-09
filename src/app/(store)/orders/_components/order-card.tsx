@@ -4,44 +4,70 @@ import Chip from "@mui/material/Chip";
 import Paper from "@mui/material/Paper";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
-import type { Order, OrderItem, ShippingAddress } from "@prisma/client";
+import type {
+  Order,
+  OrderItem,
+  Product,
+  ShippingAddress,
+} from "@prisma/client";
 
 export interface OrderCardProps {
   order: Order & {
-    items: OrderItem[];
+    items: Array<OrderItem & { product: Product }>;
   } & {
-    shippingAddress: ShippingAddress;
+    shippingAddress: ShippingAddress | null;
   };
 }
 
 const OrderCard = ({ order }: OrderCardProps) => {
+  const totalItems = order.items.reduce((sum, item) => sum + item.quantity, 0);
+
   return (
     <Paper
       sx={{
         p: 3,
+        "&:hover": {
+          bgcolor: "action.hover",
+        },
       }}
     >
-      <Stack direction="row" justifyContent="space-between" mb={1}>
-        <Typography variant="h6">Order #{order.id.slice(-6)}</Typography>
-        <Chip
-          label={order.status}
-          color={order.status === "PENDING" ? "warning" : "success"}
-        />
-      </Stack>
-      <Stack direction="row" justifyContent="space-between" mb={2}>
-        <Typography variant="body2" color="text.secondary">
-          {new Date(order.createdAt).toLocaleDateString()}
-        </Typography>
-        <Typography variant="h6">${order.total.toFixed(2)}</Typography>
-      </Stack>
-      <Stack>
-        <Typography variant="body2" color="text.secondary">
-          {order.items.length} items
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-          Shipping to: {order.shippingAddress?.city},{" "}
-          {order.shippingAddress?.country}
-        </Typography>
+      <Stack spacing={2}>
+        <Stack
+          direction="row"
+          justifyContent="space-between"
+          alignItems="center"
+        >
+          <Typography variant="h6">Order #{order.id.slice(-6)}</Typography>
+          <Chip
+            label={order.status}
+            color={order.status === "PENDING" ? "warning" : "success"}
+          />
+        </Stack>
+
+        <Stack
+          direction="row"
+          justifyContent="space-between"
+          alignItems="center"
+        >
+          <Stack>
+            <Typography variant="body2" color="text.secondary">
+              {totalItems} {totalItems === 1 ? "item" : "items"}
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              {new Date(order.createdAt).toLocaleDateString()}
+            </Typography>
+          </Stack>
+          <Typography variant="h6" color="primary">
+            ${order.total.toFixed(2)}
+          </Typography>
+        </Stack>
+
+        {order.shippingAddress && (
+          <Typography variant="body2" color="text.secondary" noWrap>
+            Shipping to: {order.shippingAddress.city},{" "}
+            {order.shippingAddress.state}
+          </Typography>
+        )}
       </Stack>
     </Paper>
   );

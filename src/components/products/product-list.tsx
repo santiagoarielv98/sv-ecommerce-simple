@@ -7,7 +7,7 @@ import ProductCard from "@/components/products/product-card";
 import React from "react";
 import type { Product } from "@prisma/client";
 import { ROUTE } from "@/config/route";
-import { useCart } from "@/contexts/cart-context";
+import { useCart } from "@/hooks/use-cart";
 
 export interface ListProductProps {
   products: Product[];

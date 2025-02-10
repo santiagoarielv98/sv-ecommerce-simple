@@ -2,7 +2,7 @@
 
 import { EmptyCart } from "@/components/cart/empty-cart";
 import { ROUTE } from "@/config/route";
-import { useCart } from "@/contexts/cart-context";
+import { useCart } from "@/hooks/use-cart";
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";

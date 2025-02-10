@@ -8,7 +8,6 @@ import { SessionProvider } from "next-auth/react";
 import React from "react";
 import GlobalStyles from "@mui/material/GlobalStyles";
 import { CartProvider } from "@/contexts/cart-context";
-import { CartProvider as CartProvider2 } from "@/contexts/cart";
 
 const RootProvider = async ({
   children,
@@ -18,22 +17,20 @@ const RootProvider = async ({
   return (
     <SessionProvider session={session}>
       <CartProvider>
-        <CartProvider2>
-          <AppRouterCacheProvider options={{ key: "css" }}>
-            <GlobalStyles
-              styles={{
-                "html, body": {
-                  height: "100%",
-                  width: "100%",
-                },
-              }}
-            />
-            <CssBaseline />
-            <ThemeProvider theme={theme} defaultMode="system">
-              {children}
-            </ThemeProvider>
-          </AppRouterCacheProvider>
-        </CartProvider2>
+        <AppRouterCacheProvider options={{ key: "css" }}>
+          <GlobalStyles
+            styles={{
+              "html, body": {
+                height: "100%",
+                width: "100%",
+              },
+            }}
+          />
+          <CssBaseline />
+          <ThemeProvider theme={theme} defaultMode="system">
+            {children}
+          </ThemeProvider>
+        </AppRouterCacheProvider>
       </CartProvider>
     </SessionProvider>
   );

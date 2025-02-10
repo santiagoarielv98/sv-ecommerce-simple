@@ -1,6 +1,6 @@
 "use client";
 
-import { useCart } from "@/contexts/cart";
+import { useCart } from "@/contexts/cart-context";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";

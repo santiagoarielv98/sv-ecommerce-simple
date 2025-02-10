@@ -2,12 +2,12 @@
 
 import { EmptyCart } from "@/components/cart/empty-cart";
 import { ROUTE } from "@/config/route";
-import { useCart } from "@/contexts/cart";
+import { useCart } from "@/contexts/cart-context";
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import Link from "next/link";
-import CartTable from "./components/cart-table";
+import CartTable from "./_components/cart-table";
 
 export default function CartPage() {
   const { items } = useCart();

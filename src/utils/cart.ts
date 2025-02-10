@@ -1,5 +1,5 @@
 import { CART_LIMITS } from "@/config/cart";
-import type { CartItem } from "@/contexts/cart-context";
+import type { CartItem } from "@/types/cart";
 
 export class CartError extends Error {
   constructor(message: string) {

@@ -94,12 +94,6 @@ export default function AddressForm({ onSubmit }: AddressFormProps) {
                 {...register("country")}
               />
             </Grid>
-            {/* <Grid size={{ xs: 12 }}>
-              <FormControlLabel
-                control={<Checkbox />}
-                label="Use this address for payment details"
-              />
-            </Grid> */}
           </Grid>
           <AlertDemoCredentials />
 

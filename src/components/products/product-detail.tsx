@@ -3,7 +3,7 @@
 import ImagePreview from "@/components/images/image-preview";
 import QuantitySelector from "@/components/products/quantity-selector";
 import { CART_LIMITS } from "@/config/cart";
-import { useCart } from "@/contexts/cart";
+import { useCart } from "@/contexts/cart-context";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";

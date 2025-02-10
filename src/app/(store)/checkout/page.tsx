@@ -2,7 +2,7 @@
 
 import { EmptyCart } from "@/components/cart/empty-cart";
 import OrderSummary from "@/components/order/order-summary";
-import { useCart } from "@/contexts/cart";
+import { useCart } from "@/contexts/cart-context";
 import { createOrder } from "@/lib/db/checkout";
 import type { CheckoutFormData } from "@/lib/schemas/checkout";
 import { checkoutSchema } from "@/lib/schemas/checkout";

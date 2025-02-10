@@ -1,11 +1,11 @@
 "use server";
 
 import { CART_LIMITS } from "@/config/cart";
-import type { CartItem } from "@/contexts/cart-context";
 import { auth } from "@/lib/auth";
 import mercadopago from "@/lib/mercado-pago";
 import { prisma } from "@/lib/prisma";
 import { checkoutSchema, type CheckoutFormData } from "@/lib/schemas/checkout";
+import type { CartItem } from "@/types/cart";
 import { Preference } from "mercadopago";
 import { z } from "zod";
 

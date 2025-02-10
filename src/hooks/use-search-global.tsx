@@ -16,6 +16,8 @@ const useSearchGlobal = () => {
   const [open, setOpen] = React.useState(false);
   const [options, setOptions] = React.useState<readonly ProductType[]>([]);
   const [value, setValue] = React.useState<ProductType | null>(null);
+  const [loading, setLoading] = React.useState(false);
+  const [error, setError] = React.useState<string | null>(null);
 
   const handleClose = () => {
     setOpen(false);
@@ -42,9 +44,18 @@ const useSearchGlobal = () => {
 
   const fetcher = async (query: string) => {
     if (!query.trim()) return;
-    setOpen(true);
-    const products = await search(query);
-    setOptions(products);
+    try {
+      setLoading(true);
+      setError(null);
+      setOpen(true);
+      const products = await search(query);
+      setOptions(products);
+    } catch {
+      setError("Failed to fetch products");
+      setOptions([]);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const debouncedFetch = React.useMemo(() => debounce(fetcher, 300), []);
@@ -62,6 +73,8 @@ const useSearchGlobal = () => {
     open,
     options,
     value,
+    loading,
+    error,
     onClose: handleClose,
     onInputChange: handleInputChange,
     onChange: handleChange,

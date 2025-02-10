@@ -3,8 +3,6 @@
 import React from "react";
 
 import { ROUTE } from "@/config/route";
-import FacebookIcon from "@mui/icons-material/Facebook";
-import GithubIcon from "@mui/icons-material/GitHub";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Checkbox from "@mui/material/Checkbox";
@@ -17,52 +15,52 @@ import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import Link from "next/link";
 import Card from "../_components/card";
-import { signIn } from "next-auth/react";
+import SocialButtons from "../_components/social-buttons";
 
 const LoginPage = () => {
-  const [emailError, setEmailError] = React.useState(false);
-  const [emailErrorMessage, setEmailErrorMessage] = React.useState("");
-  const [passwordError, setPasswordError] = React.useState(false);
-  const [passwordErrorMessage, setPasswordErrorMessage] = React.useState("");
+  // const [emailError, setEmailError] = React.useState(false);
+  // const [emailErrorMessage, setEmailErrorMessage] = React.useState("");
+  // const [passwordError, setPasswordError] = React.useState(false);
+  // const [passwordErrorMessage, setPasswordErrorMessage] = React.useState("");
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    if (emailError || passwordError) {
-      event.preventDefault();
-      return;
-    }
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
-  };
+  // const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  //   if (emailError || passwordError) {
+  //     event.preventDefault();
+  //     return;
+  //   }
+  //   const data = new FormData(event.currentTarget);
+  //   console.log({
+  //     email: data.get("email"),
+  //     password: data.get("password"),
+  //   });
+  // };
 
-  const validateInputs = () => {
-    const email = document.getElementById("email") as HTMLInputElement;
-    const password = document.getElementById("password") as HTMLInputElement;
+  // const validateInputs = () => {
+  //   const email = document.getElementById("email") as HTMLInputElement;
+  //   const password = document.getElementById("password") as HTMLInputElement;
 
-    let isValid = true;
+  //   let isValid = true;
 
-    if (!email.value || !/\S+@\S+\.\S+/.test(email.value)) {
-      setEmailError(true);
-      setEmailErrorMessage("Please enter a valid email address.");
-      isValid = false;
-    } else {
-      setEmailError(false);
-      setEmailErrorMessage("");
-    }
+  //   if (!email.value || !/\S+@\S+\.\S+/.test(email.value)) {
+  //     setEmailError(true);
+  //     setEmailErrorMessage("Please enter a valid email address.");
+  //     isValid = false;
+  //   } else {
+  //     setEmailError(false);
+  //     setEmailErrorMessage("");
+  //   }
 
-    if (!password.value || password.value.length < 6) {
-      setPasswordError(true);
-      setPasswordErrorMessage("Password must be at least 6 characters long.");
-      isValid = false;
-    } else {
-      setPasswordError(false);
-      setPasswordErrorMessage("");
-    }
+  //   if (!password.value || password.value.length < 6) {
+  //     setPasswordError(true);
+  //     setPasswordErrorMessage("Password must be at least 6 characters long.");
+  //     isValid = false;
+  //   } else {
+  //     setPasswordError(false);
+  //     setPasswordErrorMessage("");
+  //   }
 
-    return isValid;
-  };
+  //   return isValid;
+  // };
 
   return (
     <Card variant="outlined">
@@ -75,20 +73,23 @@ const LoginPage = () => {
       </Typography>
       <Box
         component="form"
-        onSubmit={handleSubmit}
+        // onSubmit={handleSubmit}
         noValidate
         sx={{
           display: "flex",
           flexDirection: "column",
           width: "100%",
           gap: 2,
+          filter: "blur(5px)",
+          pointerEvents: "none",
+          userSelect: "none",
         }}
       >
         <FormControl>
           <FormLabel htmlFor="email">Email</FormLabel>
           <TextField
-            error={emailError}
-            helperText={emailErrorMessage}
+            // error={emailError}
+            // helperText={emailErrorMessage}
             id="email"
             type="email"
             name="email"
@@ -99,14 +100,15 @@ const LoginPage = () => {
             fullWidth
             size="small"
             variant="outlined"
-            color={emailError ? "error" : "primary"}
+            disabled
+            // color={emailError ? "error" : "primary"}
           />
         </FormControl>
         <FormControl>
           <FormLabel htmlFor="password">Password</FormLabel>
           <TextField
-            error={passwordError}
-            helperText={passwordErrorMessage}
+            // error={passwordError}
+            // helperText={passwordErrorMessage}
             name="password"
             placeholder="••••••"
             type="password"
@@ -117,40 +119,27 @@ const LoginPage = () => {
             fullWidth
             size="small"
             variant="outlined"
-            color={passwordError ? "error" : "primary"}
+            disabled
+            // color={passwordError ? "error" : "primary"}
           />
         </FormControl>
         <FormControlLabel
-          control={<Checkbox value="remember" color="primary" />}
+          control={<Checkbox value="remember" color="primary" disabled />}
           label="Remember me"
         />
         <Button
           type="submit"
           fullWidth
           variant="contained"
-          onClick={validateInputs}
+          disabled
+          // onClick={validateInputs}
         >
           Sign in
         </Button>
       </Box>
       <Divider>or</Divider>
       <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
-        <Button
-          fullWidth
-          variant="outlined"
-          onClick={() => signIn("github", { redirectTo: ROUTE.HOME })}
-          startIcon={<GithubIcon />}
-        >
-          Sign in with GitHub
-        </Button>
-        <Button
-          fullWidth
-          variant="outlined"
-          onClick={() => alert("Sign in with Facebook")}
-          startIcon={<FacebookIcon />}
-        >
-          Sign in with Facebook
-        </Button>
+        <SocialButtons type="login" />
         <Typography sx={{ textAlign: "center" }}>
           Don&apos;t have an account?{" "}
           <MuiLink

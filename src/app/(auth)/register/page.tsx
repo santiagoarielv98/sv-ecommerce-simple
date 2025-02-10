@@ -1,7 +1,6 @@
 "use client";
 
-import FacebookIcon from "@mui/icons-material/Facebook";
-import GithubIcon from "@mui/icons-material/GitHub";
+import { ROUTE } from "@/config/route";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Divider from "@mui/material/Divider";
@@ -13,67 +12,66 @@ import Typography from "@mui/material/Typography";
 import Link from "next/link";
 import * as React from "react";
 import Card from "../_components/card";
-import { ROUTE } from "@/config/route";
-import { signIn } from "next-auth/react";
+import SocialButtons from "../_components/social-buttons";
 
 export default function SignUp() {
-  const [emailError, setEmailError] = React.useState(false);
-  const [emailErrorMessage, setEmailErrorMessage] = React.useState("");
-  const [passwordError, setPasswordError] = React.useState(false);
-  const [passwordErrorMessage, setPasswordErrorMessage] = React.useState("");
-  const [nameError, setNameError] = React.useState(false);
-  const [nameErrorMessage, setNameErrorMessage] = React.useState("");
+  // const [emailError, setEmailError] = React.useState(false);
+  // const [emailErrorMessage, setEmailErrorMessage] = React.useState("");
+  // const [passwordError, setPasswordError] = React.useState(false);
+  // const [passwordErrorMessage, setPasswordErrorMessage] = React.useState("");
+  // const [nameError, setNameError] = React.useState(false);
+  // const [nameErrorMessage, setNameErrorMessage] = React.useState("");
 
-  const validateInputs = () => {
-    const email = document.getElementById("email") as HTMLInputElement;
-    const password = document.getElementById("password") as HTMLInputElement;
-    const name = document.getElementById("name") as HTMLInputElement;
+  // const validateInputs = () => {
+  //   const email = document.getElementById("email") as HTMLInputElement;
+  //   const password = document.getElementById("password") as HTMLInputElement;
+  //   const name = document.getElementById("name") as HTMLInputElement;
 
-    let isValid = true;
+  //   let isValid = true;
 
-    if (!email.value || !/\S+@\S+\.\S+/.test(email.value)) {
-      setEmailError(true);
-      setEmailErrorMessage("Please enter a valid email address.");
-      isValid = false;
-    } else {
-      setEmailError(false);
-      setEmailErrorMessage("");
-    }
+  //   if (!email.value || !/\S+@\S+\.\S+/.test(email.value)) {
+  //     setEmailError(true);
+  //     setEmailErrorMessage("Please enter a valid email address.");
+  //     isValid = false;
+  //   } else {
+  //     setEmailError(false);
+  //     setEmailErrorMessage("");
+  //   }
 
-    if (!password.value || password.value.length < 6) {
-      setPasswordError(true);
-      setPasswordErrorMessage("Password must be at least 6 characters long.");
-      isValid = false;
-    } else {
-      setPasswordError(false);
-      setPasswordErrorMessage("");
-    }
+  //   if (!password.value || password.value.length < 6) {
+  //     setPasswordError(true);
+  //     setPasswordErrorMessage("Password must be at least 6 characters long.");
+  //     isValid = false;
+  //   } else {
+  //     setPasswordError(false);
+  //     setPasswordErrorMessage("");
+  //   }
 
-    if (!name.value || name.value.length < 1) {
-      setNameError(true);
-      setNameErrorMessage("Name is required.");
-      isValid = false;
-    } else {
-      setNameError(false);
-      setNameErrorMessage("");
-    }
+  //   if (!name.value || name.value.length < 1) {
+  //     setNameError(true);
+  //     setNameErrorMessage("Name is required.");
+  //     isValid = false;
+  //   } else {
+  //     setNameError(false);
+  //     setNameErrorMessage("");
+  //   }
 
-    return isValid;
-  };
+  //   return isValid;
+  // };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    if (nameError || emailError || passwordError) {
-      event.preventDefault();
-      return;
-    }
-    const data = new FormData(event.currentTarget);
-    console.log({
-      name: data.get("name"),
-      lastName: data.get("lastName"),
-      email: data.get("email"),
-      password: data.get("password"),
-    });
-  };
+  // const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  //   if (nameError || emailError || passwordError) {
+  //     event.preventDefault();
+  //     return;
+  //   }
+  //   const data = new FormData(event.currentTarget);
+  //   console.log({
+  //     name: data.get("name"),
+  //     lastName: data.get("lastName"),
+  //     email: data.get("email"),
+  //     password: data.get("password"),
+  //   });
+  // };
 
   return (
     <Card variant="outlined">
@@ -86,8 +84,15 @@ export default function SignUp() {
       </Typography>
       <Box
         component="form"
-        onSubmit={handleSubmit}
-        sx={{ display: "flex", flexDirection: "column", gap: 2 }}
+        // onSubmit={handleSubmit}
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          gap: 2,
+          filter: "blur(5px)",
+          pointerEvents: "none",
+          userSelect: "none",
+        }}
       >
         <FormControl>
           <FormLabel htmlFor="name">Full name</FormLabel>
@@ -99,9 +104,10 @@ export default function SignUp() {
             id="name"
             placeholder="Jon Snow"
             size="small"
-            error={nameError}
-            helperText={nameErrorMessage}
-            color={nameError ? "error" : "primary"}
+            disabled
+            // error={nameError}
+            // helperText={nameErrorMessage}
+            // color={nameError ? "error" : "primary"}
           />
         </FormControl>
         <FormControl>
@@ -115,9 +121,10 @@ export default function SignUp() {
             autoComplete="email"
             size="small"
             variant="outlined"
-            error={emailError}
-            helperText={emailErrorMessage}
-            color={passwordError ? "error" : "primary"}
+            disabled
+            // error={emailError}
+            // helperText={emailErrorMessage}
+            // color={passwordError ? "error" : "primary"}
           />
         </FormControl>
         <FormControl>
@@ -132,9 +139,10 @@ export default function SignUp() {
             autoComplete="new-password"
             size="small"
             variant="outlined"
-            error={passwordError}
-            helperText={passwordErrorMessage}
-            color={passwordError ? "error" : "primary"}
+            disabled
+            // error={passwordError}
+            // helperText={passwordErrorMessage}
+            // color={passwordError ? "error" : "primary"}
           />
         </FormControl>
 
@@ -142,7 +150,8 @@ export default function SignUp() {
           type="submit"
           fullWidth
           variant="contained"
-          onClick={validateInputs}
+          disabled
+          // onClick={validateInputs}
         >
           Sign up
         </Button>
@@ -151,22 +160,7 @@ export default function SignUp() {
         <Typography sx={{ color: "text.secondary" }}>or</Typography>
       </Divider>
       <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
-        <Button
-          fullWidth
-          variant="outlined"
-          onClick={() => signIn("github", { redirectTo: ROUTE.HOME })}
-          startIcon={<GithubIcon />}
-        >
-          Sign in with GitHub
-        </Button>
-        <Button
-          fullWidth
-          variant="outlined"
-          onClick={() => alert("Sign up with Facebook")}
-          startIcon={<FacebookIcon />}
-        >
-          Sign up with Facebook
-        </Button>
+        <SocialButtons type="register" />
         <Typography sx={{ textAlign: "center" }}>
           Already have an account?{" "}
           <MuiLink

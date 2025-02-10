@@ -1,6 +1,6 @@
 "use client";
 
-import Asynchronous from "@/components/forms/component";
+import GlobalSearch from "@/components/forms/global-search";
 import Logo from "@/components/logo";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -25,7 +25,7 @@ function AppNavbar() {
           <Logo />
 
           <Box sx={{ flexGrow: 1 }}>
-            <Asynchronous />
+            <GlobalSearch />
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>

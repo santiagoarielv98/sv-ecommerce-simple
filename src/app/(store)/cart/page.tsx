@@ -27,7 +27,7 @@ export default function CartPage() {
         variant="contained"
         size="large"
         sx={{ mt: 4 }}
-        href={ROUTE.STORE.checkout}
+        href={ROUTE.STORE.CHECKOUT}
       >
         Proceed to Checkout
       </Button>

@@ -171,7 +171,7 @@ export default function SignUp() {
           Already have an account?{" "}
           <MuiLink
             component={Link}
-            href={ROUTE.AUTH.login}
+            href={ROUTE.AUTH.LOGIN}
             variant="body2"
             sx={{ alignSelf: "center" }}
           >

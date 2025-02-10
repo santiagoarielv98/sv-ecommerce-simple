@@ -1,12 +1,12 @@
 export const ROUTE = {
   AUTH: {
-    login: "/login",
-    register: "/register",
+    LOGIN: "/login",
+    REGISTER: "/register",
   },
   HOME: "/",
   STORE: {
-    checkout: "/checkout",
-    orders: "/orders",
-    products: "/products",
+    CHECKOUT: "/checkout",
+    ORDERS: "/orders",
+    PRODUCTS: "/products",
   },
 };

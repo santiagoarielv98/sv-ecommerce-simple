@@ -36,7 +36,7 @@ const ProductList = ({ products = [] }: ListProductProps) => {
           <MuiLink
             underline="none"
             component={Link}
-            href={`${ROUTE.STORE.products}/${product.id}`}
+            href={`${ROUTE.STORE.PRODUCTS}/${product.id}`}
           >
             <ProductCard product={product} onAddToCart={handleAddToCart} />
           </MuiLink>

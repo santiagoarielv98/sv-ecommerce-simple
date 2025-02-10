@@ -155,7 +155,7 @@ const LoginPage = () => {
           Don&apos;t have an account?{" "}
           <MuiLink
             component={Link}
-            href={ROUTE.AUTH.register}
+            href={ROUTE.AUTH.REGISTER}
             variant="body2"
             sx={{ alignSelf: "center" }}
           >

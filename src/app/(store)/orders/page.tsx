@@ -21,7 +21,7 @@ export default async function OrdersPage() {
           {orders.map((order) => (
             <Grid key={order.id} size={{ xs: 12 }}>
               <MuiLink
-                href={`${ROUTE.STORE.orders}/${order.id}`}
+                href={`${ROUTE.STORE.ORDERS}/${order.id}`}
                 component={Link}
                 underline="none"
               >

@@ -3,7 +3,7 @@ import React from "react";
 import AppNavbar from "./_components/app-navbar";
 import Toolbar from "@mui/material/Toolbar";
 
-const AppLayout = ({ children }: React.PropsWithChildren) => {
+const ShopLayout = ({ children }: React.PropsWithChildren) => {
   return (
     <Box
       sx={{
@@ -21,4 +21,4 @@ const AppLayout = ({ children }: React.PropsWithChildren) => {
   );
 };
 
-export default AppLayout;
+export default ShopLayout;

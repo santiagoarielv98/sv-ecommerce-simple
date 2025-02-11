@@ -8,5 +8,6 @@ export const ROUTE = {
     CHECKOUT: "/checkout",
     ORDERS: "/orders",
     PRODUCTS: "/products",
+    CART: "/cart",
   },
 };

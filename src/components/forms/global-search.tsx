@@ -17,7 +17,7 @@ export default function GlobalSearch() {
     <Autocomplete
       {...params}
       size="small"
-      sx={{ width: 300 }}
+      sx={{ width: { xs: "100%", md: 300 } }}
       noOptionsText={error || "No products found"}
       loading={loading}
       isOptionEqualToValue={(option, value) => option.name === value.name}

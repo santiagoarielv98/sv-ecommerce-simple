@@ -16,6 +16,10 @@ const Logo = () => {
         variant="h6"
         noWrap
         sx={{
+          display: {
+            xs: "none",
+            md: "block",
+          },
           mr: 2,
           color: "inherit",
           textDecoration: "none",

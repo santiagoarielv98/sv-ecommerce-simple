@@ -13,10 +13,11 @@ import {
 import type { Category } from "@prisma/client";
 import { FormProvider, useForm } from "react-hook-form";
 import ProductForm from "../form/product-form";
+import useProduct from "../../_hooks/use-product";
 
 interface CreateProductModalProps {
   open: boolean;
-  onClose: (refresh?: boolean) => void;
+  onClose: () => void;
   categories: Category[];
 }
 
@@ -25,6 +26,7 @@ const CreateProductModal = ({
   open,
   onClose,
 }: CreateProductModalProps) => {
+  const { fetchData } = useProduct();
   const methods = useForm<ProductSchema>({
     resolver: zodResolver(productSchema),
     defaultValues: {
@@ -44,7 +46,8 @@ const CreateProductModal = ({
 
   const onSubmit = async (data: ProductSchema) => {
     await createProduct(data).then(() => {
-      onClose(true);
+      fetchData();
+      onClose();
     });
   };
 

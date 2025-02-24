@@ -5,42 +5,25 @@ import React from "react";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
 
-import { getProducts } from "@/lib/db/admin";
-import type {
-  GridColDef,
-  GridFilterModel,
-  GridRowId,
-  GridSortModel,
-} from "@mui/x-data-grid";
-import type { Product } from "@prisma/client";
 import Avatar from "@mui/material/Avatar";
-
-type Row = Product & { category: { name: string } };
+import type { GridColDef, GridRowId } from "@mui/x-data-grid";
+import type { Product } from "@prisma/client";
+import useProduct from "../../_hooks/use-product";
+import type { ProductRow } from "../../_context/product-context";
 
 const ProductTable = () => {
-  const [rows, setRows] = React.useState<Row[]>([]);
-  const [total, setTotal] = React.useState(0);
-  const [isLoading, setIsLoading] = React.useState(true);
-  const [paginationModel, setPaginationModel] = React.useState({
-    page: 0,
-    pageSize: 20,
-  });
-  const [sortModel, setSortModel] = React.useState<GridSortModel>([]);
-  const [filterModel, setFilterModel] = React.useState<GridFilterModel>({
-    items: [],
-  });
-
-  const fetchData = React.useCallback(async () => {
-    setIsLoading(true);
-    const data = await getProducts({
-      limit: paginationModel.pageSize,
-      page: paginationModel.page + 1,
-      sort: sortModel,
-    });
-    setIsLoading(false);
-    setRows(data.items);
-    setTotal(data.total);
-  }, [paginationModel, sortModel]);
+  const {
+    fetchData,
+    isLoading,
+    items,
+    total,
+    paginationModel,
+    sortModel,
+    filterModel,
+    setPaginationModel,
+    setSortModel,
+    setFilterModel,
+  } = useProduct();
 
   const queryOptions = React.useMemo(
     () => ({ ...paginationModel, sortModel, filterModel }),
@@ -56,7 +39,7 @@ const ProductTable = () => {
     [],
   );
 
-  const columns = React.useMemo<GridColDef<Row>[]>(
+  const columns = React.useMemo<GridColDef<ProductRow>[]>(
     () => [
       { field: "id", headerName: "ID", width: 215 },
       {
@@ -81,7 +64,7 @@ const ProductTable = () => {
       {
         field: "category",
         headerName: "Categoría",
-        valueGetter: (params: Row["category"]) => params.name,
+        valueGetter: (params: ProductRow["category"]) => params.name,
         width: 130,
       },
       {
@@ -111,7 +94,7 @@ const ProductTable = () => {
     <DataGrid
       loading={isLoading}
       rowCount={total}
-      rows={rows}
+      rows={items}
       columns={columns}
       pageSizeOptions={[20]}
       paginationModel={paginationModel}

@@ -21,9 +21,11 @@ export interface MobileSidebarProps {
   categories: Category[];
   selectedCategory: string[];
   onFilterChange: (params: Record<string, string | string[]>) => void;
+  range: [number, number];
 }
 
 const MobileSidebar = ({
+  range,
   price,
   categories,
   selectedCategory,
@@ -124,6 +126,8 @@ const MobileSidebar = ({
         </ListItem>
         <ListItem>
           <PriceFilter
+            min={range[0]}
+            max={range[1]}
             defaultValue={price}
             onChange={(value) => {
               debouncedFilterChange({

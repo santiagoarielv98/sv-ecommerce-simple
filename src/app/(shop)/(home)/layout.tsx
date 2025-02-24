@@ -5,8 +5,21 @@ import Sidebar from "./_components/sidebar";
 import { prisma } from "@/lib/prisma";
 
 const HomeLayout = async ({ children }: React.PropsWithChildren) => {
-  const [categories] = await Promise.all([
-    prisma.category.findMany({ take: 5 }),
+  const [categories, price] = await Promise.all([
+    prisma.category.findMany({
+      select: {
+        id: true,
+        name: true,
+      },
+    }),
+    prisma.product.aggregate({
+      _min: {
+        price: true,
+      },
+      _max: {
+        price: true,
+      },
+    }),
   ]);
 
   return (
@@ -18,7 +31,10 @@ const HomeLayout = async ({ children }: React.PropsWithChildren) => {
         color: "text.primary",
       }}
     >
-      <Sidebar categories={categories} />
+      <Sidebar
+        categories={categories}
+        range={[price._min.price || 0, price._max.price || 0]}
+      />
       <Box component="main" sx={{ flexGrow: 1 }}>
         {children}
       </Box>

@@ -27,9 +27,15 @@ export const parseQueryParams = (
     maxPrice,
   };
 };
-export const getPriceRange = (searchParams: ReadonlyURLSearchParams) => {
-  const minPrice = parseInt(searchParams.get("minPrice") || "0");
-  const maxPrice = parseInt(searchParams.get("maxPrice") || "0");
+export const getPriceRange = (
+  searchParams: ReadonlyURLSearchParams,
+  range: [number, number] = [0, 0],
+) => {
+  const minPrice = parseInt(searchParams.get("minPrice") || "");
+  const maxPrice = parseInt(searchParams.get("maxPrice") || "");
 
-  return [minPrice, maxPrice] as [number, number];
+  const min = isNaN(minPrice) ? range[0] : minPrice;
+  const max = isNaN(maxPrice) ? range[1] : maxPrice;
+
+  return [min, max] as [number, number];
 };

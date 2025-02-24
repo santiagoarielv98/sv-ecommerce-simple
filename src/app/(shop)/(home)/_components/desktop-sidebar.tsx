@@ -20,12 +20,14 @@ import PriceFilter from "./price-filter";
 
 interface DesktopSidebarProps {
   price: [number, number];
+  range: [number, number];
   categories: Category[];
   selectedCategory: string[];
   onFilterChange: (params: Record<string, string | string[]>) => void;
 }
 
 const DesktopSidebar = ({
+  range,
   price,
   categories,
   selectedCategory,
@@ -78,11 +80,7 @@ const DesktopSidebar = ({
           </AccordionDetails>
         </Accordion>
         <Accordion defaultExpanded>
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel2-content"
-            id="panel2-header"
-          >
+          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
             <Typography component="span">Price</Typography>
           </AccordionSummary>
           <AccordionDetails
@@ -91,6 +89,8 @@ const DesktopSidebar = ({
             }}
           >
             <PriceFilter
+              min={range[0]}
+              max={range[1]}
               defaultValue={price}
               onChange={(value) => {
                 debouncedFilterChange({

@@ -3,11 +3,11 @@
 import useMediaQuery from "@mui/material/useMediaQuery";
 import dynamic from "next/dynamic";
 
+import { getPriceRange } from "@/utils/query-params";
 import type { Category } from "@prisma/client";
 import { useRouter, useSearchParams } from "next/navigation";
 import DesktopSidebarLoading from "./desktop-sidebar-loading";
 import MobileSidebarLoading from "./mobile-sidebar-loading";
-import { getPriceRange } from "@/utils/query-params";
 
 const DesktopSidebar = dynamic(() => import("./desktop-sidebar"), {
   loading: () => <DesktopSidebarLoading />,
@@ -20,14 +20,15 @@ const MobileSidebar = dynamic(() => import("./mobile-sidebar"), {
 
 interface SidebarProps {
   categories: Category[];
+  range: [number, number];
 }
 
-const Sidebar = ({ categories }: SidebarProps) => {
+const Sidebar = ({ categories, range }: SidebarProps) => {
   const { replace } = useRouter();
   const searchParams = useSearchParams();
   const isMobile = useMediaQuery((theme) => theme.breakpoints.down("md"));
   const selectedCategory = searchParams.getAll("category");
-  const priceRange = getPriceRange(searchParams);
+  const priceRange = getPriceRange(searchParams, range);
 
   const handleFilterChange = (params: Record<string, string | string[]>) => {
     const urlSearchParams = new URLSearchParams(searchParams);
@@ -47,6 +48,7 @@ const Sidebar = ({ categories }: SidebarProps) => {
 
   return isMobile ? (
     <MobileSidebar
+      range={range}
       price={priceRange}
       categories={categories}
       selectedCategory={selectedCategory}
@@ -54,6 +56,7 @@ const Sidebar = ({ categories }: SidebarProps) => {
     />
   ) : (
     <DesktopSidebar
+      range={range}
       price={priceRange}
       categories={categories}
       selectedCategory={selectedCategory}

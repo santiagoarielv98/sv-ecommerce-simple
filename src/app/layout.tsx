@@ -1,12 +1,21 @@
+import React from "react";
+
 import { Raleway } from "next/font/google";
+
+import theme from "@/lib/theme";
+import { AppRouterCacheProvider } from "@mui/material-nextjs/v15-appRouter";
+import CssBaseline from "@mui/material/CssBaseline";
+import GlobalStyles from "@mui/material/GlobalStyles";
+import { ThemeProvider } from "@mui/material/styles";
+import RootProvider from "./provider";
+
+import type { Metadata } from "next";
 
 const raleway = Raleway({
   variable: "--font-raleway",
   subsets: ["latin"],
   display: "swap",
 });
-import type { Metadata } from "next";
-import RootProvider from "./provider";
 
 export const metadata: Metadata = {
   title: "SV - Ecommerce",
@@ -21,7 +30,20 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className={`${raleway.variable} antialiased`}>
-        <RootProvider>{children}</RootProvider>
+        <AppRouterCacheProvider options={{ key: "css" }}>
+          <GlobalStyles
+            styles={{
+              "html, body": {
+                height: "100%",
+                width: "100%",
+              },
+            }}
+          />
+          <CssBaseline />
+          <ThemeProvider theme={theme} defaultMode="system">
+            <RootProvider>{children}</RootProvider>
+          </ThemeProvider>
+        </AppRouterCacheProvider>
       </body>
     </html>
   );

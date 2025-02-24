@@ -29,7 +29,7 @@ const ProductTable = () => {
     items: [],
   });
 
-  const fetchData = async () => {
+  const fetchData = React.useCallback(async () => {
     setIsLoading(true);
     const data = await getProducts({
       limit: paginationModel.pageSize,
@@ -39,7 +39,7 @@ const ProductTable = () => {
     setIsLoading(false);
     setRows(data.items);
     setTotal(data.total);
-  };
+  }, [paginationModel, sortModel]);
 
   const queryOptions = React.useMemo(
     () => ({ ...paginationModel, sortModel, filterModel }),
@@ -93,7 +93,7 @@ const ProductTable = () => {
 
   React.useEffect(() => {
     fetchData();
-  }, [queryOptions]);
+  }, [fetchData, queryOptions]);
 
   return (
     <DataGrid

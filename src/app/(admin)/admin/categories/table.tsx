@@ -5,30 +5,18 @@ import React from "react";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
 
-import { getOrders } from "@/lib/db/admin";
-import Chip from "@mui/material/Chip";
+import { getCategories } from "@/lib/db/admin";
 import type {
   GridColDef,
   GridFilterModel,
   GridRowId,
   GridSortModel,
 } from "@mui/x-data-grid";
-import type { Order } from "@prisma/client";
+import type { Category } from "@prisma/client";
 
-type Row = Order & { user: { name: string | null }; _count: { items: number } };
+type Row = Category & { _count: { products: number } };
 
-const getStatusColor = (status: string) => {
-  const colors = {
-    PENDING: "warning",
-    PROCESSING: "info",
-    SHIPPED: "primary",
-    DELIVERED: "success",
-    CANCELLED: "error",
-  };
-  return colors[status as keyof typeof colors] as keyof typeof colors;
-};
-
-const OrderTable = () => {
+const CategoryTable = () => {
   const [rows, setRows] = React.useState<Row[]>([]);
   const [total, setTotal] = React.useState(0);
   const [isLoading, setIsLoading] = React.useState(true);
@@ -43,13 +31,13 @@ const OrderTable = () => {
 
   const fetchData = React.useCallback(async () => {
     setIsLoading(true);
-    const data = await getOrders({
+    const data = await getCategories({
       limit: paginationModel.pageSize,
       page: paginationModel.page + 1,
       sort: sortModel,
     });
     setIsLoading(false);
-    setRows(data.items as Row[]);
+    setRows(data.items);
     setTotal(data.total);
   }, [paginationModel, sortModel]);
 
@@ -71,35 +59,15 @@ const OrderTable = () => {
     () => [
       { field: "id", headerName: "ID Orden", width: 100 },
       {
-        field: "user",
-        headerName: "Cliente",
+        field: "name",
+        headerName: "Nombre",
         width: 200,
-        valueGetter: (params: Row["user"]) => params.name ?? "Desconocido",
       },
-      { field: "createdAt", headerName: "Fecha", width: 130 },
       {
         field: "_count",
-        headerName: "Items",
-        width: 90,
-        valueGetter: (params: Row["_count"]) => params.items,
-      },
-      {
-        field: "status",
-        headerName: "Estado",
-        width: 130,
-        renderCell: (params) => (
-          <Chip
-            label={params.value}
-            color={getStatusColor(params.value)}
-            size="small"
-          />
-        ),
-      },
-      {
-        field: "total",
-        headerName: "Total",
-        width: 130,
-        valueFormatter: (params: number) => `$${params.toFixed(2)}`,
+        headerName: "Productos",
+        width: 200,
+        valueGetter: (params: Row["_count"]) => params.products,
       },
       {
         field: "actions",
@@ -107,7 +75,7 @@ const OrderTable = () => {
         headerName: "Acciones",
         width: 80,
         sortable: false,
-        getActions: (params: Order) => [
+        getActions: (params: Category) => [
           <GridActionsCellItem
             key="delete"
             icon={<DeleteIcon />}
@@ -146,4 +114,4 @@ const OrderTable = () => {
   );
 };
 
-export default OrderTable;
+export default CategoryTable;

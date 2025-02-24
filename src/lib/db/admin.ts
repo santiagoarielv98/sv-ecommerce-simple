@@ -119,3 +119,57 @@ function getOrderSort(sort: GridSortItem[]) {
           }),
   }));
 }
+
+export async function getCategories({
+  page = 1,
+  limit = 12,
+  sort = [],
+}: {
+  page?: number;
+  limit?: number;
+  sort?: GridSortItem[];
+}) {
+  const skip = (page - 1) * limit;
+
+  const where = {};
+
+  const [items, total] = await Promise.all([
+    prisma.category.findMany({
+      where,
+      skip,
+      take: limit,
+      select: {
+        id: true,
+        name: true,
+        _count: {
+          select: {
+            products: true,
+          },
+        },
+      },
+      orderBy: getCategorySort(sort),
+    }),
+    prisma.category.count({ where }),
+  ]);
+
+  return {
+    items,
+    total,
+    pages: Math.ceil(total / limit),
+    currentPage: page,
+  };
+}
+
+function getCategorySort(sort: GridSortItem[]) {
+  return sort.map((s) => ({
+    ...(s.field === "_count"
+      ? {
+          products: {
+            _count: s.sort!,
+          },
+        }
+      : {
+          [s.field]: s.sort,
+        }),
+  }));
+}

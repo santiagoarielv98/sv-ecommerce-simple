@@ -20,9 +20,9 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import RecentOrders from "./components/RecentOrders";
-import StatCard from "./components/StatCard";
-import TopProducts from "./components/TopProducts";
+import RecentOrders from "./_components/RecentOrders";
+import StatCard from "./_components/StatCard";
+import TopProducts from "./_components/TopProducts";
 
 // Datos de prueba
 const salesData = [

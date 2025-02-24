@@ -3,6 +3,7 @@
 export async function create() {}
 // utilizando prisma
 import { prisma } from "@/lib/prisma";
+import type { GridSortItem } from "@mui/x-data-grid";
 
 // logica para obtener productos paginados, filtro de categorias y rango de precios
 export async function getProducts({
@@ -11,12 +12,14 @@ export async function getProducts({
   category = [],
   minPrice,
   maxPrice,
+  sort = [],
 }: {
   page?: number;
   limit?: number;
   category?: string[];
   minPrice?: number;
   maxPrice?: number;
+  sort?: GridSortItem[];
 }) {
   const skip = (page - 1) * limit;
 
@@ -44,6 +47,17 @@ export async function getProducts({
       include: {
         category: true,
       },
+      orderBy: sort.map((s) => ({
+        ...(s.field === "category"
+          ? {
+              category: {
+                name: s.sort!,
+              },
+            }
+          : {
+              [s.field]: s.sort,
+            }),
+      })),
     }),
     prisma.product.count({ where }),
   ]);

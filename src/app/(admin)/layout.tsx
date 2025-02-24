@@ -26,7 +26,10 @@ const AdminLayout = ({ children }: React.PropsWithChildren) => {
         }}
       >
         <AdminSidebar />
-        <Box component="main" sx={{ flexGrow: 1, width: "100%" }}>
+        <Box
+          component="main"
+          sx={{ flexGrow: 1, width: "100%", overflow: "auto", display: "flex" }}
+        >
           {children}
         </Box>
       </Box>

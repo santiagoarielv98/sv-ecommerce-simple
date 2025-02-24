@@ -1,84 +1,34 @@
-"use client";
-
 import { Add } from "@mui/icons-material";
-import { Button, Container, Paper, Typography } from "@mui/material";
-import type { GridColDef } from "@mui/x-data-grid";
-import { DataGrid } from "@mui/x-data-grid";
+import { Button, Container, Paper, Stack, Typography } from "@mui/material";
+import ProductTable from "./table";
+import { getProducts } from "@/lib/db/product";
 
-const columns: GridColDef[] = [
-  { field: "id", headerName: "ID", width: 90 },
-  { field: "name", headerName: "Nombre", width: 200 },
-  {
-    field: "price",
-    headerName: "Precio",
-    width: 130,
-    valueFormatter: (params) => `$${params}`,
-  },
-  { field: "stock", headerName: "Stock", width: 130 },
-  { field: "category", headerName: "Categoría", width: 160 },
-  {
-    field: "actions",
-    headerName: "Acciones",
-    width: 160,
-    sortable: false,
-    renderCell: (params) => (
-      <>
-        <Button size="small" color="primary">
-          Editar
-        </Button>
-        <Button size="small" color="error">
-          Eliminar
-        </Button>
-      </>
-    ),
-  },
-];
+const ProductsPage = async () => {
+  const data = await getProducts({ limit: 20 }); // pagination { limit: 20, offset: 0,products:[...]} }
 
-const rows = [
-  {
-    id: "1",
-    name: "Producto 1",
-    price: 99.99,
-    stock: 10,
-    category: "Electrónicos",
-  },
-  { id: "2", name: "Producto 2", price: 149.99, stock: 5, category: "Ropa" },
-];
-
-const ProductsPage = () => {
+  //   console.log(data);
   return (
     <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
       <Paper sx={{ p: 2 }}>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            marginBottom: 2,
-          }}
-        >
-          <Typography variant="h5" component="h2">
-            Productos
-          </Typography>
-          <Button variant="contained" startIcon={<Add />}>
-            Nuevo Producto
-          </Button>
-        </div>
+        <Stack spacing={2}>
+          <Stack
+            spacing={2}
+            justifyContent="space-between"
+            direction="row"
+            alignItems="center"
+          >
+            <Typography variant="h5" component="h2">
+              Productos
+            </Typography>
+            <Button variant="contained" startIcon={<Add />}>
+              Nuevo Producto
+            </Button>
+          </Stack>
 
-        <div style={{ height: 400, width: "100%" }}>
-          <DataGrid
-            rows={rows}
-            columns={columns}
-            initialState={{
-              pagination: {
-                paginationModel: { page: 0, pageSize: 5 },
-              },
-            }}
-            pageSizeOptions={[5, 10]}
-            checkboxSelection
-            disableRowSelectionOnClick
-          />
-        </div>
+          <div style={{ height: 700, width: "100%" }}>
+            <ProductTable initialState={data} />
+          </div>
+        </Stack>
       </Paper>
     </Container>
   );

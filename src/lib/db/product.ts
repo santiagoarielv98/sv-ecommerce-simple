@@ -1,3 +1,6 @@
+"use server";
+
+export async function create() {}
 // utilizando prisma
 import { prisma } from "@/lib/prisma";
 

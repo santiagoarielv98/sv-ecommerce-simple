@@ -13,6 +13,7 @@ import type {
   GridSortModel,
 } from "@mui/x-data-grid";
 import type { Product } from "@prisma/client";
+import Avatar from "@mui/material/Avatar";
 
 type Row = Product & { category: { name: string } };
 
@@ -57,8 +58,19 @@ const ProductTable = () => {
 
   const columns = React.useMemo<GridColDef<Row>[]>(
     () => [
-      { field: "id", headerName: "ID", width: 90 },
-      { field: "name", headerName: "Nombre", width: 200 },
+      { field: "id", headerName: "ID", width: 215 },
+      {
+        field: "image",
+        headerName: "Imagen",
+        maxWidth: 80,
+        flex: 1,
+        renderCell: (params) => (
+          <Avatar src={params.row.images[0]} alt={params.row.name} />
+        ),
+        sortable: false,
+        filterable: false,
+      },
+      { field: "name", headerName: "Nombre", flex: 1, minWidth: 200 },
       {
         field: "price",
         headerName: "Precio",

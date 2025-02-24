@@ -173,3 +173,16 @@ function getCategorySort(sort: GridSortItem[]) {
         }),
   }));
 }
+
+export async function getAllCategories() {
+  return prisma.category.findMany();
+}
+
+export async function createProduct(data: any) {
+  return prisma.product.create({
+    data: {
+      ...data,
+      categoryId: parseInt(data.categoryId),
+    },
+  });
+}

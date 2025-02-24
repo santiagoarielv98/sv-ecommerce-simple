@@ -1,5 +1,6 @@
 "use client";
 
+import { getStatusColor } from "@/utils/order";
 import Box from "@mui/material/Box";
 import Chip from "@mui/material/Chip";
 import Paper from "@mui/material/Paper";
@@ -18,7 +19,7 @@ const OrderDetails = ({ order }: OrderDetailsProps) => {
       </Typography>
       <Chip
         label={order.status}
-        color={order.status === "PENDING" ? "warning" : "success"}
+        color={getStatusColor(order.status)}
         sx={{ mb: 2 }}
       />
       {order.items.map((item) => (

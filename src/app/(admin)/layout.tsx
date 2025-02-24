@@ -3,11 +3,11 @@ import Toolbar from "@mui/material/Toolbar";
 import React from "react";
 import AdminNavbar from "./_components/admin-navbar";
 import AdminSidebar from "./_components/admin-sidebar";
-import ProductProvider from "./_context/product-context";
+import AdminProvider from "./provider";
 
 const AdminLayout = ({ children }: React.PropsWithChildren) => {
   return (
-    <ProductProvider>
+    <AdminProvider>
       <Box
         sx={{
           display: "flex",
@@ -41,7 +41,7 @@ const AdminLayout = ({ children }: React.PropsWithChildren) => {
           </Box>
         </Box>
       </Box>
-    </ProductProvider>
+    </AdminProvider>
   );
 };
 

@@ -10,22 +10,18 @@ import {
   DialogTitle,
   IconButton,
 } from "@mui/material";
-import type { Category } from "@prisma/client";
 import { FormProvider, useForm } from "react-hook-form";
-import ProductForm from "../form/product-form";
+import useCategory from "../../_hooks/use-category";
 import useProduct from "../../_hooks/use-product";
+import ProductForm from "../form/product-form";
 
 interface CreateProductModalProps {
   open: boolean;
   onClose: () => void;
-  categories: Category[];
 }
 
-const CreateProductModal = ({
-  categories,
-  open,
-  onClose,
-}: CreateProductModalProps) => {
+const CreateProductModal = ({ open, onClose }: CreateProductModalProps) => {
+  const { categories } = useCategory();
   const { fetchData } = useProduct();
   const methods = useForm<ProductSchema>({
     resolver: zodResolver(productSchema),

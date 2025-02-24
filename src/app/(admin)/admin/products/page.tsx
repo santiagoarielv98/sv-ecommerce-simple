@@ -1,23 +1,22 @@
 "use client";
 
-import { getAllCategories } from "@/lib/db/admin";
 import { Add } from "@mui/icons-material";
 import { Button, Container, Paper, Stack, Typography } from "@mui/material";
-import type { Category } from "@prisma/client";
 import React from "react";
 import CreateProductModal from "../../_components/modals/create-product-modal";
 import ProductTable from "./table";
+import useCategory from "../../_hooks/use-category";
 
 const ProductsPage = () => {
+  const { fetchData } = useCategory();
   const [open, setOpen] = React.useState(false);
-  const [categories, setCategories] = React.useState<Category[]>([]);
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
   React.useEffect(() => {
-    getAllCategories().then((data) => setCategories(data));
-  }, []);
+    fetchData();
+  }, [fetchData]);
 
   return (
     <Container
@@ -43,11 +42,7 @@ const ProductsPage = () => {
           <ProductTable />
         </div>
       </Paper>
-      <CreateProductModal
-        open={open}
-        onClose={handleClose}
-        categories={categories}
-      />
+      <CreateProductModal open={open} onClose={handleClose} />
     </Container>
   );
 };

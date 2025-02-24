@@ -48,7 +48,7 @@ const getStatusColor = (status: string) => {
 
 const RecentOrders = () => {
   return (
-    <Paper sx={{ p: 2 }}>
+    <Paper sx={{ p: 2, overflow: "hidden", width: "100%" }}>
       <Typography variant="h6" gutterBottom>
         Órdenes Recientes
       </Typography>

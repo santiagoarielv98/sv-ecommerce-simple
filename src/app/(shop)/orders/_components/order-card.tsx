@@ -1,5 +1,6 @@
 "use client";
 
+import { getStatusColor } from "@/utils/order";
 import Chip from "@mui/material/Chip";
 import Paper from "@mui/material/Paper";
 import Stack from "@mui/material/Stack";
@@ -38,10 +39,7 @@ const OrderCard = ({ order }: OrderCardProps) => {
           alignItems="center"
         >
           <Typography variant="h6">Order #{order.id.slice(-6)}</Typography>
-          <Chip
-            label={order.status}
-            color={order.status === "PENDING" ? "warning" : "success"}
-          />
+          <Chip label={order.status} color={getStatusColor(order.status)} />
         </Stack>
 
         <Stack

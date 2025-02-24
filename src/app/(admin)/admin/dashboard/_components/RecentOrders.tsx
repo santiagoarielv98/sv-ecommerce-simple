@@ -1,5 +1,6 @@
-import React from "react";
+import { getStatusColor } from "@/utils/order";
 import {
+  Chip,
   Paper,
   Table,
   TableBody,
@@ -8,7 +9,6 @@ import {
   TableHead,
   TableRow,
   Typography,
-  Chip,
 } from "@mui/material";
 
 const orders = [
@@ -34,17 +34,6 @@ const orders = [
     total: 75.0,
   },
 ];
-
-const getStatusColor = (status: string) => {
-  const colors = {
-    PENDING: "warning",
-    PROCESSING: "info",
-    SHIPPED: "primary",
-    DELIVERED: "success",
-    CANCELLED: "error",
-  };
-  return colors[status as keyof typeof colors];
-};
 
 const RecentOrders = () => {
   return (
@@ -72,7 +61,7 @@ const RecentOrders = () => {
                 <TableCell>
                   <Chip
                     label={order.status}
-                    color={getStatusColor(order.status) as any}
+                    color={getStatusColor(order.status)}
                     size="small"
                   />
                 </TableCell>

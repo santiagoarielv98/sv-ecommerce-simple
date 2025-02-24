@@ -14,19 +14,9 @@ import type {
   GridSortModel,
 } from "@mui/x-data-grid";
 import type { Order } from "@prisma/client";
+import { getStatusColor } from "@/utils/order";
 
 type Row = Order & { user: { name: string | null }; _count: { items: number } };
-
-const getStatusColor = (status: string) => {
-  const colors = {
-    PENDING: "warning",
-    PROCESSING: "info",
-    SHIPPED: "primary",
-    DELIVERED: "success",
-    CANCELLED: "error",
-  };
-  return colors[status as keyof typeof colors] as keyof typeof colors;
-};
 
 const OrderTable = () => {
   const [rows, setRows] = React.useState<Row[]>([]);

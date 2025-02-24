@@ -1,39 +1,38 @@
 "use client";
 
-import React from "react";
-
-import CategoryIcon from "@mui/icons-material/Category";
-import FilterListIcon from "@mui/icons-material/FilterList";
+import { Menu as MenuIcon } from "@mui/icons-material";
 import Button from "@mui/material/Button";
-import Divider from "@mui/material/Divider";
+import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
 import Menu from "@mui/material/Menu";
 import Paper from "@mui/material/Paper";
-import Typography from "@mui/material/Typography";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import { usePathname, useRouter } from "next/navigation";
+import React from "react";
 
-const AdminMobileSidebar = ({}) => {
+import { adminNavigation } from "@/config/admin-navigation";
+
+const AdminMobileSidebar = () => {
   const isMobile = useMediaQuery((theme) => theme.breakpoints.down("md"));
-  const [categoryAnchor, setCategoryAnchor] =
-    React.useState<null | HTMLElement>(null);
-  const [priceAnchor, setPriceAnchor] = React.useState<null | HTMLElement>(
-    null,
-  );
+  const pathname = usePathname();
+  const router = useRouter();
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
 
-  const handleCategoryClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setCategoryAnchor(event.currentTarget);
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
   };
 
-  const handlePriceClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setPriceAnchor(event.currentTarget);
+  const handleClose = () => {
+    setAnchorEl(null);
   };
 
-  const handleCategoryClose = () => {
-    setCategoryAnchor(null);
-  };
-
-  const handlePriceClose = () => {
-    setPriceAnchor(null);
+  const handleNavigate = (href: string) => {
+    router.push(href);
+    handleClose();
   };
 
   if (!isMobile) return null;
@@ -52,48 +51,58 @@ const AdminMobileSidebar = ({}) => {
       }}
     >
       <Button
-        fullWidth
-        startIcon={<CategoryIcon />}
-        onClick={handleCategoryClick}
+        variant="outlined"
+        startIcon={<MenuIcon />}
+        onClick={handleClick}
+        size="small"
       >
-        Categories
+        Menú
       </Button>
-      <Divider orientation="vertical" flexItem />
-      <Button
-        fullWidth
-        startIcon={<FilterListIcon />}
-        onClick={handlePriceClick}
-      >
-        Price
-      </Button>
-
-      {/* Categories Menu */}
       <Menu
-        anchorEl={categoryAnchor}
-        open={Boolean(categoryAnchor)}
-        onClose={handleCategoryClose}
-        slotProps={{
-          paper: {
-            sx: { maxWidth: "300px", width: "100%" },
-          },
-        }}
-      ></Menu>
-
-      {/* Price Menu */}
-      <Menu
-        anchorEl={priceAnchor}
-        open={Boolean(priceAnchor)}
-        onClose={handlePriceClose}
-        slotProps={{
-          paper: {
-            sx: { maxWidth: "300px", width: "100%", p: 2 },
-          },
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        MenuListProps={{
+          "aria-labelledby": "basic-button",
         }}
       >
-        <ListItem>
-          <Typography gutterBottom>Price Range</Typography>
-        </ListItem>
-        <ListItem></ListItem>
+        <List sx={{ width: 280 }}>
+          {adminNavigation.map((item) => {
+            const Icon = item.icon;
+            const isActive = pathname === item.href;
+
+            return (
+              <ListItem key={item.href} disablePadding>
+                <ListItemButton
+                  onClick={() => handleNavigate(item.href)}
+                  selected={isActive}
+                  sx={{
+                    "&.Mui-selected": {
+                      backgroundColor: "primary.main",
+                      color: "primary.contrastText",
+                      "&:hover": {
+                        backgroundColor: "primary.dark",
+                      },
+                      "& .MuiListItemIcon-root": {
+                        color: "primary.contrastText",
+                      },
+                    },
+                  }}
+                >
+                  <ListItemIcon
+                    sx={{
+                      minWidth: 40,
+                      color: isActive ? "inherit" : "text.secondary",
+                    }}
+                  >
+                    <Icon />
+                  </ListItemIcon>
+                  <ListItemText primary={item.title} />
+                </ListItemButton>
+              </ListItem>
+            );
+          })}
+        </List>
       </Menu>
     </Paper>
   );

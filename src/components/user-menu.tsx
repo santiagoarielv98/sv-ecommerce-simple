@@ -9,13 +9,13 @@ import IconButton from "@mui/material/IconButton";
 import Menu from "@mui/material/Menu";
 import Tooltip from "@mui/material/Tooltip";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import useUserMenu from "../_hooks/use-user-menu";
+import useUserMenu from "@/hooks/use-user-menu";
 
 import {
   AdminMenuItems,
   AuthenticatedMenuItems,
   GuestMenuItems,
-} from "./menu-items";
+} from "../app/(shop)/_components/menu-items";
 
 const UserMenu = () => {
   const { isAdmin, isAuthenticated, user } = useAuth();

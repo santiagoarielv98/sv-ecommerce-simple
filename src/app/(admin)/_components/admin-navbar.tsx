@@ -1,16 +1,14 @@
 "use client";
 
-import GlobalSearch from "@/components/forms/global-search";
 import Logo from "@/components/logo";
+import UserMenu from "@/components/user-menu";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import Stack from "@mui/material/Stack";
 import Toolbar from "@mui/material/Toolbar";
-import CartButton from "./cart-button";
-import UserMenu from "@/components/user-menu";
 
-function AppNavbar() {
+function AdminNavbar() {
   return (
     <AppBar
       position="fixed"
@@ -24,9 +22,7 @@ function AppNavbar() {
         <Toolbar disableGutters sx={{ gap: 1 }}>
           <Logo />
 
-          <Box sx={{ flexGrow: 1 }}>
-            <GlobalSearch />
-          </Box>
+          <Box sx={{ flexGrow: 1 }} />
 
           <Box sx={{ flexGrow: 0 }}>
             <Stack
@@ -37,7 +33,6 @@ function AppNavbar() {
               }}
             >
               <UserMenu />
-              <CartButton />
             </Stack>
           </Box>
         </Toolbar>
@@ -46,4 +41,4 @@ function AppNavbar() {
   );
 }
 
-export default AppNavbar;
+export default AdminNavbar;

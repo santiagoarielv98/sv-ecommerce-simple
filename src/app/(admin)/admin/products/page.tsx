@@ -7,13 +7,19 @@ import CreateProductModal from "../../_components/modals/create-product-modal";
 import React from "react";
 import { getAllCategories } from "@/lib/db/admin";
 import type { Category } from "@prisma/client";
+import { revalidatePath } from "next/cache";
 
 const ProductsPage = () => {
   const [open, setOpen] = React.useState(false);
   const [categories, setCategories] = React.useState<Category[]>([]);
 
   const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const handleClose = (refresh = false) => {
+    setOpen(false);
+    if (refresh) {
+      revalidatePath("/admin/products");
+    }
+  };
 
   React.useEffect(() => {
     getAllCategories().then((data) => setCategories(data));

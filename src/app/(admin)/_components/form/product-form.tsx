@@ -1,6 +1,4 @@
 import type { ProductSchema } from "@/lib/schemas/product";
-import { productSchema } from "@/lib/schemas/product";
-import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Box,
   FormControl,
@@ -14,37 +12,20 @@ import {
   Typography,
 } from "@mui/material";
 import type { Category } from "@prisma/client";
-import { useForm } from "react-hook-form";
+import { useFormContext } from "react-hook-form";
 
 export type Props = {
   categories: Category[];
-  onSubmit: (data: ProductSchema) => void;
 };
 
-const ProductForm = ({ categories = [], onSubmit }: Props) => {
+const ProductForm = ({ categories = [] }: Props) => {
   const {
     register,
-    handleSubmit,
     formState: { errors },
-  } = useForm<ProductSchema>({
-    resolver: zodResolver(productSchema),
-    defaultValues: {
-      name: "",
-      description: "",
-      price: 0,
-      stock: 0,
-      categoryId: "",
-    },
-  });
+  } = useFormContext<ProductSchema>();
 
   return (
-    <Box
-      component="form"
-      id="product-form"
-      onSubmit={handleSubmit(onSubmit)}
-      noValidate
-      sx={{ mt: 2 }}
-    >
+    <Box sx={{ mt: 2 }}>
       <Stack spacing={3}>
         <Typography variant="h6" component="h2">
           Product Information

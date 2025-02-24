@@ -1,3 +1,6 @@
+import { createProduct } from "@/lib/db/admin";
+import { productSchema, type ProductSchema } from "@/lib/schemas/product";
+import { zodResolver } from "@hookform/resolvers/zod";
 import CloseIcon from "@mui/icons-material/Close";
 import {
   Button,
@@ -8,12 +11,12 @@ import {
   IconButton,
 } from "@mui/material";
 import type { Category } from "@prisma/client";
+import { FormProvider, useForm } from "react-hook-form";
 import ProductForm from "../form/product-form";
-import type { ProductSchema } from "@/lib/schemas/product";
 
 interface CreateProductModalProps {
   open: boolean;
-  onClose: () => void;
+  onClose: (refresh?: boolean) => void;
   categories: Category[];
 }
 
@@ -22,14 +25,33 @@ const CreateProductModal = ({
   open,
   onClose,
 }: CreateProductModalProps) => {
-  const handleSubmit = (data: ProductSchema) => {
-    console.log(data);
+  const methods = useForm<ProductSchema>({
+    resolver: zodResolver(productSchema),
+    defaultValues: {
+      name: "",
+      description: "",
+      price: 0,
+      stock: 0,
+      categoryId: "",
+      images: [],
+    },
+  });
+
+  const handleClose = () => {
+    onClose();
+    methods.reset();
+  };
+
+  const onSubmit = async (data: ProductSchema) => {
+    await createProduct(data).then(() => {
+      onClose(true);
+    });
   };
 
   return (
     <Dialog
       open={open}
-      onClose={onClose}
+      onClose={handleClose}
       maxWidth="md"
       fullWidth
       slotProps={{
@@ -38,39 +60,38 @@ const CreateProductModal = ({
         },
       }}
     >
-      <DialogTitle sx={{ m: 0, p: 2 }}>
-        Create New Product
-        <IconButton
-          aria-label="close"
-          onClick={onClose}
-          sx={{
-            position: "absolute",
-            right: 8,
-            top: 8,
-            color: (theme) => theme.palette.grey[500],
-          }}
-        >
-          <CloseIcon />
-        </IconButton>
-      </DialogTitle>
+      <FormProvider {...methods}>
+        <form noValidate onSubmit={methods.handleSubmit(onSubmit)}>
+          <DialogTitle sx={{ m: 0, p: 2 }}>
+            Create New Product
+            <IconButton
+              aria-label="close"
+              onClick={handleClose}
+              sx={{
+                position: "absolute",
+                right: 8,
+                top: 8,
+                color: (theme) => theme.palette.grey[500],
+              }}
+            >
+              <CloseIcon />
+            </IconButton>
+          </DialogTitle>
 
-      <DialogContent dividers>
-        <ProductForm categories={categories} onSubmit={handleSubmit} />
-      </DialogContent>
+          <DialogContent dividers>
+            <ProductForm categories={categories} />
+          </DialogContent>
 
-      <DialogActions sx={{ p: 2 }}>
-        <Button variant="outlined" onClick={onClose}>
-          Cancel
-        </Button>
-        <Button
-          variant="contained"
-          color="primary"
-          type="submit"
-          form="product-form"
-        >
-          Create Product
-        </Button>
-      </DialogActions>
+          <DialogActions sx={{ p: 2 }}>
+            <Button variant="outlined" onClick={handleClose}>
+              Cancel
+            </Button>
+            <Button variant="contained" color="primary" type="submit">
+              Create Product
+            </Button>
+          </DialogActions>
+        </form>
+      </FormProvider>
     </Dialog>
   );
 };

@@ -8,37 +8,36 @@ import {
   DialogTitle,
 } from "@mui/material";
 import Dialog from "@mui/material/Dialog";
-import type { ProductRow } from "../../_context/product-context";
 
 type Props = {
   open: boolean;
   onClose: () => void;
-  product: ProductRow | null;
+  title: string;
+  content: string;
   onConfirm: () => void;
 };
 
-const DeleteProductModal = ({
+const DeleteModal = ({
   open,
+  title,
+  content,
   onClose: handleDeleteModalClose,
-  product,
   onConfirm: handleConfirmDelete,
 }: Props) => {
   return (
     <Dialog open={open} onClose={handleDeleteModalClose}>
-      <DialogTitle>Eliminar producto {product?.name}</DialogTitle>
+      <DialogTitle>{title}</DialogTitle>
       <DialogContent>
-        <DialogContentText>
-          ¿Estás seguro de que deseas eliminar el producto seleccionado?
-        </DialogContentText>
+        <DialogContentText>{content}</DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleDeleteModalClose}>Cancelar</Button>
+        <Button onClick={handleDeleteModalClose}>Cancel</Button>
         <Button onClick={handleConfirmDelete} autoFocus color="error">
-          Eliminar
+          Delete
         </Button>
       </DialogActions>
     </Dialog>
   );
 };
 
-export default DeleteProductModal;
+export default DeleteModal;

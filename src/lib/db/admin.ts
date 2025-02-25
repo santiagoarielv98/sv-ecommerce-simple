@@ -208,3 +208,20 @@ export async function editProduct(id: string, data: ProductSchema) {
     data,
   });
 }
+
+export async function deleteCategory(id: string) {
+  return prisma.category.delete({
+    where: {
+      id,
+    },
+  });
+}
+
+export async function editCategory(id: string, data: CategorySchema) {
+  return prisma.category.update({
+    where: {
+      id,
+    },
+    data,
+  });
+}

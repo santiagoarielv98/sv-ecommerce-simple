@@ -8,7 +8,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import Avatar from "@mui/material/Avatar";
 import type { GridColDef, GridRowId } from "@mui/x-data-grid";
 import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
-import DeleteProductModal from "../../_components/modals/delete-product-modal";
+import DeleteModal from "../../_components/modals/delete-modal";
 import EditProductModal from "../../_components/modals/edit-product-modal";
 import type { ProductRow } from "../../_context/product-context";
 import useProduct from "../../_hooks/use-product";
@@ -147,8 +147,9 @@ const ProductTable = () => {
         onSortModelChange={setSortModel}
         onFilterModelChange={setFilterModel}
       />
-      <DeleteProductModal
-        product={selectedProduct}
+      <DeleteModal
+        title={`Delete ${selectedProduct?.name}`}
+        content={`Are you sure you want to delete ${selectedProduct?.name}?`}
         open={openDeleteModal}
         onClose={handleDeleteModalClose}
         onConfirm={handleConfirmDelete}

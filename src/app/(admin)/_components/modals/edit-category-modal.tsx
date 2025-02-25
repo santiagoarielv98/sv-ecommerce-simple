@@ -1,5 +1,5 @@
-import { editProduct } from "@/lib/db/admin";
-import { productSchema, type ProductSchema } from "@/lib/schemas/product";
+import { editCategory } from "@/lib/db/admin";
+import { categorySchema, type CategorySchema } from "@/lib/schemas/category";
 import { zodResolver } from "@hookform/resolvers/zod";
 import CloseIcon from "@mui/icons-material/Close";
 import {
@@ -12,33 +12,26 @@ import {
 } from "@mui/material";
 import React from "react";
 import { FormProvider, useForm } from "react-hook-form";
-import type { ProductRow } from "../../_context/product-context";
+import type { CategoryRow } from "../../_context/category-context";
 import useCategory from "../../_hooks/use-category";
-import useProduct from "../../_hooks/use-product";
-import ProductForm from "../form/product-form";
+import CategoryForm from "../form/category-form";
 
-interface EditProductModalProps {
+interface EditCategoryModalProps {
+  category: CategoryRow;
   open: boolean;
   onClose: () => void;
-  product: ProductRow;
 }
 
-const EditProductModal = ({
+const EditCategoryModal = ({
+  category,
   open,
   onClose,
-  product,
-}: EditProductModalProps) => {
-  const { categories } = useCategory();
-  const { fetchData } = useProduct();
-  const methods = useForm<ProductSchema>({
-    resolver: zodResolver(productSchema),
+}: EditCategoryModalProps) => {
+  const { fetchDataTable } = useCategory();
+  const methods = useForm<CategorySchema>({
+    resolver: zodResolver(categorySchema),
     defaultValues: {
       name: "",
-      description: "",
-      price: 0,
-      stock: 0,
-      categoryId: "",
-      images: [],
     },
   });
 
@@ -47,20 +40,19 @@ const EditProductModal = ({
     methods.reset();
   };
 
-  const onSubmit = async (data: ProductSchema) => {
-    if (!product) return;
-    await editProduct(product.id, data).then(() => {
-      fetchData();
+  const onSubmit = async (data: CategorySchema) => {
+    if (!category) return;
+    await editCategory(category?.id, data).then(() => {
+      fetchDataTable();
       onClose();
-      methods.reset();
     });
   };
 
   React.useEffect(() => {
-    if (!product) return;
-
-    methods.reset(product);
-  }, [product, methods]);
+    if (category) {
+      methods.reset(category);
+    }
+  }, [category, methods]);
 
   return (
     <Dialog
@@ -77,7 +69,7 @@ const EditProductModal = ({
       <FormProvider {...methods}>
         <form noValidate onSubmit={methods.handleSubmit(onSubmit)}>
           <DialogTitle sx={{ m: 0, p: 2 }}>
-            Edit Product
+            Edit Category
             <IconButton
               aria-label="close"
               onClick={handleClose}
@@ -93,25 +85,15 @@ const EditProductModal = ({
           </DialogTitle>
 
           <DialogContent dividers>
-            <ProductForm categories={categories} />
+            <CategoryForm />
           </DialogContent>
 
-          <DialogActions>
-            <Button
-              onClick={handleClose}
-              disabled={methods.formState.isSubmitting}
-            >
+          <DialogActions sx={{ p: 2 }}>
+            <Button variant="outlined" onClick={handleClose}>
               Cancel
             </Button>
-            <Button
-              disabled={methods.formState.isSubmitting}
-              loading={methods.formState.isSubmitting}
-              autoFocus
-              variant="contained"
-              color="primary"
-              type="submit"
-            >
-              Guardar
+            <Button variant="contained" color="primary" type="submit">
+              Save
             </Button>
           </DialogActions>
         </form>
@@ -120,4 +102,4 @@ const EditProductModal = ({
   );
 };
 
-export default EditProductModal;
+export default EditCategoryModal;

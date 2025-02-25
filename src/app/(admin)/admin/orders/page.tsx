@@ -27,7 +27,7 @@ const OrdersPage = () => {
         >
           <MenuItem onClick={handleMenuClose}>Ver detalles</MenuItem>
           <MenuItem onClick={handleMenuClose}>Actualizar estado</MenuItem>
-          <MenuItem onClick={handleMenuClose}>Cancelar orden</MenuItem>
+          <MenuItem onClick={handleMenuClose}>Cancel orden</MenuItem>
         </Menu> */}
       </Paper>
     </Container>

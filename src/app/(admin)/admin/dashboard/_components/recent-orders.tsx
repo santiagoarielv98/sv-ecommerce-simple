@@ -33,7 +33,7 @@ const RecentOrders = ({ orders }: Prpos) => {
           <TableHead>
             <TableRow>
               <TableCell>ID Order</TableCell>
-              <TableCell>Client</TableCell>
+              <TableCell>Customer</TableCell>
               <TableCell>Date</TableCell>
               <TableCell>Status</TableCell>
               <TableCell align="right">Total</TableCell>

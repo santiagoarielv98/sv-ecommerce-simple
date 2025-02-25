@@ -31,7 +31,7 @@ const MonthlySalesChart = ({ salesData }: MonthlySalesChartProps) => {
       }}
     >
       <Typography variant="h6" gutterBottom>
-        Ventas Mensuales
+        Monthly Sales
       </Typography>
       <ResponsiveContainer>
         <AreaChart

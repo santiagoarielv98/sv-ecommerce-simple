@@ -5,41 +5,24 @@ import React from "react";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
 
-import { getCategories } from "@/lib/db/admin";
-import type {
-  GridColDef,
-  GridFilterModel,
-  GridRowId,
-  GridSortModel,
-} from "@mui/x-data-grid";
+import type { GridColDef, GridRowId } from "@mui/x-data-grid";
 import type { Category } from "@prisma/client";
 import type { CategoryRow } from "../../_context/category-context";
+import useCategory from "../../_hooks/use-category";
 
 const CategoryTable = () => {
-  const [rows, setRows] = React.useState<CategoryRow[]>([]);
-  const [total, setTotal] = React.useState(0);
-  const [isLoading, setIsLoading] = React.useState(true);
-  const [paginationModel, setPaginationModel] = React.useState({
-    page: 0,
-    pageSize: 20,
-  });
-  const [sortModel, setSortModel] = React.useState<GridSortModel>([]);
-  const [filterModel, setFilterModel] = React.useState<GridFilterModel>({
-    items: [],
-  });
-
-  const fetchData = React.useCallback(async () => {
-    setIsLoading(true);
-    const data = await getCategories({
-      limit: paginationModel.pageSize,
-      page: paginationModel.page + 1,
-      sort: sortModel,
-    });
-    setIsLoading(false);
-    setRows(data.items);
-    setTotal(data.total);
-  }, [paginationModel, sortModel]);
-
+  const {
+    items,
+    total,
+    isLoading,
+    fetchDataTable,
+    paginationModel,
+    sortModel,
+    filterModel,
+    setPaginationModel,
+    setSortModel,
+    setFilterModel,
+  } = useCategory();
   const queryOptions = React.useMemo(
     () => ({ ...paginationModel, sortModel, filterModel }),
     [paginationModel, sortModel, filterModel],
@@ -88,14 +71,14 @@ const CategoryTable = () => {
   );
 
   React.useEffect(() => {
-    fetchData();
-  }, [fetchData, queryOptions]);
+    fetchDataTable();
+  }, [fetchDataTable, queryOptions]);
 
   return (
     <DataGrid
       loading={isLoading}
       rowCount={total}
-      rows={rows}
+      rows={items}
       columns={columns}
       pageSizeOptions={[20]}
       paginationModel={paginationModel}

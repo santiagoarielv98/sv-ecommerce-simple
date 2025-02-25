@@ -21,6 +21,12 @@ import Card from "../_components/card";
 import SocialButtons from "../_components/social-buttons";
 import Alert from "@mui/material/Alert";
 import { DEMO_CRENDETIALS } from "@/config/demo";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Sign Up",
+  description: "Create a new account",
+};
 
 export default function SignUp() {
   const router = useRouter();

@@ -8,6 +8,12 @@ import Container from "@mui/material/Container";
 import Stack from "@mui/material/Stack";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Products",
+  description: "Browse our collection of products",
+};
 
 const HomePage = async ({
   searchParams,

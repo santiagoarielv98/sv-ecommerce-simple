@@ -18,7 +18,12 @@ const raleway = Raleway({
 });
 
 export const metadata: Metadata = {
-  title: "SV - Ecommerce",
+  // title: "SV - Ecommerce",
+  title: {
+    default: "SV - Ecommerce",
+    template: "%s | SV - Ecommerce",
+    absolute: "",
+  },
   description: "A simple ecommerce website",
 };
 

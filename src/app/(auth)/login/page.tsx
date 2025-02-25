@@ -24,6 +24,12 @@ import { signIn } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
 import Alert from "@mui/material/Alert";
 import { DEMO_CRENDETIALS } from "@/config/demo";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Sign In",
+  description: "Sign in to your account",
+};
 
 type LoginFormData = z.infer<typeof loginSchema>;
 

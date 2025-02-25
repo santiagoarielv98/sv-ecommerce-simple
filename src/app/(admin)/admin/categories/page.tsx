@@ -15,23 +15,34 @@ const CategoriesPage = () => {
   return (
     <Container
       maxWidth="lg"
-      sx={{ mt: 4, mb: 4, display: "flex", flexGrow: 1 }}
+      sx={{ mt: 4, mb: 4, display: "flex", flexGrow: 1, overflow: "hidden" }}
     >
-      <Paper sx={{ p: 2 }} flexGrow={1} component={Stack} spacing={2}>
+      <Paper
+        sx={{ p: 2, width: "100%" }}
+        flexGrow={1}
+        component={Stack}
+        spacing={4}
+      >
         <Stack
           spacing={2}
           justifyContent="space-between"
           direction="row"
           alignItems="center"
+          flexWrap="wrap"
         >
           <Typography variant="h5" component="h2">
             Categories
           </Typography>
-          <Button variant="contained" startIcon={<Add />} onClick={handleOpen}>
+          <Button
+            size="small"
+            variant="contained"
+            startIcon={<Add />}
+            onClick={handleOpen}
+          >
             New Category
           </Button>
         </Stack>
-        <div style={{ flexGrow: 1 }}>
+        <div style={{ height: 700, width: "100%" }}>
           <OrderTable />
         </div>
       </Paper>

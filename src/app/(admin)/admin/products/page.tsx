@@ -21,19 +21,30 @@ const ProductsPage = () => {
   return (
     <Container
       maxWidth="lg"
-      sx={{ mt: 4, mb: 4, display: "flex", flexGrow: 1 }}
+      sx={{ mt: 4, mb: 4, display: "flex", flexGrow: 1, overflow: "hidden" }}
     >
-      <Paper sx={{ p: 2 }} flexGrow={1} component={Stack} spacing={4}>
+      <Paper
+        sx={{ p: 2, width: "100%" }}
+        flexGrow={1}
+        component={Stack}
+        spacing={4}
+      >
         <Stack
           spacing={2}
           justifyContent="space-between"
           direction="row"
+          flexWrap="wrap"
           alignItems="center"
         >
           <Typography variant="h5" component="h2">
             Products
           </Typography>
-          <Button variant="contained" startIcon={<Add />} onClick={handleOpen}>
+          <Button
+            size="small"
+            variant="contained"
+            startIcon={<Add />}
+            onClick={handleOpen}
+          >
             Add Product
           </Button>
         </Stack>

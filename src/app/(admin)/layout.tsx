@@ -48,6 +48,7 @@ const AdminLayout = async ({ children }: React.PropsWithChildren) => {
             {children}
           </Box>
         </Box>
+        <Toolbar sx={{ display: { xs: "block", md: "none" } }} />
       </Box>
     </AdminProvider>
   );

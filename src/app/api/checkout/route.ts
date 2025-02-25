@@ -37,8 +37,6 @@ export async function POST(request: Request) {
         ),
       );
     });
-
-    console.log("Order processed:", orderId);
   }
 
   return new Response(null, { status: 200 });

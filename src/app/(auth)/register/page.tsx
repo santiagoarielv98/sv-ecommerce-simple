@@ -1,77 +1,57 @@
 "use client";
 
 import { ROUTE } from "@/config/route";
+import { register } from "@/lib/db/register";
+import { registerSchema } from "@/lib/schemas/user";
+import { zodResolver } from "@hookform/resolvers/zod";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Divider from "@mui/material/Divider";
 import FormControl from "@mui/material/FormControl";
+import FormHelperText from "@mui/material/FormHelperText";
 import FormLabel from "@mui/material/FormLabel";
 import MuiLink from "@mui/material/Link";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import * as React from "react";
+import { useForm } from "react-hook-form";
 import Card from "../_components/card";
 import SocialButtons from "../_components/social-buttons";
 
 export default function SignUp() {
-  // const [emailError, setEmailError] = React.useState(false);
-  // const [emailErrorMessage, setEmailErrorMessage] = React.useState("");
-  // const [passwordError, setPasswordError] = React.useState(false);
-  // const [passwordErrorMessage, setPasswordErrorMessage] = React.useState("");
-  // const [nameError, setNameError] = React.useState(false);
-  // const [nameErrorMessage, setNameErrorMessage] = React.useState("");
+  const router = useRouter();
+  const {
+    register: registerForm,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+    setError,
+  } = useForm({
+    resolver: zodResolver(registerSchema),
+    defaultValues: {
+      name: "",
+      email: "",
+      password: "",
+    },
+  });
 
-  // const validateInputs = () => {
-  //   const email = document.getElementById("email") as HTMLInputElement;
-  //   const password = document.getElementById("password") as HTMLInputElement;
-  //   const name = document.getElementById("name") as HTMLInputElement;
+  const onSubmit = handleSubmit(async (data) => {
+    const result = await register(data);
 
-  //   let isValid = true;
+    if (!result.success && result.errors) {
+      result.errors.forEach((error) => {
+        const field = error.path[0] as "email" | "password" | "name";
+        setError(field, {
+          type: "manual",
+          message: error.message,
+        });
+      });
+      return;
+    }
 
-  //   if (!email.value || !/\S+@\S+\.\S+/.test(email.value)) {
-  //     setEmailError(true);
-  //     setEmailErrorMessage("Please enter a valid email address.");
-  //     isValid = false;
-  //   } else {
-  //     setEmailError(false);
-  //     setEmailErrorMessage("");
-  //   }
-
-  //   if (!password.value || password.value.length < 6) {
-  //     setPasswordError(true);
-  //     setPasswordErrorMessage("Password must be at least 6 characters long.");
-  //     isValid = false;
-  //   } else {
-  //     setPasswordError(false);
-  //     setPasswordErrorMessage("");
-  //   }
-
-  //   if (!name.value || name.value.length < 1) {
-  //     setNameError(true);
-  //     setNameErrorMessage("Name is required.");
-  //     isValid = false;
-  //   } else {
-  //     setNameError(false);
-  //     setNameErrorMessage("");
-  //   }
-
-  //   return isValid;
-  // };
-
-  // const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-  //   if (nameError || emailError || passwordError) {
-  //     event.preventDefault();
-  //     return;
-  //   }
-  //   const data = new FormData(event.currentTarget);
-  //   console.log({
-  //     name: data.get("name"),
-  //     lastName: data.get("lastName"),
-  //     email: data.get("email"),
-  //     password: data.get("password"),
-  //   });
-  // };
+    router.push(ROUTE.AUTH.LOGIN);
+  });
 
   return (
     <Card variant="outlined">
@@ -84,74 +64,65 @@ export default function SignUp() {
       </Typography>
       <Box
         component="form"
-        // onSubmit={handleSubmit}
+        onSubmit={onSubmit}
         sx={{
           display: "flex",
           flexDirection: "column",
           gap: 2,
-          filter: "blur(5px)",
-          pointerEvents: "none",
-          userSelect: "none",
         }}
       >
-        <FormControl>
+        <FormControl error={!!errors.name}>
           <FormLabel htmlFor="name">Full name</FormLabel>
           <TextField
+            {...registerForm("name")}
             autoComplete="name"
-            name="name"
             required
             fullWidth
             id="name"
             placeholder="Jon Snow"
             size="small"
-            disabled
-            // error={nameError}
-            // helperText={nameErrorMessage}
-            // color={nameError ? "error" : "primary"}
           />
+          {errors.name && (
+            <FormHelperText>{errors.name.message}</FormHelperText>
+          )}
         </FormControl>
-        <FormControl>
+        <FormControl error={!!errors.email}>
           <FormLabel htmlFor="email">Email</FormLabel>
           <TextField
+            {...registerForm("email")}
             required
             fullWidth
             id="email"
             placeholder="your@email.com"
-            name="email"
             autoComplete="email"
             size="small"
-            variant="outlined"
-            disabled
-            // error={emailError}
-            // helperText={emailErrorMessage}
-            // color={passwordError ? "error" : "primary"}
           />
+          {errors.email && (
+            <FormHelperText>{errors.email.message}</FormHelperText>
+          )}
         </FormControl>
-        <FormControl>
+        <FormControl error={!!errors.password}>
           <FormLabel htmlFor="password">Password</FormLabel>
           <TextField
+            {...registerForm("password")}
             required
             fullWidth
-            name="password"
             placeholder="••••••"
             type="password"
             id="password"
             autoComplete="new-password"
             size="small"
-            variant="outlined"
-            disabled
-            // error={passwordError}
-            // helperText={passwordErrorMessage}
-            // color={passwordError ? "error" : "primary"}
           />
+          {errors.password && (
+            <FormHelperText>{errors.password.message}</FormHelperText>
+          )}
         </FormControl>
 
         <Button
           type="submit"
           fullWidth
           variant="contained"
-          disabled
-          // onClick={validateInputs}
+          disabled={isSubmitting}
         >
           Sign up
         </Button>

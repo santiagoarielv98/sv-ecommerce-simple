@@ -94,7 +94,6 @@ export async function getOrders({
     }),
     prisma.order.count({ where }),
   ]);
-  console.log(items);
 
   return {
     items,

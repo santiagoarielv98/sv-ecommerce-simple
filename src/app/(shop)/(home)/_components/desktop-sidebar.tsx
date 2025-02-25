@@ -21,7 +21,7 @@ import PriceFilter from "./price-filter";
 interface DesktopSidebarProps {
   price: [number, number];
   range: [number, number];
-  categories: Category[];
+  categories: Omit<Category, "deleted">[];
   selectedCategory: string[];
   onFilterChange: (params: Record<string, string | string[]>) => void;
 }

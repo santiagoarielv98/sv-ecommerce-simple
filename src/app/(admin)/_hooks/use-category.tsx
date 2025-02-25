@@ -19,7 +19,6 @@ const useCategory = () => {
   }, [setCategories]);
 
   const fetchDataTable = React.useCallback(async () => {
-    console.log("fetch");
     setIsLoading(true);
     const data = await getCategories({
       limit: paginationModel.pageSize,

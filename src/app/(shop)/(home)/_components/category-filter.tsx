@@ -6,7 +6,7 @@ import ListItem from "@mui/material/ListItem";
 import type { Category } from "@prisma/client";
 
 interface CategoryFilterProps {
-  categories: Category[];
+  categories: Omit<Category, "deleted">[];
   selectedCategory: string[];
   onChange: (selectedCategory: string[]) => void;
 }

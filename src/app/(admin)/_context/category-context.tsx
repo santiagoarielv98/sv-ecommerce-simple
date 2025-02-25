@@ -8,7 +8,9 @@ import type {
 import type { Category } from "@prisma/client";
 import React from "react";
 
-export type CategoryRow = Category & { _count: { products: number } };
+export type CategoryRow = Omit<Category, "deleted"> & {
+  _count: { products: number };
+};
 
 type CategoryContextStateType = {
   categories: Category[];

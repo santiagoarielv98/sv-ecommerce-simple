@@ -18,7 +18,7 @@ import PriceFilter from "./price-filter";
 
 export interface MobileSidebarProps {
   price: [number, number];
-  categories: Category[];
+  categories: Omit<Category, "deleted">[];
   selectedCategory: string[];
   onFilterChange: (params: Record<string, string | string[]>) => void;
   range: [number, number];

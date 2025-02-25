@@ -9,7 +9,6 @@ const useProduct = () => {
     context;
 
   const fetchData = React.useCallback(async () => {
-    console.log("fetch");
     setIsLoading(true);
     const data = await getProducts({
       limit: paginationModel.pageSize,

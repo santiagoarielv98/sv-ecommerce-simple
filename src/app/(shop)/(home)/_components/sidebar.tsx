@@ -19,7 +19,7 @@ const MobileSidebar = dynamic(() => import("./mobile-sidebar"), {
 });
 
 interface SidebarProps {
-  categories: Category[];
+  categories: Omit<Category, "deleted">[];
   range: [number, number];
 }
 

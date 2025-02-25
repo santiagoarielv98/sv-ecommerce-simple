@@ -2,19 +2,17 @@
 
 import React from "react";
 
-import DeleteIcon from "@mui/icons-material/Delete";
-import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
+import { DataGrid } from "@mui/x-data-grid";
 
 import { getOrders } from "@/lib/db/admin";
+import { getStatusColor } from "@/utils/order";
 import Chip from "@mui/material/Chip";
 import type {
   GridColDef,
   GridFilterModel,
-  GridRowId,
   GridSortModel,
 } from "@mui/x-data-grid";
 import type { Order } from "@prisma/client";
-import { getStatusColor } from "@/utils/order";
 
 type Row = Order & { user: { name: string | null }; _count: { items: number } };
 
@@ -48,15 +46,6 @@ const OrderTable = () => {
     [paginationModel, sortModel, filterModel],
   );
 
-  const deleteUser = React.useCallback(
-    (id: GridRowId) => () => {
-      setTimeout(() => {
-        console.log("Deleting user", id);
-      });
-    },
-    [],
-  );
-
   const columns = React.useMemo<GridColDef<Row>[]>(
     () => [
       { field: "id", headerName: "ID Orden", width: 100 },
@@ -66,7 +55,12 @@ const OrderTable = () => {
         width: 200,
         valueGetter: (params: Row["user"]) => params.name ?? "Desconocido",
       },
-      { field: "createdAt", headerName: "Fecha", width: 130 },
+      {
+        field: "createdAt",
+        headerName: "Fecha",
+        width: 130,
+        valueFormatter: (params: Date) => params.toLocaleDateString("es-AR"),
+      },
       {
         field: "_count",
         headerName: "Items",
@@ -91,23 +85,8 @@ const OrderTable = () => {
         width: 130,
         valueFormatter: (params: number) => `$${params.toFixed(2)}`,
       },
-      {
-        field: "actions",
-        type: "actions",
-        headerName: "Acciones",
-        width: 80,
-        sortable: false,
-        getActions: (params: Order) => [
-          <GridActionsCellItem
-            key="delete"
-            icon={<DeleteIcon />}
-            label="Delete"
-            onClick={deleteUser(params.id)}
-          />,
-        ],
-      },
     ],
-    [deleteUser],
+    [],
   );
 
   React.useEffect(() => {

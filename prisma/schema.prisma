@@ -21,6 +21,7 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
+  password      String?
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
   role          Role      @default(USER)
@@ -82,14 +83,14 @@ model Product {
   views       Int         @default(0) // Nuevo campo
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
-  deleted     Boolean     @default(false)
+  deleted     Boolean?    @default(false)
 }
 
 model Category {
   id       String    @id @default(auto()) @map("_id") @db.ObjectId
   name     String    @unique
   products Product[]
-  deleted  Boolean   @default(false)
+  deleted  Boolean?  @default(false)
 }
 
 model Order {
@@ -104,7 +105,7 @@ model Order {
   paymentId       String?
   createdAt       DateTime         @default(now())
   updatedAt       DateTime         @updatedAt
-  deleted         Boolean          @default(false)
+  deleted         Boolean?         @default(false)
 }
 
 model ShippingAddress {

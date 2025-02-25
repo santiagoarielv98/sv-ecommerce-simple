@@ -10,7 +10,6 @@ export async function getOrders() {
 
   return prisma.order.findMany({
     where: {
-      deleted: false,
       userId: session.user.id,
     },
     include: {
@@ -32,7 +31,6 @@ export async function getOrder(id: string) {
 
   const order = await prisma.order.findUnique({
     where: {
-      deleted: false,
       id,
     },
     include: {

@@ -67,9 +67,7 @@ export async function getOrders({
 }) {
   const skip = (page - 1) * limit;
 
-  const where = {
-    deleted: false,
-  };
+  const where = {};
 
   const [items, total] = await Promise.all([
     prisma.order.findMany({

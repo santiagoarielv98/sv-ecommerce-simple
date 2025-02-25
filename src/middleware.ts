@@ -5,7 +5,6 @@ import authConfig from "./lib/auth.config";
 const protectedRoutes = [
   ROUTE.STORE.CHECKOUT,
   ROUTE.STORE.ORDERS,
-  ROUTE.STORE.PRODUCTS,
   ROUTE.STORE.CART,
   ROUTE.ADMIN.BASE,
 ];

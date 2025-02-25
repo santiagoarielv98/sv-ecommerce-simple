@@ -11,15 +11,16 @@ import {
   YAxis,
 } from "recharts";
 
-const salesData = [
-  { name: "Ene", value: 4000 },
-  { name: "Feb", value: 3000 },
-  { name: "Mar", value: 2000 },
-  { name: "Abr", value: 2780 },
-  { name: "May", value: 1890 },
-  { name: "Jun", value: 2390 },
-];
-const MonthlySalesChart = () => {
+interface MonthlySale {
+  month: string;
+  total: number;
+}
+
+interface MonthlySalesChartProps {
+  salesData: MonthlySale[];
+}
+
+const MonthlySalesChart = ({ salesData }: MonthlySalesChartProps) => {
   return (
     <Paper
       sx={{
@@ -43,12 +44,12 @@ const MonthlySalesChart = () => {
           }}
         >
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name" />
+          <XAxis dataKey="month" />
           <YAxis />
-          <Tooltip />
+          <Tooltip formatter={(value) => [`$${value}`, "Ventas"]} />
           <Area
             type="monotone"
-            dataKey="value"
+            dataKey="total"
             stroke="#8884d8"
             fill="#8884d8"
           />

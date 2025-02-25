@@ -7,39 +7,29 @@ import {
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid2";
 
-import { prisma } from "@/lib/prisma";
+import {
+  getMonthlySales,
+  getRecentOrders,
+  getStats,
+  getTopProducts,
+} from "@/lib/db/admin";
 import MonthlySalesChart from "./_components/monthly-sales-chart";
 import RecentOrders from "./_components/recent-orders";
 import StatCard from "./_components/stat-card";
 import TopProducts from "./_components/top-products";
 
 const DashboardPage = async () => {
-  // Fetch stats
-  const totalProducts = await prisma.product.count();
-  const totalOrders = await prisma.order.count();
-  const totalUsers = await prisma.user.count();
-  const totalSales = await prisma.order.aggregate({
-    _sum: {
-      total: true,
-    },
-  });
-
-  const recentOrders = await prisma.order.findMany({
-    take: 3,
-    orderBy: {
-      createdAt: "desc",
-    },
-    include: {
-      user: {
-        select: {
-          name: true,
-        },
-      },
-    },
-  });
-
-  const totalSalesAmount = totalSales._sum.total ?? 0;
-
+  const [
+    { totalOrders, totalProducts, totalSalesAmount, totalUsers },
+    monthlySales,
+    recentOrders,
+    topProductsWithDetails,
+  ] = await Promise.all([
+    getStats(),
+    getMonthlySales(),
+    getRecentOrders(),
+    getTopProducts(),
+  ]);
   return (
     <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
       <Grid container spacing={3}>
@@ -52,7 +42,7 @@ const DashboardPage = async () => {
           }}
         >
           <StatCard
-            title="Ventas Totales"
+            title="Sales Total"
             value={`$${totalSalesAmount.toLocaleString()}`}
             icon={<AttachMoney />}
             color="#2196f3"
@@ -66,7 +56,7 @@ const DashboardPage = async () => {
           }}
         >
           <StatCard
-            title="Órdenes"
+            title="Orders"
             value={totalOrders}
             icon={<ShoppingCart />}
             color="#4caf50"
@@ -80,7 +70,7 @@ const DashboardPage = async () => {
           }}
         >
           <StatCard
-            title="Productos"
+            title="Products"
             value={totalProducts}
             icon={<Inventory />}
             color="#ff9800"
@@ -94,7 +84,7 @@ const DashboardPage = async () => {
           }}
         >
           <StatCard
-            title="Usuarios"
+            title="Users"
             value={totalUsers}
             icon={<Person />}
             color="#f44336"
@@ -103,12 +93,12 @@ const DashboardPage = async () => {
 
         {/* Chart */}
         <Grid size={{ xs: 12, md: 8 }}>
-          <MonthlySalesChart />
+          <MonthlySalesChart salesData={monthlySales} />
         </Grid>
 
-        {/* Recent Orders */}
+        {/* Top Products */}
         <Grid size={{ xs: 12, md: 4 }}>
-          <TopProducts />
+          <TopProducts products={topProductsWithDetails} />
         </Grid>
 
         {/* Orders Table */}

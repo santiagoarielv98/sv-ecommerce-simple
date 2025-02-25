@@ -75,7 +75,7 @@ const ProductTable = () => {
       { field: "id", headerName: "ID", width: 215 },
       {
         field: "image",
-        headerName: "Imagen",
+        headerName: "Image",
         maxWidth: 80,
         flex: 1,
         renderCell: (params) => (
@@ -84,24 +84,24 @@ const ProductTable = () => {
         sortable: false,
         filterable: false,
       },
-      { field: "name", headerName: "Nombre", flex: 1, minWidth: 200 },
+      { field: "name", headerName: "Name", flex: 1, minWidth: 200 },
       {
         field: "price",
-        headerName: "Precio",
+        headerName: "Price",
         width: 130,
         valueGetter: (params) => `$${params}`,
       },
       { field: "stock", headerName: "Stock", width: 130 },
       {
         field: "category",
-        headerName: "Categoría",
+        headerName: "Category",
         valueGetter: (params: ProductRow["category"]) => params.name,
         width: 130,
       },
       {
         field: "actions",
         type: "actions",
-        headerName: "Acciones",
+        headerName: "Actions",
         width: 80,
         sortable: false,
         getActions: (params: { id: GridRowId; row: ProductRow }) => [

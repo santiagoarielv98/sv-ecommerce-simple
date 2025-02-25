@@ -7,30 +7,35 @@ import {
   ListItemText,
   ListItemAvatar,
   Avatar,
+  Stack,
 } from "@mui/material";
 
-const topProducts = [
-  { name: "Producto 1", sales: 150, image: "/product1.jpg" },
-  { name: "Producto 2", sales: 120, image: "/product2.jpg" },
-  { name: "Producto 3", sales: 100, image: "/product3.jpg" },
-  { name: "Producto 4", sales: 90, image: "/product4.jpg" },
-];
+interface TopProduct {
+  id: string;
+  name: string;
+  totalSold: number;
+  images: string[];
+}
 
-const TopProducts = () => {
+interface TopProductsProps {
+  products: TopProduct[];
+}
+
+const TopProducts = ({ products }: TopProductsProps) => {
   return (
-    <Paper sx={{ p: 2, height: "340px" }}>
+    <Paper sx={{ p: 2, height: "340px", overflow: "hidden" }} component={Stack}>
       <Typography variant="h6" gutterBottom>
-        Productos Más Vendidos
+        Top Products
       </Typography>
-      <List>
-        {topProducts.map((product, index) => (
-          <ListItem key={index}>
+      <List sx={{ overflow: "auto", height: "100%" }}>
+        {products.map((product) => (
+          <ListItem key={product.id}>
             <ListItemAvatar>
-              <Avatar src={product.image} />
+              <Avatar src={product.images[0] || "/placeholder.png"} />
             </ListItemAvatar>
             <ListItemText
               primary={product.name}
-              secondary={`${product.sales} ventas`}
+              secondary={`${product.totalSold} ventas`}
             />
           </ListItem>
         ))}

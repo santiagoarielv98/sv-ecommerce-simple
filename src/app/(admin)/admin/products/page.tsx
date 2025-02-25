@@ -31,10 +31,10 @@ const ProductsPage = () => {
           alignItems="center"
         >
           <Typography variant="h5" component="h2">
-            Productos
+            Products
           </Typography>
           <Button variant="contained" startIcon={<Add />} onClick={handleOpen}>
-            Nuevo Producto
+            Add Product
           </Button>
         </Stack>
 

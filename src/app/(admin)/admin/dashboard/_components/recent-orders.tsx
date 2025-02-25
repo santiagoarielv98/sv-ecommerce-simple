@@ -26,16 +26,16 @@ const RecentOrders = ({ orders }: Prpos) => {
   return (
     <Paper sx={{ p: 2, overflow: "hidden", width: "100%" }}>
       <Typography variant="h6" gutterBottom>
-        Órdenes Recientes
+        Recent Orders
       </Typography>
       <TableContainer>
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell>ID Orden</TableCell>
-              <TableCell>Cliente</TableCell>
-              <TableCell>Fecha</TableCell>
-              <TableCell>Estado</TableCell>
+              <TableCell>ID Order</TableCell>
+              <TableCell>Client</TableCell>
+              <TableCell>Date</TableCell>
+              <TableCell>Status</TableCell>
               <TableCell align="right">Total</TableCell>
             </TableRow>
           </TableHead>

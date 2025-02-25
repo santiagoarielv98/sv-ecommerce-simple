@@ -71,22 +71,22 @@ const CategoryTable = () => {
 
   const columns = React.useMemo<GridColDef<CategoryRow>[]>(
     () => [
-      { field: "id", headerName: "ID Orden", width: 100 },
+      { field: "id", headerName: "ID Category", width: 200 },
       {
         field: "name",
-        headerName: "Nombre",
+        headerName: "Name",
         width: 200,
       },
       {
         field: "_count",
-        headerName: "Categoryos",
+        headerName: "Products",
         width: 200,
         valueGetter: (params: CategoryRow["_count"]) => params.products,
       },
       {
         field: "actions",
         type: "actions",
-        headerName: "Acciones",
+        headerName: "Actions",
         width: 80,
         sortable: false,
         getActions: (params: { id: GridRowId; row: CategoryRow }) => [

@@ -48,16 +48,16 @@ const OrderTable = () => {
 
   const columns = React.useMemo<GridColDef<Row>[]>(
     () => [
-      { field: "id", headerName: "ID Orden", width: 100 },
+      { field: "id", headerName: "Order ID", width: 100 },
       {
         field: "user",
-        headerName: "Cliente",
+        headerName: "Customer",
         width: 200,
-        valueGetter: (params: Row["user"]) => params.name ?? "Desconocido",
+        valueGetter: (params: Row["user"]) => params.name ?? "Unknown",
       },
       {
         field: "createdAt",
-        headerName: "Fecha",
+        headerName: "Date",
         width: 130,
         valueFormatter: (params: Date) => params.toLocaleDateString("es-AR"),
       },
@@ -69,7 +69,7 @@ const OrderTable = () => {
       },
       {
         field: "status",
-        headerName: "Estado",
+        headerName: "Status",
         width: 130,
         renderCell: (params) => (
           <Chip

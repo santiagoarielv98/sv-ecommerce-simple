@@ -12,17 +12,17 @@ export const adminNavigation = [
     href: "/admin/dashboard",
   },
   {
-    title: "Órdenes",
+    title: "Orders",
     icon: ShoppingCart,
     href: "/admin/orders",
   },
   {
-    title: "Productos",
+    title: "Products",
     icon: Inventory,
     href: "/admin/products",
   },
   {
-    title: "Categorías",
+    title: "Categories",
     icon: Category,
     href: "/admin/categories",
   },

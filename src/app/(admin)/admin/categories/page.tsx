@@ -25,10 +25,10 @@ const CategoriesPage = () => {
           alignItems="center"
         >
           <Typography variant="h5" component="h2">
-            Categorías
+            Categories
           </Typography>
           <Button variant="contained" startIcon={<Add />} onClick={handleOpen}>
-            Nueva Categoría
+            New Category
           </Button>
         </Stack>
         <div style={{ flexGrow: 1 }}>

@@ -17,7 +17,7 @@ const OrdersPage = () => {
           alignItems="center"
         >
           <Typography variant="h5" component="h2" gutterBottom>
-            Órdenes
+            Orders
           </Typography>
         </Stack>
 

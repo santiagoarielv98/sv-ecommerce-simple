@@ -239,3 +239,199 @@ export async function editCategory(id: string, data: CategorySchema) {
     data,
   });
 }
+
+// Fetch stats
+// const totalProducts = await prisma.product.count();
+// const totalOrders = await prisma.order.count();
+// const totalUsers = await prisma.user.count();
+// const totalSales = await prisma.order.aggregate({
+//   _sum: {
+//     total: true,
+//   },
+// });
+
+// const recentOrders = await prisma.order.findMany({
+//   take: 3,
+//   orderBy: {
+//     createdAt: "desc",
+//   },
+//   include: {
+//     user: {
+//       select: {
+//         name: true,
+//       },
+//     },
+//   },
+// });
+
+// const topProducts = await prisma.orderItem.groupBy({
+//   by: ["productId"],
+//   _sum: {
+//     quantity: true,
+//   },
+//   orderBy: {
+//     _sum: {
+//       quantity: "desc",
+//     },
+//   },
+//   take: 5,
+// });
+
+// const topProductsWithDetails = await Promise.all(
+//   topProducts.map(async (item) => {
+//     const product = await prisma.product.findUnique({
+//       where: { id: item.productId },
+//       select: {
+//         id: true,
+//         name: true,
+//         images: true,
+//       },
+//     });
+//     return {
+//       id: product!.id,
+//       name: product!.name,
+//       images: product!.images,
+//       totalSold: item._sum.quantity || 0,
+//     };
+//   }),
+// );
+
+// const totalSalesAmount = totalSales._sum.total ?? 0;
+
+// // Fetch monthly sales data
+// const monthlyData = await prisma.order.groupBy({
+//   by: ["createdAt"],
+//   _sum: {
+//     total: true,
+//   },
+//   where: {
+//     createdAt: {
+//       gte: new Date(new Date().getFullYear(), 0, 1), // Desde el inicio del año actual
+//     },
+//   },
+// });
+
+// const monthNames = [
+//   "Ene",
+//   "Feb",
+//   "Mar",
+//   "Abr",
+//   "May",
+//   "Jun",
+//   "Jul",
+//   "Ago",
+//   "Sep",
+//   "Oct",
+//   "Nov",
+//   "Dic",
+// ];
+
+// const monthlySales = monthlyData.map((item) => ({
+//   month: monthNames[new Date(item.createdAt).getMonth()],
+//   total: item._sum.total || 0,
+// }));
+
+export async function getStats() {
+  const [totalProducts, totalOrders, totalUsers, totalSales] =
+    await Promise.all([
+      prisma.product.count(),
+      prisma.order.count(),
+      prisma.user.count(),
+      prisma.order.aggregate({
+        _sum: {
+          total: true,
+        },
+      }),
+    ]);
+
+  return {
+    totalProducts,
+    totalOrders,
+    totalUsers,
+    totalSalesAmount: totalSales._sum.total ?? 0,
+  };
+}
+
+export async function getRecentOrders() {
+  return prisma.order.findMany({
+    take: 3,
+    orderBy: {
+      createdAt: "desc",
+    },
+    include: {
+      user: {
+        select: {
+          name: true,
+        },
+      },
+    },
+  });
+}
+
+export async function getTopProducts() {
+  const topProducts = await prisma.orderItem.groupBy({
+    by: ["productId"],
+    _sum: {
+      quantity: true,
+    },
+    orderBy: {
+      _sum: {
+        quantity: "desc",
+      },
+    },
+    take: 5,
+  });
+
+  return Promise.all(
+    topProducts.map(async (item) => {
+      const product = await prisma.product.findUnique({
+        where: { id: item.productId },
+        select: {
+          id: true,
+          name: true,
+          images: true,
+        },
+      });
+      return {
+        id: product!.id,
+        name: product!.name,
+        images: product!.images,
+        totalSold: item._sum.quantity || 0,
+      };
+    }),
+  );
+}
+
+export async function getMonthlySales() {
+  const monthlyData = await prisma.order.groupBy({
+    by: ["createdAt"],
+    _sum: {
+      total: true,
+    },
+    where: {
+      createdAt: {
+        gte: new Date(new Date().getFullYear(), 0, 1),
+      },
+    },
+  });
+
+  const monthNames = [
+    "Ene",
+    "Feb",
+    "Mar",
+    "Abr",
+    "May",
+    "Jun",
+    "Jul",
+    "Ago",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dic",
+  ];
+
+  return monthlyData.map((item) => ({
+    month: monthNames[new Date(item.createdAt).getMonth()],
+    total: item._sum.total || 0,
+  }));
+}

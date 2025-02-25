@@ -5,7 +5,11 @@ import Stack from "@mui/material/Stack";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 
-const ProductPage = async ({ params }: { params: Promise<{ id: string }> }) => {
+type Props = {
+  params: Promise<{ id: string }>;
+};
+
+const ProductPage = async ({ params }: Props) => {
   const { id } = await params;
 
   const product = await getProduct(id);
@@ -23,12 +27,8 @@ const ProductPage = async ({ params }: { params: Promise<{ id: string }> }) => {
   );
 };
 
-export async function generateMetadata({
-  params,
-}: {
-  params: { id: string };
-}): Promise<Metadata> {
-  const { id } = params;
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { id } = await params;
   const product = await getProduct(id);
 
   if (!product) {

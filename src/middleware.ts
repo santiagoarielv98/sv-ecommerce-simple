@@ -22,4 +22,9 @@ export default auth((req) => {
       return Response.redirect(newUrl);
     }
   }
+  // const isAdmin = req.auth?.user?.role === "ADMIN";
+  // if (!isAdmin && req.nextUrl.pathname.startsWith(ROUTE.ADMIN.BASE)) {
+  //   const newUrl = new URL(ROUTE.HOME, req.nextUrl.origin);
+  //   return Response.redirect(newUrl);
+  // }
 });

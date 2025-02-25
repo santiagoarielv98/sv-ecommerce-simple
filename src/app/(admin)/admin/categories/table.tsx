@@ -13,11 +13,10 @@ import type {
   GridSortModel,
 } from "@mui/x-data-grid";
 import type { Category } from "@prisma/client";
-
-type Row = Category & { _count: { products: number } };
+import type { CategoryRow } from "../../_context/category-context";
 
 const CategoryTable = () => {
-  const [rows, setRows] = React.useState<Row[]>([]);
+  const [rows, setRows] = React.useState<CategoryRow[]>([]);
   const [total, setTotal] = React.useState(0);
   const [isLoading, setIsLoading] = React.useState(true);
   const [paginationModel, setPaginationModel] = React.useState({
@@ -55,7 +54,7 @@ const CategoryTable = () => {
     [],
   );
 
-  const columns = React.useMemo<GridColDef<Row>[]>(
+  const columns = React.useMemo<GridColDef<CategoryRow>[]>(
     () => [
       { field: "id", headerName: "ID Orden", width: 100 },
       {
@@ -67,7 +66,7 @@ const CategoryTable = () => {
         field: "_count",
         headerName: "Productos",
         width: 200,
-        valueGetter: (params: Row["_count"]) => params.products,
+        valueGetter: (params: CategoryRow["_count"]) => params.products,
       },
       {
         field: "actions",

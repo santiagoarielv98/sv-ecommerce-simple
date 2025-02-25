@@ -4,8 +4,16 @@ import React from "react";
 import AdminNavbar from "./_components/admin-navbar";
 import AdminSidebar from "./_components/admin-sidebar";
 import AdminProvider from "./provider";
+import { auth } from "@/lib/auth";
+import { redirect } from "next/navigation";
+import { ROUTE } from "@/config/route";
 
-const AdminLayout = ({ children }: React.PropsWithChildren) => {
+const AdminLayout = async ({ children }: React.PropsWithChildren) => {
+  const session = await auth();
+
+  if (session?.user?.role !== "ADMIN") {
+    return redirect(ROUTE.HOME);
+  }
   return (
     <AdminProvider>
       <Box

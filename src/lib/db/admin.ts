@@ -3,6 +3,7 @@
 export async function create() {}
 import { prisma } from "@/lib/prisma";
 import type { GridSortItem } from "@mui/x-data-grid";
+import type { CategorySchema } from "../schemas/category";
 import type { ProductSchema } from "../schemas/product";
 
 export async function getProducts({
@@ -181,6 +182,12 @@ export async function getAllCategories() {
 
 export async function createProduct(data: ProductSchema) {
   return prisma.product.create({
+    data,
+  });
+}
+
+export async function createCategory(data: CategorySchema) {
+  return prisma.category.create({
     data,
   });
 }

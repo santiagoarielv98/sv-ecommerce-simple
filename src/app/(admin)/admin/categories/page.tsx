@@ -3,8 +3,15 @@
 import { Button, Container, Paper, Stack, Typography } from "@mui/material";
 import OrderTable from "./table";
 import { Add } from "@mui/icons-material";
+import React from "react";
+import CreateCategoryModal from "../../_components/modals/create-category-modal";
 
 const CategoriesPage = () => {
+  const [open, setOpen] = React.useState(false);
+
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
   return (
     <Container
       maxWidth="lg"
@@ -20,7 +27,7 @@ const CategoriesPage = () => {
           <Typography variant="h5" component="h2">
             Categorías
           </Typography>
-          <Button variant="contained" startIcon={<Add />}>
+          <Button variant="contained" startIcon={<Add />} onClick={handleOpen}>
             Nueva Categoría
           </Button>
         </Stack>
@@ -28,6 +35,7 @@ const CategoriesPage = () => {
           <OrderTable />
         </div>
       </Paper>
+      <CreateCategoryModal open={open} onClose={handleClose} />
     </Container>
   );
 };

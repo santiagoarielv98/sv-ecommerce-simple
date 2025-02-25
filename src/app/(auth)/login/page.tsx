@@ -22,6 +22,8 @@ import Card from "../_components/card";
 import SocialButtons from "../_components/social-buttons";
 import { signIn } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
+import Alert from "@mui/material/Alert";
+import { DEMO_CRENDETIALS } from "@/config/demo";
 
 type LoginFormData = z.infer<typeof loginSchema>;
 
@@ -55,6 +57,15 @@ const LoginPage = () => {
       >
         Sign in
       </Typography>
+
+      <Alert severity="info" sx={{ width: "100%" }}>
+        Demo credentials:
+        <br />
+        Email: {DEMO_CRENDETIALS.email}
+        <br />
+        Password: {DEMO_CRENDETIALS.password}
+      </Alert>
+
       <Box
         component="form"
         onSubmit={handleSubmit(onSubmit)}

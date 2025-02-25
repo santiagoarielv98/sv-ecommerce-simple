@@ -13,3 +13,8 @@ export const DEMO_CRENDETIALS_MP = {
   email: "TESTUSER403275988",
   password: "ouG7vLVoDS",
 };
+
+export const DEMO_CRENDETIALS = {
+  email: "demo@example.com",
+  password: "password",
+};

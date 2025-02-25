@@ -19,6 +19,8 @@ import * as React from "react";
 import { useForm } from "react-hook-form";
 import Card from "../_components/card";
 import SocialButtons from "../_components/social-buttons";
+import Alert from "@mui/material/Alert";
+import { DEMO_CRENDETIALS } from "@/config/demo";
 
 export default function SignUp() {
   const router = useRouter();
@@ -62,6 +64,15 @@ export default function SignUp() {
       >
         Sign up
       </Typography>
+
+      <Alert severity="info" sx={{ width: "100%" }}>
+        You can also use demo credentials to login:
+        <br />
+        Email: {DEMO_CRENDETIALS.email}
+        <br />
+        Password: {DEMO_CRENDETIALS.password}
+      </Alert>
+
       <Box
         component="form"
         onSubmit={onSubmit}

@@ -133,7 +133,9 @@ export async function getCategories({
 }) {
   const skip = (page - 1) * limit;
 
-  const where = {};
+  const where = {
+    // deleted: false,
+  };
 
   const [items, total] = await Promise.all([
     prisma.category.findMany({
@@ -177,7 +179,11 @@ function getCategorySort(sort: GridSortItem[]) {
 }
 
 export async function getAllCategories() {
-  return prisma.category.findMany();
+  return prisma.category.findMany({
+    where: {
+      // deleted: false,
+    },
+  });
 }
 
 export async function createProduct(data: ProductSchema) {
@@ -193,9 +199,12 @@ export async function createCategory(data: CategorySchema) {
 }
 
 export async function deleteProduct(id: string) {
-  return prisma.product.delete({
+  return prisma.product.update({
     where: {
       id,
+    },
+    data: {
+      deleted: true,
     },
   });
 }
@@ -215,7 +224,7 @@ export async function deleteCategory(id: string) {
       id,
     },
     data: {
-      deletedAt: new Date(),
+      deleted: true,
     },
   });
 }

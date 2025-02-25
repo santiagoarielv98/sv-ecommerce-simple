@@ -79,17 +79,17 @@ model Product {
   category    Category    @relation(fields: [categoryId], references: [id])
   categoryId  String      @db.ObjectId
   orderItems  OrderItem[]
-  views       Int         @default(0)  // Nuevo campo
+  views       Int         @default(0) // Nuevo campo
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
-  deletedAt   DateTime?
+  deleted     Boolean     @default(false)
 }
 
 model Category {
   id       String    @id @default(auto()) @map("_id") @db.ObjectId
   name     String    @unique
   products Product[]
-  deletedAt DateTime?
+  deleted  Boolean   @default(false)
 }
 
 model Order {
@@ -104,7 +104,7 @@ model Order {
   paymentId       String?
   createdAt       DateTime         @default(now())
   updatedAt       DateTime         @updatedAt
-  deletedAt       DateTime?
+  deleted         Boolean          @default(false)
 }
 
 model ShippingAddress {

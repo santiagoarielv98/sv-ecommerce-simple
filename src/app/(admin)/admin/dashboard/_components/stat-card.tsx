@@ -3,7 +3,7 @@ import { Paper, Box, Typography } from "@mui/material";
 
 interface StatCardProps {
   title: string;
-  value: string;
+  value: string | number;
   icon: React.ReactNode;
   color: string;
 }

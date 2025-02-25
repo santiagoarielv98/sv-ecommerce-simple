@@ -1,6 +1,6 @@
 "use client";
 
-import { Container, Paper, Typography } from "@mui/material";
+import { Container, Paper, Stack, Typography } from "@mui/material";
 import OrderTable from "./table";
 
 const OrdersPage = () => {
@@ -9,26 +9,21 @@ const OrdersPage = () => {
       maxWidth="lg"
       sx={{ mt: 4, mb: 4, display: "flex", flexGrow: 1 }}
     >
-      <Paper
-        sx={{ p: 2, display: "flex", flexDirection: "column", flexGrow: 1 }}
-      >
-        <Typography variant="h5" component="h2" gutterBottom>
-          Órdenes
-        </Typography>
+      <Paper sx={{ p: 2 }} flexGrow={1} component={Stack} spacing={2}>
+        <Stack
+          spacing={2}
+          justifyContent="space-between"
+          direction="row"
+          alignItems="center"
+        >
+          <Typography variant="h5" component="h2" gutterBottom>
+            Órdenes
+          </Typography>
+        </Stack>
 
         <div style={{ flexGrow: 1 }}>
           <OrderTable />
         </div>
-
-        {/* <Menu
-          anchorEl={anchorEl}
-          open={Boolean(anchorEl)}
-          onClose={handleMenuClose}
-        >
-          <MenuItem onClick={handleMenuClose}>Ver detalles</MenuItem>
-          <MenuItem onClick={handleMenuClose}>Actualizar estado</MenuItem>
-          <MenuItem onClick={handleMenuClose}>Cancel orden</MenuItem>
-        </Menu> */}
       </Paper>
     </Container>
   );

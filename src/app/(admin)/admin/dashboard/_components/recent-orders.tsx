@@ -10,32 +10,19 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
+import type { Order } from "@prisma/client";
 
-const orders = [
-  {
-    id: "1",
-    customer: "John Doe",
-    date: "2024-02-20",
-    status: "DELIVERED",
-    total: 125.99,
-  },
-  {
-    id: "2",
-    customer: "Jane Smith",
-    date: "2024-02-19",
-    status: "PROCESSING",
-    total: 225.5,
-  },
-  {
-    id: "3",
-    customer: "Bob Johnson",
-    date: "2024-02-18",
-    status: "PENDING",
-    total: 75.0,
-  },
-];
+type Prpos = {
+  orders: Array<
+    Order & {
+      user: {
+        name: string | null;
+      };
+    }
+  >;
+};
 
-const RecentOrders = () => {
+const RecentOrders = ({ orders }: Prpos) => {
   return (
     <Paper sx={{ p: 2, overflow: "hidden", width: "100%" }}>
       <Typography variant="h6" gutterBottom>
@@ -56,8 +43,10 @@ const RecentOrders = () => {
             {orders.map((order) => (
               <TableRow key={order.id}>
                 <TableCell>{order.id}</TableCell>
-                <TableCell>{order.customer}</TableCell>
-                <TableCell>{order.date}</TableCell>
+                <TableCell>{order.user.name}</TableCell>
+                <TableCell>
+                  {order.createdAt.toLocaleDateString("es-AR")}
+                </TableCell>
                 <TableCell>
                   <Chip
                     label={order.status}

@@ -1,5 +1,3 @@
-"use client";
-
 import {
   AttachMoney,
   Inventory,
@@ -8,33 +6,40 @@ import {
 } from "@mui/icons-material";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid2";
-import Paper from "@mui/material/Paper";
-import Typography from "@mui/material/Typography";
 
-import {
-  Area,
-  AreaChart,
-  CartesianGrid,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from "recharts";
-import RecentOrders from "./_components/RecentOrders";
-import StatCard from "./_components/StatCard";
-import TopProducts from "./_components/TopProducts";
+import { prisma } from "@/lib/prisma";
+import MonthlySalesChart from "./_components/monthly-sales-chart";
+import RecentOrders from "./_components/recent-orders";
+import StatCard from "./_components/stat-card";
+import TopProducts from "./_components/top-products";
 
-// Datos de prueba
-const salesData = [
-  { name: "Ene", value: 4000 },
-  { name: "Feb", value: 3000 },
-  { name: "Mar", value: 2000 },
-  { name: "Abr", value: 2780 },
-  { name: "May", value: 1890 },
-  { name: "Jun", value: 2390 },
-];
+const DashboardPage = async () => {
+  // Fetch stats
+  const totalProducts = await prisma.product.count();
+  const totalOrders = await prisma.order.count();
+  const totalUsers = await prisma.user.count();
+  const totalSales = await prisma.order.aggregate({
+    _sum: {
+      total: true,
+    },
+  });
 
-const DashboardPage = () => {
+  const recentOrders = await prisma.order.findMany({
+    take: 3,
+    orderBy: {
+      createdAt: "desc",
+    },
+    include: {
+      user: {
+        select: {
+          name: true,
+        },
+      },
+    },
+  });
+
+  const totalSalesAmount = totalSales._sum.total ?? 0;
+
   return (
     <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
       <Grid container spacing={3}>
@@ -48,7 +53,7 @@ const DashboardPage = () => {
         >
           <StatCard
             title="Ventas Totales"
-            value="$23,500"
+            value={`$${totalSalesAmount.toLocaleString()}`}
             icon={<AttachMoney />}
             color="#2196f3"
           />
@@ -62,7 +67,7 @@ const DashboardPage = () => {
         >
           <StatCard
             title="Órdenes"
-            value="150"
+            value={totalOrders}
             icon={<ShoppingCart />}
             color="#4caf50"
           />
@@ -76,7 +81,7 @@ const DashboardPage = () => {
         >
           <StatCard
             title="Productos"
-            value="45"
+            value={totalProducts}
             icon={<Inventory />}
             color="#ff9800"
           />
@@ -90,7 +95,7 @@ const DashboardPage = () => {
         >
           <StatCard
             title="Usuarios"
-            value="120"
+            value={totalUsers}
             icon={<Person />}
             color="#f44336"
           />
@@ -98,40 +103,7 @@ const DashboardPage = () => {
 
         {/* Chart */}
         <Grid size={{ xs: 12, md: 8 }}>
-          <Paper
-            sx={{
-              p: 2,
-              display: "flex",
-              flexDirection: "column",
-              height: 340,
-            }}
-          >
-            <Typography variant="h6" gutterBottom>
-              Ventas Mensuales
-            </Typography>
-            <ResponsiveContainer>
-              <AreaChart
-                data={salesData}
-                margin={{
-                  top: 10,
-                  right: 30,
-                  left: 0,
-                  bottom: 0,
-                }}
-              >
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" />
-                <YAxis />
-                <Tooltip />
-                <Area
-                  type="monotone"
-                  dataKey="value"
-                  stroke="#8884d8"
-                  fill="#8884d8"
-                />
-              </AreaChart>
-            </ResponsiveContainer>
-          </Paper>
+          <MonthlySalesChart />
         </Grid>
 
         {/* Recent Orders */}
@@ -141,7 +113,7 @@ const DashboardPage = () => {
 
         {/* Orders Table */}
         <Grid size={{ xs: 12 }}>
-          <RecentOrders />
+          <RecentOrders orders={recentOrders} />
         </Grid>
       </Grid>
     </Container>

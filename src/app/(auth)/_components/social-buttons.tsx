@@ -30,7 +30,6 @@ export default function SocialButtons({ type }: SocialButtonsProps) {
   const text = type === "login" ? "Sign in" : "Sign up";
 
   const callbackUrl = searchParams.get("callbackUrl") || ROUTE.HOME;
-  console.log("callbackUrl", callbackUrl);
 
   return (
     <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>

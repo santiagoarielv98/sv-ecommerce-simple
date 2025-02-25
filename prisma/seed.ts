@@ -1,6 +1,6 @@
 import { hashPassword } from "../src/utils/password";
 import { fakerES } from "@faker-js/faker";
-import type { Category } from "@prisma/client";
+import type { Category, User } from "@prisma/client";
 import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
@@ -17,7 +17,7 @@ const MAX_PRODUCTS = 50;
 const MAX_ORDERS = 100;
 
 async function main() {
-  await prisma.user.upsert({
+  const admin = await prisma.user.upsert({
     where: { email: "admin@example.com" },
     update: {},
     create: {
@@ -90,17 +90,17 @@ async function main() {
   const products = await prisma.product.findMany();
   await Promise.all(
     Array.from({ length: MAX_ORDERS }).map(() => {
-      const items = Array.from({ length: Math.floor(Math.random() * 5) }).map(
-        () => {
-          const quantity = Math.floor(Math.random() * 5);
-          const product = products[Math.floor(Math.random() * products.length)];
-          return {
-            quantity,
-            price: product.price,
-            productId: product.id,
-          };
-        },
-      );
+      const items = Array.from({
+        length: Math.floor(Math.random() * 4) + 1,
+      }).map(() => {
+        const quantity = Math.floor(Math.random() * 5);
+        const product = products[Math.floor(Math.random() * products.length)];
+        return {
+          quantity,
+          price: product.price,
+          productId: product.id,
+        };
+      });
 
       return prisma.order.create({
         data: {
@@ -113,6 +113,10 @@ async function main() {
             0,
           ),
           status: "PROCESSING",
+          createdAt: fakerES.date.between({
+            from: new Date(2021, 1, 1),
+            to: new Date(),
+          }),
           shippingAddress: {
             create: {
               address1: fakerES.location.streetAddress(),
@@ -128,6 +132,21 @@ async function main() {
       });
     }),
   );
+
+  users.push(admin);
+
+  await Promise.all(users.map(createAccount));
+}
+
+async function createAccount(user: User) {
+  return prisma.account.create({
+    data: {
+      provider: "email",
+      userId: user.id,
+      providerAccountId: user.id.toString(),
+      type: "email",
+    },
+  });
 }
 
 main()

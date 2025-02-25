@@ -7,6 +7,7 @@ const protectedRoutes = [
   ROUTE.STORE.ORDERS,
   ROUTE.STORE.PRODUCTS,
   ROUTE.STORE.CART,
+  ROUTE.ADMIN.BASE,
 ];
 
 const { auth } = NextAuth(authConfig);

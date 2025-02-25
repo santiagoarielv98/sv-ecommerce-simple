@@ -2,14 +2,16 @@
 
 import React from "react";
 
+import { deleteProduct } from "@/lib/db/admin";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
-
+import EditIcon from "@mui/icons-material/Edit";
 import Avatar from "@mui/material/Avatar";
 import type { GridColDef, GridRowId } from "@mui/x-data-grid";
-import type { Product } from "@prisma/client";
-import useProduct from "../../_hooks/use-product";
+import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
+import DeleteProductModal from "../../_components/modals/delete-product-modal";
+import EditProductModal from "../../_components/modals/edit-product-modal";
 import type { ProductRow } from "../../_context/product-context";
+import useProduct from "../../_hooks/use-product";
 
 const ProductTable = () => {
   const {
@@ -25,19 +27,48 @@ const ProductTable = () => {
     setFilterModel,
   } = useProduct();
 
+  const [openDeleteModal, setOpenDeleteModal] = React.useState(false);
+  const [openEditModal, setOpenEditModal] = React.useState(false);
+  const [selectedProduct, setSelectedProduct] =
+    React.useState<ProductRow | null>(null);
+
+  const handleDeleteModalClose = React.useCallback(() => {
+    setOpenDeleteModal(false);
+  }, []);
+
+  const handleDelete = React.useCallback(
+    (product: ProductRow) => () => {
+      setSelectedProduct(product);
+      setOpenDeleteModal(true);
+    },
+    [],
+  );
+
+  const handleConfirmDelete = React.useCallback(() => {
+    if (!selectedProduct) return;
+
+    deleteProduct(selectedProduct.id).then(() => {
+      fetchData();
+      setOpenDeleteModal(false);
+    });
+  }, [selectedProduct, fetchData]);
+
   const queryOptions = React.useMemo(
     () => ({ ...paginationModel, sortModel, filterModel }),
     [paginationModel, sortModel, filterModel],
   );
 
-  const deleteUser = React.useCallback(
-    (id: GridRowId) => () => {
-      setTimeout(() => {
-        console.log("Deleting user", id);
-      });
+  const handleEdit = React.useCallback(
+    (product: ProductRow) => () => {
+      setSelectedProduct(product);
+      setOpenEditModal(true);
     },
     [],
   );
+
+  const handleEditModalClose = React.useCallback(() => {
+    setOpenEditModal(false);
+  }, []);
 
   const columns = React.useMemo<GridColDef<ProductRow>[]>(
     () => [
@@ -73,17 +104,23 @@ const ProductTable = () => {
         headerName: "Acciones",
         width: 80,
         sortable: false,
-        getActions: (params: Product) => [
+        getActions: (params: { id: GridRowId; row: ProductRow }) => [
           <GridActionsCellItem
             key="delete"
             icon={<DeleteIcon />}
             label="Delete"
-            onClick={deleteUser(params.id)}
+            onClick={handleDelete(params.row)}
+          />,
+          <GridActionsCellItem
+            key="edit"
+            icon={<EditIcon />}
+            label="Edit"
+            onClick={handleEdit(params.row)}
           />,
         ],
       },
     ],
-    [deleteUser],
+    [handleDelete, handleEdit],
   );
 
   React.useEffect(() => {
@@ -91,24 +128,37 @@ const ProductTable = () => {
   }, [fetchData, queryOptions]);
 
   return (
-    <DataGrid
-      loading={isLoading}
-      rowCount={total}
-      rows={items}
-      columns={columns}
-      pageSizeOptions={[20]}
-      paginationModel={paginationModel}
-      sortModel={sortModel}
-      filterModel={filterModel}
-      paginationMode="server"
-      sortingMode="server"
-      filterMode="server"
-      checkboxSelection
-      disableRowSelectionOnClick
-      onPaginationModelChange={setPaginationModel}
-      onSortModelChange={setSortModel}
-      onFilterModelChange={setFilterModel}
-    />
+    <>
+      <DataGrid
+        loading={isLoading}
+        rowCount={total}
+        rows={items}
+        columns={columns}
+        pageSizeOptions={[20]}
+        paginationModel={paginationModel}
+        sortModel={sortModel}
+        filterModel={filterModel}
+        paginationMode="server"
+        sortingMode="server"
+        filterMode="server"
+        checkboxSelection
+        disableRowSelectionOnClick
+        onPaginationModelChange={setPaginationModel}
+        onSortModelChange={setSortModel}
+        onFilterModelChange={setFilterModel}
+      />
+      <DeleteProductModal
+        product={selectedProduct}
+        open={openDeleteModal}
+        onClose={handleDeleteModalClose}
+        onConfirm={handleConfirmDelete}
+      />
+      <EditProductModal
+        product={selectedProduct!}
+        open={openEditModal}
+        onClose={handleEditModalClose}
+      />
+    </>
   );
 };
 

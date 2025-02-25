@@ -21,7 +21,7 @@ export type Props = {
 const ProductForm = ({ categories = [] }: Props) => {
   const {
     register,
-    formState: { errors },
+    formState: { errors, defaultValues },
   } = useFormContext<ProductSchema>();
 
   return (
@@ -81,7 +81,7 @@ const ProductForm = ({ categories = [] }: Props) => {
             labelId="category-label"
             label="Category"
             {...register("categoryId")}
-            defaultValue=""
+            defaultValue={defaultValues?.categoryId ?? ""}
             error={!!errors.categoryId?.message}
           >
             <MenuItem value="">

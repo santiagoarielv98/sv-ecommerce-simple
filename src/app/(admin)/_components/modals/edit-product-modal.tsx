@@ -1,4 +1,4 @@
-import { createProduct } from "@/lib/db/admin";
+import { editProduct } from "@/lib/db/admin";
 import { productSchema, type ProductSchema } from "@/lib/schemas/product";
 import { zodResolver } from "@hookform/resolvers/zod";
 import CloseIcon from "@mui/icons-material/Close";
@@ -10,17 +10,24 @@ import {
   DialogTitle,
   IconButton,
 } from "@mui/material";
+import React from "react";
 import { FormProvider, useForm } from "react-hook-form";
+import type { ProductRow } from "../../_context/product-context";
 import useCategory from "../../_hooks/use-category";
 import useProduct from "../../_hooks/use-product";
 import ProductForm from "../form/product-form";
 
-interface CreateProductModalProps {
+interface EditProductModalProps {
   open: boolean;
   onClose: () => void;
+  product: ProductRow;
 }
 
-const CreateProductModal = ({ open, onClose }: CreateProductModalProps) => {
+const EditProductModal = ({
+  open,
+  onClose,
+  product,
+}: EditProductModalProps) => {
   const { categories } = useCategory();
   const { fetchData } = useProduct();
   const methods = useForm<ProductSchema>({
@@ -41,11 +48,19 @@ const CreateProductModal = ({ open, onClose }: CreateProductModalProps) => {
   };
 
   const onSubmit = async (data: ProductSchema) => {
-    await createProduct(data).then(() => {
+    if (!product) return;
+    await editProduct(product.id, data).then(() => {
       fetchData();
       onClose();
+      methods.reset();
     });
   };
+
+  React.useEffect(() => {
+    if (!product) return;
+
+    methods.reset(product);
+  }, [product, methods]);
 
   return (
     <Dialog
@@ -62,7 +77,7 @@ const CreateProductModal = ({ open, onClose }: CreateProductModalProps) => {
       <FormProvider {...methods}>
         <form noValidate onSubmit={methods.handleSubmit(onSubmit)}>
           <DialogTitle sx={{ m: 0, p: 2 }}>
-            Create New Product
+            Edit Product
             <IconButton
               aria-label="close"
               onClick={handleClose}
@@ -81,22 +96,22 @@ const CreateProductModal = ({ open, onClose }: CreateProductModalProps) => {
             <ProductForm categories={categories} />
           </DialogContent>
 
-          <DialogActions sx={{ p: 2 }}>
+          <DialogActions>
             <Button
-              variant="outlined"
               onClick={handleClose}
               disabled={methods.formState.isSubmitting}
             >
-              Cancel
+              Cancelar
             </Button>
             <Button
+              disabled={methods.formState.isSubmitting}
+              loading={methods.formState.isSubmitting}
+              autoFocus
               variant="contained"
               color="primary"
               type="submit"
-              disabled={methods.formState.isSubmitting}
-              loading={methods.formState.isSubmitting}
             >
-              Create Product
+              Guardar
             </Button>
           </DialogActions>
         </form>
@@ -105,4 +120,4 @@ const CreateProductModal = ({ open, onClose }: CreateProductModalProps) => {
   );
 };
 
-export default CreateProductModal;
+export default EditProductModal;

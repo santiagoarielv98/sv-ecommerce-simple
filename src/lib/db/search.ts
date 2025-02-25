@@ -9,6 +9,7 @@ export async function search(query: string) {
         contains: query,
         mode: "insensitive",
       },
+      deleted: false,
     },
     select: {
       id: true,

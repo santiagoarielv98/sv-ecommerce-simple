@@ -24,6 +24,7 @@ export async function getProducts({
   const skip = (page - 1) * limit;
 
   const where = {
+    deleted: false,
     ...(category.length && {
       category: {
         name: {
@@ -72,7 +73,7 @@ export async function getProducts({
 
 export async function getProduct(id: string) {
   const product = await prisma.product.findUnique({
-    where: { id },
+    where: { id, deleted: false },
     include: {
       category: true,
     },

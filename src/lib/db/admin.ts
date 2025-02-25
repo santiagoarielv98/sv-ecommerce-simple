@@ -17,7 +17,9 @@ export async function getProducts({
 }) {
   const skip = (page - 1) * limit;
 
-  const where = {};
+  const where = {
+    deleted: false,
+  };
 
   const [items, total] = await Promise.all([
     prisma.product.findMany({
@@ -65,7 +67,9 @@ export async function getOrders({
 }) {
   const skip = (page - 1) * limit;
 
-  const where = {};
+  const where = {
+    deleted: false,
+  };
 
   const [items, total] = await Promise.all([
     prisma.order.findMany({
@@ -134,7 +138,7 @@ export async function getCategories({
   const skip = (page - 1) * limit;
 
   const where = {
-    // deleted: false,
+    deleted: false,
   };
 
   const [items, total] = await Promise.all([
@@ -181,7 +185,7 @@ function getCategorySort(sort: GridSortItem[]) {
 export async function getAllCategories() {
   return prisma.category.findMany({
     where: {
-      // deleted: false,
+      deleted: false,
     },
   });
 }

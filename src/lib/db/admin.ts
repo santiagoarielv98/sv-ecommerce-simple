@@ -210,9 +210,12 @@ export async function editProduct(id: string, data: ProductSchema) {
 }
 
 export async function deleteCategory(id: string) {
-  return prisma.category.delete({
+  return prisma.category.update({
     where: {
       id,
+    },
+    data: {
+      deletedAt: new Date(),
     },
   });
 }

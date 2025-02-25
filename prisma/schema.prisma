@@ -82,12 +82,14 @@ model Product {
   views       Int         @default(0)  // Nuevo campo
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
+  deletedAt   DateTime?
 }
 
 model Category {
   id       String    @id @default(auto()) @map("_id") @db.ObjectId
   name     String    @unique
   products Product[]
+  deletedAt DateTime?
 }
 
 model Order {
@@ -102,6 +104,7 @@ model Order {
   paymentId       String?
   createdAt       DateTime         @default(now())
   updatedAt       DateTime         @updatedAt
+  deletedAt       DateTime?
 }
 
 model ShippingAddress {
